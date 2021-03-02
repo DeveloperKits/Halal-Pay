@@ -3,12 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
     tools:context=".Fragment.WalletFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/pageName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Wallet"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="3dp"
+        app:iconTint="@color/white"
+        app:icon="@drawable/ic_baseline_arrow_back_24"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        />
 
 </FrameLayout>
