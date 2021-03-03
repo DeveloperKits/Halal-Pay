@@ -3,12 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.ProfileFragment"
+    android:background="@drawable/background">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/pageName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Wallet"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="3dp"
+        app:iconTint="@color/white"
+        app:icon="@drawable/ic_baseline_arrow_back_24"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/Image_card"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="130dp">
+
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_launcher_background"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/Image_card"
+                android:layout_alignBottom="@id/Image_card"
+                android:src="@drawable/ic_baseline_edit_24" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -22,7 +22,5 @@
         android:id="@+id/full_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/Bottom_nav">
-
-    </FrameLayout>
+        android:layout_above="@id/Bottom_nav"/>
 </RelativeLayout>

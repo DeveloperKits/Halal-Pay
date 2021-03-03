@@ -21,12 +21,268 @@
     <Button
         android:id="@+id/back"
         android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="6dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="3dp"
         android:layout_marginStart="3dp"
         app:iconTint="@color/white"
         app:icon="@drawable/ic_baseline_arrow_back_24"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-        />
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
+
+    <com.google.android.material.card.MaterialCardView
+    android:id="@+id/profileCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginTop="100dp"
+    android:layout_marginBottom="20dp"
+    app:cardBackgroundColor="@color/card_color"
+    app:cardCornerRadius="25dp">
+
+        <TextView
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginBottom="7dp"
+            android:layout_marginStart="30dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Week"
+            android:background="@drawable/background_text"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="1dp"
+            android:textColor="@color/text_color_back"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/background_text"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="1dp"
+            android:text="Month"
+            android:textColor="@color/text_color_back"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/background_text"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="1dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Year"
+            android:textColor="@color/text_color_back"
+            android:textSize="14sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="50dp">
+
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_launcher_background"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/UserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:text="Akash Das"
+                    android:textColor="@color/text_color_back"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="10dp"
+                    android:text="Total"
+                    android:textColor="@color/text_color_back"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/Total_Balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="00dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="1000.25 BDT"
+                    android:textColor="@color/balance_color"
+                    android:textSize="22sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:layout_marginTop="15dp"
+                            android:text="Withdraw"
+                            android:textColor="@color/text_color_back"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/withdraw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="00dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="10000.25 BDT"
+                            android:textColor="@color/balance_color"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:layout_marginTop="15dp"
+                            android:text="Available"
+                            android:textColor="@color/text_color_back"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/available"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="10000.25 BDT"
+                            android:textColor="@color/balance_color"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/deposit"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="30dp"
+            app:cardCornerRadius="30dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_monetization_on_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Deposit"
+                    android:textColor="@color/text_color_back"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/withdraw_card"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="30dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_monetization_on_withdraw" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Withdraw"
+                    android:textColor="@color/text_color_back"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
 
 </FrameLayout>
