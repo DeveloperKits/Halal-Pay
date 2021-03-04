@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent goToMain = new Intent(MainActivity.this, HomeActivity.class);
+                Intent goToMain = new Intent(MainActivity.this, RegistrationActivity.class);
                 startActivity(goToMain);
                 finish();
                 //progressBar.setVisibility(View.INVISIBLE);

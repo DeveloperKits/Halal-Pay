@@ -14,7 +14,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_navigation_bar"
         app:itemIconSize="@dimen/bottom_navigation_icon_size"
-        app:menu="@menu/bottom_menu">
+        app:menu="@menu/bottom_menu"
+        style="Widget.MaterialComponents.BottomNavigationView.Colored">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
