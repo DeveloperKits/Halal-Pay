@@ -1,5 +1,6 @@
-package com.samulit.e_pay.Fragment;
+package com.samulit.halal_pay.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,16 +8,20 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.samulit.e_pay.R;
+import com.samulit.halal_pay.HomeActivity;
+import com.samulit.halal_pay.R;
+
 
 public class HomeFragment extends Fragment {
     private MaterialCardView Donation, Business_Loan;
     private ImageView Profile_Image;
     private TextView UserName, UserBalance, UserPercentage, Percentage_Day;
+    private Button back;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -34,9 +39,11 @@ public class HomeFragment extends Fragment {
         UserBalance = view.findViewById(R.id.UserBalance);
         UserPercentage = view.findViewById(R.id.UserPercentage);
         Percentage_Day = view.findViewById(R.id.percentage_day);
+        back = view.findViewById(R.id.back);
 
 
 
         return view;
     }
+
 }

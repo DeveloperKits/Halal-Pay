@@ -4,56 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.ProfileFragment"
+    tools:context="com.samulit.halal_pay.Fragment.ProfileFragment"
     android:background="@drawable/background">
 
-    <TextView
-        android:id="@+id/pageName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="Wallet"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="3dp"
-        app:iconTint="@color/white"
-        app:icon="@drawable/ic_baseline_arrow_back_24"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
-
-    <Button
-        android:id="@+id/edit"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-        android:layout_width="50dp"
-        android:layout_height="45dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="5dp"
-        android:fontFamily="sans-serif"
-        android:text="Edit"
-        android:textSize="16dp"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.card.MaterialCardView
@@ -82,6 +48,7 @@
                 android:text="Change profile picture"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                app:rippleColor="@color/white"
                 android:textSize="12sp"
                 app:iconSize="16dp"
                 app:iconTint="@color/white"
@@ -179,6 +146,22 @@
             android:textColor="@color/white"
             android:textSize="14sp"/>
 
+
+        <Button
+            android:id="@+id/edit"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            app:rippleColor="@color/white"
+            app:strokeColor="@color/white"
+            android:text="Edit"
+            android:textSize="16dp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

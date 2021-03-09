@@ -1,4 +1,4 @@
-package com.samulit.e_pay;
+package com.samulit.halal_pay;
 
 import android.content.Context;
 

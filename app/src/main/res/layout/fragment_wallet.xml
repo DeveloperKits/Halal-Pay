@@ -5,28 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
-    tools:context=".Fragment.WalletFragment">
+    tools:context="com.samulit.halal_pay.Fragment.WalletFragment">
 
-    <TextView
-        android:id="@+id/pageName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="Wallet"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="3dp"
-        app:iconTint="@color/white"
-        app:icon="@drawable/ic_baseline_arrow_back_24"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
 
     <com.google.android.material.card.MaterialCardView
     android:id="@+id/profileCard"
@@ -34,9 +14,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="25dp"
     android:layout_marginEnd="25dp"
-    android:layout_marginTop="100dp"
+    android:layout_marginTop="50dp"
     android:layout_marginBottom="20dp"
-    app:cardBackgroundColor="@color/card_color"
     app:cardCornerRadius="25dp">
 
         <TextView
@@ -48,7 +27,6 @@
             android:layout_marginStart="30dp"
             android:fontFamily="sans-serif-condensed"
             android:text="Week"
-            android:background="@drawable/background_text"
             android:paddingHorizontal="6dp"
             android:paddingVertical="1dp"
             android:textColor="@color/text_color_back"
@@ -75,7 +53,6 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="7dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/background_text"
             android:paddingHorizontal="6dp"
             android:paddingVertical="1dp"
             android:fontFamily="sans-serif-condensed"
@@ -224,7 +201,9 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_marginEnd="30dp"
-            app:cardCornerRadius="30dp">
+            android:clickable="true"
+            app:cardCornerRadius="30dp"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -255,7 +234,9 @@
             android:id="@+id/withdraw_card"
             android:layout_width="150dp"
             android:layout_height="100dp"
-            app:cardCornerRadius="30dp">
+            android:clickable="true"
+            app:cardCornerRadius="30dp"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="wrap_content"

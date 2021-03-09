@@ -1,11 +1,11 @@
-package com.samulit.e_pay;
+package com.samulit.halal_pay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent goToMain = new Intent(MainActivity.this, RegistrationActivity.class);
+                Intent goToMain = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(goToMain);
                 finish();
                 //progressBar.setVisibility(View.INVISIBLE);

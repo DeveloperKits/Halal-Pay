@@ -1,4 +1,4 @@
-package com.samulit.e_pay.Fragment;
+package com.samulit.halal_pay.Fragment;
 
 import android.os.Bundle;
 
@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.samulit.e_pay.R;
+import com.samulit.halal_pay.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
