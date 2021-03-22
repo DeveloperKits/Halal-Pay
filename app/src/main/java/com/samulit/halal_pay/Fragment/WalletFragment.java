@@ -1,5 +1,6 @@
 package com.samulit.halal_pay.Fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,61 +8,126 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.samulit.halal_pay.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WalletFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WalletFragment extends Fragment {
+    private MaterialCardView Deposit, Withdraw;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String Transfer_Type;
 
     public WalletFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WalletFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WalletFragment newInstance(String param1, String param2) {
-        WalletFragment fragment = new WalletFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wallet, container, false);
+        View view = inflater.inflate(R.layout.fragment_wallet, container, false);
+
+        Deposit = view.findViewById(R.id.deposit);
+        Withdraw = view.findViewById(R.id.withdraw_card);
+
+        Withdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                withdraw();
+            }
+        });
+
+        Deposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deposit();
+            }
+        });
+
+        return view;
+    }
+
+
+    private void deposit() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_deposit,null);
+
+        final TextView merchantNumber = mView.findViewById(R.id.merchantNum);
+        final EditText paymentID = mView.findViewById(R.id.paymentID);
+        final EditText number = mView.findViewById(R.id.paymentNumber);
+        Button btn_okay = (Button)mView.findViewById(R.id.done);
+        Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
+        RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
+        merchantNumber.setText("Merchant Number: 01857959953");
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i)
+                {
+                    case R.id.bkash:
+                        Transfer_Type = "Bkash";
+                        merchantNumber.setText("Merchant Number: 01857959953");
+                        break;
+                    case R.id.rocket:
+                        Transfer_Type = "Rocket";
+                        merchantNumber.setText("Merchant Number: 01814976752");
+                        break;
+                    case R.id.nogod:
+                        Transfer_Type = "Nogod";
+                        merchantNumber.setText("Merchant Number: 018238433756");
+                        break;
+
+                }
+            }
+        });
+
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        btn_okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void withdraw() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box,null);
+        final EditText money = (EditText)mView.findViewById(R.id.money);
+        final EditText number = (EditText)mView.findViewById(R.id.number);
+        Button btn_okay = (Button)mView.findViewById(R.id.done);
+        Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        btn_okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

@@ -7,6 +7,7 @@
     android:background="@drawable/background"
     tools:context="com.samulit.halal_pay.HomeActivity">
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/Bottom_nav"
         android:layout_width="match_parent"
@@ -38,6 +39,19 @@
         android:layout_marginStart="7dp"
         android:layout_marginTop="3dp"
         app:icon="@drawable/ic_baseline_arrow_back_24"
+        app:iconTint="@color/white"
+        app:rippleColor="@color/white" />
+
+    <Button
+        android:id="@+id/popUpMenu"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="Pop_Up_Menu"
+        app:icon="@drawable/ic_baseline_more_horiz_24"
         app:iconTint="@color/white"
         app:rippleColor="@color/white" />
 

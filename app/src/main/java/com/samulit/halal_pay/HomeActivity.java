@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.samulit.halal_pay.Fragment.HomeFragment;
@@ -27,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     private WalletFragment walletFragment;
     private ProfileFragment profileFragment;
     private TextView PageName;
-    private Button Back;
+    private Button Back, PopUp_Menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,5 +98,19 @@ public class HomeActivity extends AppCompatActivity {
                 .setNegativeButton("no", null)
                 .create();
         dialog.show();
+    }
+
+    public void Pop_Up_Menu(View view) {
+        PopupMenu popupMenu = new PopupMenu(HomeActivity.this, findViewById(R.id.popUpMenu));
+
+        popupMenu.getMenuInflater().inflate(R.menu.drawer_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Toast.makeText(HomeActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 }

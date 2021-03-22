@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17875612148",
+    "project_id": "e-pay-e9e29",
+    "storage_bucket": "e-pay-e9e29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17875612148:android:d7feaa1a7bd9a5ef96c9a1",
+        "android_client_info": {
+          "package_name": "com.samulit.halal_pay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIAqX6bkUCuo790Pt8DCFO_fguTRdHVm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
