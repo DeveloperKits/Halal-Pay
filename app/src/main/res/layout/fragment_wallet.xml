@@ -39,7 +39,6 @@
             android:layout_gravity="bottom|center"
             android:fontFamily="sans-serif-condensed"
             android:layout_marginBottom="7dp"
-            android:background="@drawable/background_text"
             android:paddingHorizontal="6dp"
             android:paddingVertical="1dp"
             android:text="Month"

@@ -26,12 +26,51 @@
         android:textSize="20sp"
         android:textAlignment="center" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:text="Choose Withdraw Method"
+        android:textColor="@color/text_color_back"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp">
+
+        <RadioButton
+            android:id="@+id/bkash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="bKash" />
+
+        <RadioButton
+            android:id="@+id/rocket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rocket"/>
+
+        <RadioButton
+            android:id="@+id/nogod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nogod"/>
+
+    </RadioGroup>
+
     <EditText
         android:id="@+id/money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="0dp"
         android:hint="How much money want to withdraw..."
         android:inputType="number"
         android:textSize="16sp" />

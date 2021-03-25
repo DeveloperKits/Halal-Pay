@@ -42,10 +42,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter Email:"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="1dp"
             android:layout_marginStart="10dp"
@@ -70,13 +70,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter Name:"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="3dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/name" />
@@ -97,16 +97,84 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter Age:"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <EditText
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/age" />
+
+    </LinearLayout>
+
+    <RadioButton
+        android:id="@+id/CheckButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You want to change your password?"
+        android:textColor="@color/Red"
+        android:paddingStart="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp">
+
+    </RadioButton>
+
+    <LinearLayout
+        android:id="@+id/password_linearLayout"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Old Password:"
+            android:textSize="14sp" />
+
+        <EditText
+            android:textSize="14sp"
             android:layout_marginEnd="25dp"
             android:layout_marginTop="3dp"
             android:layout_marginStart="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/age" />
+            android:id="@+id/password" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/new_password_linearLayout"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter New Password:"
+            android:textSize="14sp" />
+
+        <EditText
+            android:textSize="14sp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_password" />
 
     </LinearLayout>
 

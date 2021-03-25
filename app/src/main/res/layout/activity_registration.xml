@@ -28,9 +28,8 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_launcher_foreground"
-                android:layout_marginBottom="30dp"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/halalpay_logo"
                 tools:ignore="VectorDrawableCompat" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -43,6 +42,7 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -59,6 +59,7 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -74,6 +75,7 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/number_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
@@ -92,6 +94,7 @@
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -99,6 +102,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/Sign_Up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -109,7 +113,7 @@
                 android:paddingHorizontal="70dp"
                 android:paddingVertical="14dp"
                 app:rippleColor="@color/white"
-                android:text="Login"
+                android:text="Sign Up"
                 android:textColor="#292929"
                 android:textStyle="bold"
                 android:focusable="true" />
@@ -130,6 +134,7 @@
                     android:background="@color/white" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/google_login"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     app:cardCornerRadius="50dp"
@@ -166,11 +171,13 @@
                 android:alpha="0.4"/>
 
             <Button
+                android:id="@+id/login"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:alpha="0.9"
+                android:layout_marginBottom="5dp"
                 app:rippleColor="@color/white"
                 android:fontFamily="sans-serif-condensed"
                 android:onClick="goneLoginActivity"

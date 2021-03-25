@@ -7,29 +7,34 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
-
 
 public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private WalletFragment walletFragment;
     private ProfileFragment profileFragment;
+    private ProgressDialog progressDialog;
     private TextView PageName;
-    private Button Back, PopUp_Menu;
+    private Button Back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         walletFragment = new WalletFragment();
         profileFragment = new ProfileFragment();
+
+        progressDialog = new ProgressDialog(HomeActivity.this);
 
         setFragment(homeFragment);
 
@@ -107,10 +114,52 @@ public class HomeActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Toast.makeText(HomeActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HomeActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+
+                if (menuItem.getTitle().equals("Signout")){
+                    Sign_Out();
+                }
                 return true;
             }
         });
         popupMenu.show();
+    }
+
+    private void Sign_Out() {
+        android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(HomeActivity.this);
+        builder1.setMessage("Are you sure you want to log out?");
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        progressDialog.show();
+                        progressDialog.setMessage("Signing Out...");
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                FirebaseAuth.getInstance().signOut();
+                                progressDialog.dismiss();
+                                HomeActivity.this.finishAffinity();
+                                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                            }
+                        },1500);
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        android.app.AlertDialog alert11 = builder1.create();
+        alert11.show();
+
     }
 }
