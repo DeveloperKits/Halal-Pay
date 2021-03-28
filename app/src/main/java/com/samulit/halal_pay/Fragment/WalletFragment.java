@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,16 +30,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class WalletFragment extends Fragment {
     private MaterialCardView Deposit, Withdraw;
     private ImageView Profile_Image;
     private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year;
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
-    private String Transfer_Type, UserID, userName, userImage, usersCurrentBalance, usersTotalBalance, userWithdrawBalance ,WeekMonthYear;
+    private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance, usersTotalBalance, userWithdrawBalance ,WeekMonthYear;
 
     public WalletFragment() {
         // Required empty public constructor
@@ -126,6 +131,7 @@ public class WalletFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void deposit() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_deposit,null);
@@ -142,8 +148,7 @@ public class WalletFragment extends Fragment {
             @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch(i)
-                {
+                switch(i) {
                     case R.id.bkash:
                         Transfer_Type = "Bkash";
                         merchantNumber.setText("Merchant Number: 01857959953");
@@ -164,20 +169,11 @@ public class WalletFragment extends Fragment {
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        btn_okay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        btn_cancel.setOnClickListener(v -> alertDialog.dismiss()); // OnClickListener replace with lambda
+        btn_okay.setOnClickListener(v -> alertDialog.dismiss()); // OnClickListener replace with lambda
         alertDialog.show();
     }
+
 
     private void withdraw() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -186,6 +182,30 @@ public class WalletFragment extends Fragment {
         final EditText number = (EditText)mView.findViewById(R.id.number);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
+        RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i) {
+                    case R.id.bkash:
+                        withdraw_Type = "Bkash";
+                        number.setHint("Enter your bkash number...");
+                        break;
+                    case R.id.rocket:
+                        withdraw_Type = "Rocket";
+                        number.setHint("Enter your rocket number...");
+                        break;
+                    case R.id.nogod:
+                        withdraw_Type = "Nogod";
+                        number.setHint("Enter your nogod number...");
+                        break;
+
+                }
+            }
+        });
+
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
@@ -198,7 +218,47 @@ public class WalletFragment extends Fragment {
         btn_okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+
+                String storeMoney, StoreNumber;
+                storeMoney = money.getText().toString();
+                StoreNumber = number.getText().toString();
+
+                if (storeMoney.equals(" ") || storeMoney == null){
+                    money.setError("Enter how much money");
+                    money.requestFocus();
+                }else if (Integer.parseInt(storeMoney) >= Integer.parseInt(usersCurrentBalance)){
+                    money.setError("Reduce the amount of your money a bit");
+                    money.requestFocus();
+                }else if (Integer.parseInt(storeMoney) < 30 ){
+                    money.setError("There will be more than 30 inputs");
+                    money.requestFocus();
+                } else if (StoreNumber.length() != 11){
+                    number.setError("Check your number");
+                    number.requestFocus();
+                }else {
+
+                    int currentBalance, total_Withdraw;
+                    currentBalance = Integer.parseInt(usersCurrentBalance) - Integer.parseInt(storeMoney);
+                    total_Withdraw = Integer.parseInt(storeMoney) + Integer.parseInt(userWithdrawBalance);
+
+                    Map reg = new HashMap();
+                    reg.put("userName", userName);
+                    reg.put("withdrawMoney", storeMoney);
+                    reg.put("WithdrawPhone", StoreNumber);
+                    reg.put("userUID", UserID);
+                    reg.put("withdrawType", withdraw_Type);
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest").child(UserID);
+                    databaseReference.updateChildren(reg);
+
+                    databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
+                    databaseReference2.child("usesCurrentBalance").setValue(String.valueOf(currentBalance));
+                    databaseReference2.child("TotalWithdraw").setValue(String.valueOf(total_Withdraw));
+
+                    Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+
+                    alertDialog.dismiss();
+                }
             }
         });
         alertDialog.show();

@@ -3,27 +3,37 @@ package com.samulit.halal_pay.Fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,8 +46,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.samulit.halal_pay.R;
+import com.samulit.halal_pay.RegistrationActivity;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -56,6 +70,7 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_FROM_GALLERY = 1;
     private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri ,WeekMonthYear;
+    private boolean isChecked = false;
 
 
     public ProfileFragment() {
@@ -213,6 +228,7 @@ public class ProfileFragment extends Fragment {
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
+
     // When Click Edit Button
     private void EditProfile () {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -224,9 +240,10 @@ public class ProfileFragment extends Fragment {
         final EditText Edit_new_Password = (EditText) mView.findViewById(R.id.new_password);
         final LinearLayout linearLayout = (LinearLayout) mView.findViewById(R.id.password_linearLayout);
         final LinearLayout New_linearLayout = (LinearLayout) mView.findViewById(R.id.new_password_linearLayout);
-        final RadioButton CheckButton = (RadioButton) mView.findViewById(R.id.CheckButton);
+        final SwitchMaterial CheckButton = (SwitchMaterial) mView.findViewById(R.id.checkbox);
         Button btn_okay = (Button) mView.findViewById(R.id.done);
         Button btn_cancel = (Button) mView.findViewById(R.id.cancel);
+
 
         EditEmail.setText(UserEmail.getText().toString());
         EditName.setText(UserName.getText().toString());
@@ -239,10 +256,21 @@ public class ProfileFragment extends Fragment {
         }else {
             CheckButton.setVisibility(View.VISIBLE);
 
-            if (CheckButton.isChecked()) {
-                linearLayout.setVisibility(View.VISIBLE);
-                New_linearLayout.setVisibility(View.VISIBLE);
-            }
+            CheckButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                        New_linearLayout.setVisibility(View.VISIBLE);
+                        isChecked = true;
+                    }else {
+                        linearLayout.setVisibility(View.GONE);
+                        New_linearLayout.setVisibility(View.GONE);
+                        isChecked = false;
+                    }
+                }
+            });
+
         }
 
         alert.setView(mView);
@@ -258,10 +286,147 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+
+                if (isNetworkAvaliable()) {
+                    String names = " ", emails = " ", ages = " ", newPassword = " ", OldPassword = " ";
+                    boolean isName = false, isEmail = false, isAge = false, isPassword = false;
+
+                    if (!userName.contentEquals(EditName.getText().toString())) {
+                        names = EditName.getText().toString();
+                        isName = true;
+                    }
+                    if (!email.contentEquals(EditEmail.getText().toString())) {
+                        emails = EditEmail.getText().toString();
+                        isEmail = true;
+                    }
+                    if (!age.contentEquals(EditAge.getText().toString())) {
+                        ages = EditAge.getText().toString();
+                        isAge = true;
+                    }
+
+                    if (isChecked) {
+                        if (Edit_new_Password.getText() != null && Edit_new_Password.getText().length() > 6 &&
+                                EditPassword.getText() != null && EditPassword.getText().length() > 6 &&
+                                EditPassword.getText().toString().equals(password)) {
+
+                            newPassword = Edit_new_Password.getText().toString();
+                            OldPassword = EditPassword.getText().toString();
+                            isPassword = true;
+                        }
+                    }
+
+                    if (isAge && isEmail && isName && !isChecked) {
+                        saveEditInformationOnFirebase(names, emails, ages, " ", " ");
+                    } else if (isAge && isEmail && isName && isPassword) {
+                        saveEditInformationOnFirebase(names, emails, ages, newPassword, OldPassword);
+                    } else if (!isAge && !isEmail && !isName && isPassword) {
+                        saveEditInformationOnFirebase(" ", " ", " ", newPassword, OldPassword);
+                    } else if (!isAge && !isEmail && isName && isPassword) {
+                        saveEditInformationOnFirebase(names, " ", " ", newPassword, OldPassword);
+                    } else if (isAge && !isEmail && !isName && isPassword) {
+                        saveEditInformationOnFirebase(" ", " ", ages, newPassword, OldPassword);
+                    } else if (!isAge && isEmail && !isName && isPassword) {
+                        saveEditInformationOnFirebase(" ", emails, " ", newPassword, OldPassword);
+                    } else if (!isAge && isEmail && isName && isPassword) {
+                        saveEditInformationOnFirebase(names, emails, " ", newPassword, OldPassword);
+                    } else if (isAge && !isEmail && isName && isPassword) {
+                        saveEditInformationOnFirebase(names, " ", ages, newPassword, OldPassword);
+                    } else if (isAge && isEmail && !isName && isPassword) {
+                        saveEditInformationOnFirebase(" ", emails, ages, newPassword, OldPassword);
+                    } else if (!isAge && isEmail && !isName && !isChecked) {
+                        saveEditInformationOnFirebase(" ", emails, " ", " ", " ");
+                    } else if (!isAge && !isEmail && isName && !isChecked) {
+                        saveEditInformationOnFirebase(names, " ", " ", " ", " ");
+                    } else if (isAge && !isEmail && !isName && !isChecked) {
+                        saveEditInformationOnFirebase(" ", " ", ages, " ", " ");
+                    } else if (isAge && isEmail && !isName && !isChecked) {
+                        saveEditInformationOnFirebase(" ", emails, ages, " ", " ");
+                    } else if (isAge && !isEmail && isName && !isChecked) {
+                        saveEditInformationOnFirebase(names, " ", ages, " ", " ");
+                    } else if (!isAge && isEmail && isName && !isChecked) {
+                        saveEditInformationOnFirebase(names, emails, " ", " ", " ");
+                    } else {
+                        Toast.makeText(getContext(), "Something Wrong! Please Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getContext(), "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         alertDialog.show();
     }
+
+    private void saveEditInformationOnFirebase(String names, String emails, String ages, String newPassword, String oldPassword) {
+        progressDialog.setMessage("Please wait, update your account");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("UserData");
+
+        Map reg = new HashMap();
+
+        if (!names.equals(" ")) {
+            reg.put("userName", names);
+        }
+        if (!emails.equals(" ")) {
+            reg.put("userEmail", emails);
+        }
+        if (!ages.equals(" ")) {
+            reg.put("userAge", ages);
+        }
+
+        if (!newPassword.equals(" ") && !oldPassword.equals(" ")) {
+
+            if (!newPassword.equals(oldPassword)) {
+                AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
+                firebaseUser.reauthenticate(credential)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(getContext(), "Password updated", Toast.LENGTH_SHORT).show();
+                                                databaseReference.child(UserID).child("userPassword").setValue(newPassword);
+                                            } else {
+                                                Toast.makeText(getContext(), "Sorry password not updated. Please try again", Toast.LENGTH_SHORT).show();
+                                            }
+                                            progressDialog.dismiss();
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(getContext(), "Sorry password not updated. Please try again", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        });
+            }else {
+                Toast.makeText(getContext(), "Your password is the same", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+
+        }else {
+            progressDialog.dismiss();
+        }
+
+        databaseReference.child(UserID).updateChildren(reg);
+    }
+
+    // Check Internet
+    private boolean isNetworkAvaliable() {
+        try {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            return mNetworkInfo != null;
+
+        }catch (NullPointerException e){
+            return false;
+
+        }
+    }
+
 
 }
 

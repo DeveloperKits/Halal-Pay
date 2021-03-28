@@ -194,6 +194,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg.put("userImage", " ");
         reg.put("userUID", user_id);
         reg.put("userPassword", password);
+        reg.put("userAge", " ");
         reg.put("userLocation", " ");
         reg.put("userTotalDepositBalance", "0");
         reg.put("TotalWithdraw", "0");

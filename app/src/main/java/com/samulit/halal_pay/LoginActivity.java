@@ -234,6 +234,7 @@ public class LoginActivity extends AppCompatActivity {
         reg.put("userPhone", phoneNumber);
         reg.put("userImage", Image_User);
         reg.put("userUID", uid);
+        reg.put("userAge", " ");
         reg.put("userPassword", " ");
         reg.put("userLocation", " ");
         reg.put("userTotalDepositBalance", "0");
