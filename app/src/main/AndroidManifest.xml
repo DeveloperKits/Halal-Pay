@@ -13,16 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
-        <activity android:name="com.samulit.halal_pay.LoginActivity" />
-        <activity android:name="com.samulit.halal_pay.RegistrationActivity" />
-        <activity android:name="com.samulit.halal_pay.HomeActivity" />
-        <activity android:name="com.samulit.halal_pay.MainActivity">
+
+        <activity android:name="com.samulit.halal_pay.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="preloaded_fonts"
