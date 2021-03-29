@@ -30,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +45,7 @@ public class WalletFragment extends Fragment {
     private FirebaseUser firebaseUser;
 
     private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance, usersTotalBalance, userWithdrawBalance ,WeekMonthYear;
+    String bkash_mer, rocket_mer, nogod_mer;
 
     public WalletFragment() {
         // Required empty public constructor
@@ -138,11 +141,38 @@ public class WalletFragment extends Fragment {
 
         final TextView merchantNumber = mView.findViewById(R.id.merchantNum);
         final EditText paymentID = mView.findViewById(R.id.paymentID);
+        final EditText money = mView.findViewById(R.id.money);
         final EditText number = mView.findViewById(R.id.paymentNumber);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
-        merchantNumber.setText("Merchant Number: 01857959953");
+
+        number.setHint("Your Bkash Number");
+        Transfer_Type = "Bkash";
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("MerchantNumber");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+
+                    bkash_mer = snapshot.child("Bkash").getValue().toString();
+                    rocket_mer = snapshot.child("Rocket").getValue().toString();
+                    nogod_mer = snapshot.child("Nogod").getValue().toString();
+
+                    if (bkash_mer.isEmpty()){
+                        merchantNumber.setText("Merchant Number: Sorry not available");
+                    }else {
+                        merchantNumber.setText("Merchant Number: " + bkash_mer);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
@@ -151,15 +181,30 @@ public class WalletFragment extends Fragment {
                 switch(i) {
                     case R.id.bkash:
                         Transfer_Type = "Bkash";
-                        merchantNumber.setText("Merchant Number: 01857959953");
+                        if (bkash_mer.isEmpty()){
+                            merchantNumber.setText("Sorry not available");
+                        }else {
+                            merchantNumber.setText("Merchant Number: " + bkash_mer);
+                        }
+                        number.setHint("Your Bkash Number");
                         break;
                     case R.id.rocket:
                         Transfer_Type = "Rocket";
-                        merchantNumber.setText("Merchant Number: 01814976752");
+                        if (rocket_mer.isEmpty()){
+                            merchantNumber.setText("Merchant Number: Sorry not available");
+                        }else {
+                            merchantNumber.setText("Merchant Number: " + rocket_mer);
+                        }
+                        number.setHint("Your Rocket Number");
                         break;
                     case R.id.nogod:
                         Transfer_Type = "Nogod";
-                        merchantNumber.setText("Merchant Number: 018238433756");
+                        if (nogod_mer.isEmpty()){
+                            merchantNumber.setText("Merchant Number: Sorry not available");
+                        }else {
+                            merchantNumber.setText("Merchant Number: " + nogod_mer);
+                        }
+                        number.setHint("Your Nogod Number");
                         break;
 
                 }
@@ -170,7 +215,59 @@ public class WalletFragment extends Fragment {
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCanceledOnTouchOutside(false);
         btn_cancel.setOnClickListener(v -> alertDialog.dismiss()); // OnClickListener replace with lambda
-        btn_okay.setOnClickListener(v -> alertDialog.dismiss()); // OnClickListener replace with lambda
+        btn_okay.setOnClickListener(v -> {
+
+            String storePaymentID, StoreNumber, Money;
+            storePaymentID = paymentID.getText().toString();
+            StoreNumber = number.getText().toString();
+            Money = money.getText().toString();
+
+            if (storePaymentID.equals(" ") || storePaymentID == null){
+                paymentID.setError("Enter Yor Transfer ID");
+                paymentID.requestFocus();
+            } else if (StoreNumber.length() != 11){
+                number.setError("Check your number");
+                number.requestFocus();
+            }else if (Money.equals(" ") || Money == null){
+                number.setError("Enter valid Amount");
+                number.requestFocus();
+            }else {
+
+                Calendar calFordDate = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                String saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+                SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                String saveCurrentTime = currentTime.format(calFordDate.getTime());
+
+                int currentBalance, total_deposit;
+                currentBalance = Integer.parseInt(usersCurrentBalance) + Integer.parseInt(Money);
+                total_deposit = Integer.parseInt(usersTotalBalance) + Integer.parseInt(Money);
+
+                Map reg = new HashMap();
+                reg.put("userName", userName);
+                reg.put("PaymentID", storePaymentID);
+                reg.put("depositNumber", StoreNumber);
+                reg.put("userUID", UserID);
+                reg.put("Date", saveCurrentDate);
+                reg.put("Time", saveCurrentTime);
+                reg.put("status", "pending...");
+                reg.put("DepositAmount", Money);
+                reg.put("depositType", Transfer_Type);
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
+                databaseReference.push().updateChildren(reg);
+
+                databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
+                databaseReference2.child("userTotalDepositBalance").setValue(String.valueOf(total_deposit));
+                databaseReference2.child("usesCurrentBalance").setValue(String.valueOf(currentBalance));
+
+                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+
+                alertDialog.dismiss();
+            }
+
+        }); // OnClickListener replace with lambda
         alertDialog.show();
     }
 
@@ -183,6 +280,8 @@ public class WalletFragment extends Fragment {
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
+
+        withdraw_Type = "Bkash";
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
@@ -237,6 +336,13 @@ public class WalletFragment extends Fragment {
                     number.requestFocus();
                 }else {
 
+                    Calendar calFordDate = Calendar.getInstance();
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                    String saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+                    SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                    String saveCurrentTime = currentTime.format(calFordDate.getTime());
+
                     int currentBalance, total_Withdraw;
                     currentBalance = Integer.parseInt(usersCurrentBalance) - Integer.parseInt(storeMoney);
                     total_Withdraw = Integer.parseInt(storeMoney) + Integer.parseInt(userWithdrawBalance);
@@ -246,10 +352,13 @@ public class WalletFragment extends Fragment {
                     reg.put("withdrawMoney", storeMoney);
                     reg.put("WithdrawPhone", StoreNumber);
                     reg.put("userUID", UserID);
+                    reg.put("Date", saveCurrentDate);
+                    reg.put("Time", saveCurrentTime);
+                    reg.put("status", "pending...");
                     reg.put("withdrawType", withdraw_Type);
 
-                    databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest").child(UserID);
-                    databaseReference.updateChildren(reg);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
+                    databaseReference.push().updateChildren(reg);
 
                     databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
                     databaseReference2.child("usesCurrentBalance").setValue(String.valueOf(currentBalance));

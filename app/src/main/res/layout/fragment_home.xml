@@ -127,23 +127,23 @@
                     android:id="@+id/donation"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    app:cardCornerRadius="25dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginBottom="20dp"
+                    app:cardCornerRadius="25dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/donation"/>
+                        android:background="@drawable/donation" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/lalezar"
                         android:text="Donation"
-                        android:layout_marginTop="10dp"
                         android:textColor="@color/text_color_back"
                         android:textSize="26sp" />
 
@@ -151,10 +151,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="18sp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="40dp"
-                        android:text="For poor people"/>
+                        android:text="For poor people"
+                        android:textSize="18sp" />
 
                 </com.google.android.material.card.MaterialCardView>
 
