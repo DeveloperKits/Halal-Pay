@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="0dp"
-        android:hint="How much money want to withdraw..."
+        android:hint="How much amount want to withdraw..."
         android:inputType="number"
         android:textSize="16sp" />
 

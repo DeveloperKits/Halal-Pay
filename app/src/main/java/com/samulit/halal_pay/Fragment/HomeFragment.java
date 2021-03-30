@@ -2,13 +2,11 @@ package com.samulit.halal_pay.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samulit.halal_pay.HomeActivity;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
@@ -45,7 +42,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
 
-    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, Transfer_Type, bkash_mer, rocket_mer, nogod_mer;
+    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, Transfer_Type, bkash_mer, rocket_mer, nogod_mer, LoanType;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -111,9 +108,95 @@ public class HomeFragment extends Fragment {
             Donation.setOnClickListener(view1 -> {
                 donation();
             });
+
+
+            Business_Loan.setOnClickListener(view1 -> BusinessLoan());
         }
 
         return view;
+    }
+
+    private void BusinessLoan() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box,null);
+        final EditText money = (EditText)mView.findViewById(R.id.money);
+        final EditText number = (EditText)mView.findViewById(R.id.number);
+        Button btn_okay = (Button)mView.findViewById(R.id.done);
+        Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
+        RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
+
+        LoanType = "Bkash";
+        money.setHint("How much amount want to loan...");
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch(i) {
+                    case R.id.bkash:
+                        LoanType = "Bkash";
+                        number.setHint("Enter your bkash number...");
+                        break;
+                    case R.id.rocket:
+                        LoanType = "Rocket";
+                        number.setHint("Enter your rocket number...");
+                        break;
+                    case R.id.nogod:
+                        LoanType = "Nogod";
+                        number.setHint("Enter your nogod number...");
+                        break;
+
+                }
+            }
+        });
+
+        alert.setView(mView);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        btn_cancel.setOnClickListener(v -> alertDialog.dismiss());
+        btn_okay.setOnClickListener(v -> {
+
+            String storeMoney, StoreNumber;
+            storeMoney = money.getText().toString();
+            StoreNumber = number.getText().toString();
+
+            if (storeMoney.equals(" ") || storeMoney == null){
+                money.setError("Enter how much money");
+                money.requestFocus();
+            }else if (Integer.parseInt(storeMoney) < 100 ){
+                money.setError("There will be more than 100 inputs");
+                money.requestFocus();
+            } else if (StoreNumber.length() != 11){
+                number.setError("Check your number");
+                number.requestFocus();
+            }else {
+
+                Calendar calFordDate = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                String saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+                SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                String saveCurrentTime = currentTime.format(calFordDate.getTime());
+
+                Map reg = new HashMap();
+                reg.put("userName", userName);
+                reg.put("LoanAmount", storeMoney);
+                reg.put("LoanPhone", StoreNumber);
+                reg.put("userUID", UserID);
+                reg.put("Date", saveCurrentDate);
+                reg.put("Time", saveCurrentTime);
+                reg.put("status", "pending...");
+                reg.put("LoanType", LoanType);
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("BusinessLoanRequest");
+                databaseReference.push().updateChildren(reg);
+
+                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private void donation() {
@@ -134,6 +217,7 @@ public class HomeFragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("MerchantNumber");
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -235,7 +319,6 @@ public class HomeFragment extends Fragment {
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
                 databaseReference.push().updateChildren(reg);
-
 
                 Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
 
