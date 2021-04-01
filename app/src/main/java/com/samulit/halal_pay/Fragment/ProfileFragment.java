@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
     Uri contentURI, resultUri;
 
     private static final int PICK_FROM_GALLERY = 1;
-    private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri ,WeekMonthYear;
+    private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri, WeekMonthYear;
     private boolean isChecked = false;
 
 
