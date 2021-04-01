@@ -36,10 +36,10 @@ public class DepositList extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         arrayList = new ArrayList<>();
-        subCategoryAdapter = new SubCategoryAdapter(this, arrayList);
+        subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "DepositRequest");
         recyclerView.setAdapter(subCategoryAdapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
+        databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -48,8 +48,10 @@ public class DepositList extends AppCompatActivity {
 
                 if (snapshot.exists()){
 
-                    SubCategory category = new SubCategory(snapshot.getKey());
-                    arrayList.add(category);
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        SubCategory category = new SubCategory(ds.getKey());
+                        arrayList.add(category);
+                    }
 
                 }
 

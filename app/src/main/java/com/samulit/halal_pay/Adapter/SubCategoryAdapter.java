@@ -27,11 +27,12 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
     private Context pContext;
     private ArrayList<SubCategory> arrayList;
-    private String current_user_id = " ",userType=" ", getIntentKey=" ";
+    private String type;
 
-    public SubCategoryAdapter(Context pContext, ArrayList<SubCategory> arrayList) {
+    public SubCategoryAdapter(Context pContext, ArrayList<SubCategory> arrayList, String type) {
         this.pContext = pContext;
         this.arrayList = arrayList;
+        this.type = type;
     }
 
     @NonNull
@@ -45,7 +46,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SubCategory category = arrayList.get(position);
 
-        holder.databaseReference.child("WithdrawRequest").child(category.getUID()).addValueEventListener(new ValueEventListener() {
+        holder.databaseReference.child(type).child(category.getUID()).addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -57,6 +58,8 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
                     if (name.length() > 30) {
                         holder.name.setText(name.substring(1, 27) + "...");
+                    }else {
+                        holder.name.setText(name);
                     }
                     holder.status.setText(status);
                     holder.time.setText(date + "   " + time);
