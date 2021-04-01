@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToMain);
                 finish();
             }
-        },2000);
+        },1200);
     }
 
     @Override

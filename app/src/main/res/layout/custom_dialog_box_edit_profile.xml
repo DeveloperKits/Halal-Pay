@@ -111,6 +111,35 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:id="@+id/lnumber"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Number:"
+            android:textSize="14sp" />
+
+        <EditText
+            android:textSize="14sp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/number" />
+
+    </LinearLayout>
+
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/checkbox"
         android:layout_width="match_parent"
@@ -151,7 +180,7 @@
 
     <LinearLayout
         android:id="@+id/new_password_linearLayout"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="0dp"
         android:visibility="gone"
         android:layout_marginTop="0dp"
         android:layout_width="match_parent"
@@ -176,6 +205,18 @@
             android:id="@+id/new_password" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/hint"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Password must be above 6"
+        android:textSize="10sp"
+        android:visibility="gone"/>
 
     <Button
         android:layout_width="150dp"

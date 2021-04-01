@@ -59,7 +59,7 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
     private Button Edit, Change_Profile_Image;
     private ImageView Profile_Image;
-    private TextView UserName, UserEmail, UserPassword, UserAge, Help_Number, Month, Year;
+    private TextView UserName, UserEmail, UserPassword, UserAge, UserPhone, Help_Number, Month, Year;
     private ProgressDialog progressDialog;
 
     private DatabaseReference databaseReference;
@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
     Uri contentURI, resultUri;
 
     private static final int PICK_FROM_GALLERY = 1;
-    private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri, WeekMonthYear;
+    private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri, WeekMonthYear, userPhone;
     private boolean isChecked = false;
 
 
@@ -86,6 +86,7 @@ public class ProfileFragment extends Fragment {
         Change_Profile_Image = view.findViewById(R.id.editImage);
         Profile_Image = view.findViewById(R.id.profileImage);
         UserName = view.findViewById(R.id.name);
+        UserPhone = view.findViewById(R.id.number);
         Help_Number = view.findViewById(R.id.help);
         UserPassword = view.findViewById(R.id.password);
         UserEmail = view.findViewById(R.id.email);
@@ -111,6 +112,7 @@ public class ProfileFragment extends Fragment {
                         password = snapshot.child("userPassword").getValue().toString();
                         age = snapshot.child("userAge").getValue().toString();
                         WeekMonthYear = snapshot.child("WeekMonthYear").getValue().toString();
+                        userPhone = snapshot.child("userPhone").getValue().toString();
 
                         UserName.setText(userName);
                         UserEmail.setText(email);
@@ -118,6 +120,12 @@ public class ProfileFragment extends Fragment {
                             UserPassword.setText(password);
                         } else {
                             UserPassword.setText("Login With Google Account");
+                        }
+
+                        if (userPhone.equals(" ")){
+                            UserPhone.setText("Set Your Number");
+                        }else {
+                            UserPhone.setText(userPhone);
                         }
 
                         if (!age.equals(" ")) {
@@ -235,24 +243,27 @@ public class ProfileFragment extends Fragment {
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_edit_profile, null);
         final EditText EditEmail = (EditText) mView.findViewById(R.id.email);
         final EditText EditName = (EditText) mView.findViewById(R.id.name);
+        final EditText EditNumber = (EditText) mView.findViewById(R.id.number);
         final EditText EditAge = (EditText) mView.findViewById(R.id.age);
         final EditText EditPassword = (EditText) mView.findViewById(R.id.password);
         final EditText Edit_new_Password = (EditText) mView.findViewById(R.id.new_password);
         final LinearLayout linearLayout = (LinearLayout) mView.findViewById(R.id.password_linearLayout);
         final LinearLayout New_linearLayout = (LinearLayout) mView.findViewById(R.id.new_password_linearLayout);
         final SwitchMaterial CheckButton = (SwitchMaterial) mView.findViewById(R.id.checkbox);
+        final TextView hint = (TextView) mView.findViewById(R.id.hint);
         Button btn_okay = (Button) mView.findViewById(R.id.done);
         Button btn_cancel = (Button) mView.findViewById(R.id.cancel);
-
 
         EditEmail.setText(UserEmail.getText().toString());
         EditName.setText(UserName.getText().toString());
         EditAge.setText(UserAge.getText().toString());
+        EditNumber.setText(UserPhone.getText().toString());
 
         if (UserPassword.getText().equals("Login With Google Account")){
             linearLayout.setVisibility(View.GONE);
             CheckButton.setVisibility(View.GONE);
             New_linearLayout.setVisibility(View.GONE);
+            hint.setVisibility(View.GONE);
         }else {
             CheckButton.setVisibility(View.VISIBLE);
 
@@ -262,10 +273,12 @@ public class ProfileFragment extends Fragment {
                     if (b) {
                         linearLayout.setVisibility(View.VISIBLE);
                         New_linearLayout.setVisibility(View.VISIBLE);
+                        hint.setVisibility(View.VISIBLE);
                         isChecked = true;
                     }else {
                         linearLayout.setVisibility(View.GONE);
                         New_linearLayout.setVisibility(View.GONE);
+                        hint.setVisibility(View.GONE);
                         isChecked = false;
                     }
                 }
@@ -282,98 +295,61 @@ public class ProfileFragment extends Fragment {
                 alertDialog.dismiss();
             }
         });
-        btn_okay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+        btn_okay.setOnClickListener(v -> {
+            alertDialog.dismiss();
 
-                if (isNetworkAvaliable()) {
-                    String names = " ", emails = " ", ages = " ", newPassword = " ", OldPassword = " ";
-                    boolean isName = false, isEmail = false, isAge = false, isPassword = false;
+            databaseReference = FirebaseDatabase.getInstance().getReference("UserData");
 
-                    if (!userName.contentEquals(EditName.getText().toString())) {
-                        names = EditName.getText().toString();
-                        isName = true;
-                    }
-                    if (!email.contentEquals(EditEmail.getText().toString())) {
-                        emails = EditEmail.getText().toString();
-                        isEmail = true;
-                    }
-                    if (!age.contentEquals(EditAge.getText().toString())) {
-                        ages = EditAge.getText().toString();
-                        isAge = true;
-                    }
+            if (isNetworkAvaliable()) {
+                String names = " ", emails = " ", ages = " ", numbers = " ", newPassword = " ", OldPassword = " ";
 
-                    if (isChecked) {
-                        if (Edit_new_Password.getText() != null && Edit_new_Password.getText().length() > 6 &&
-                                EditPassword.getText() != null && EditPassword.getText().length() > 6 &&
-                                EditPassword.getText().toString().equals(password)) {
+                if (!userName.contentEquals(EditName.getText().toString())) {
+                    names = EditName.getText().toString();
+                    databaseReference.child(UserID).child("userName").setValue(names);
+                }
+                if (!email.contentEquals(EditEmail.getText().toString())) {
+                    emails = EditEmail.getText().toString();
+                    databaseReference.child(UserID).child("userEmail").setValue(emails);
+                }
+                if (!age.contentEquals(EditAge.getText().toString())) {
+                    ages = EditAge.getText().toString();
+                    databaseReference.child(UserID).child("userAge").setValue(ages);
+                }
 
-                            newPassword = Edit_new_Password.getText().toString();
-                            OldPassword = EditPassword.getText().toString();
-                            isPassword = true;
-                        }
-                    }
+                if (!userPhone.contentEquals(EditNumber.getText().toString())) {
+                    numbers = EditNumber.getText().toString();
+                    databaseReference.child(UserID).child("userPhone").setValue(numbers);
+                }
 
-                    if (isAge && isEmail && isName && !isChecked) {
-                        saveEditInformationOnFirebase(names, emails, ages, " ", " ");
-                    } else if (isAge && isEmail && isName && isPassword) {
-                        saveEditInformationOnFirebase(names, emails, ages, newPassword, OldPassword);
-                    } else if (!isAge && !isEmail && !isName && isPassword) {
-                        saveEditInformationOnFirebase(" ", " ", " ", newPassword, OldPassword);
-                    } else if (!isAge && !isEmail && isName && isPassword) {
-                        saveEditInformationOnFirebase(names, " ", " ", newPassword, OldPassword);
-                    } else if (isAge && !isEmail && !isName && isPassword) {
-                        saveEditInformationOnFirebase(" ", " ", ages, newPassword, OldPassword);
-                    } else if (!isAge && isEmail && !isName && isPassword) {
-                        saveEditInformationOnFirebase(" ", emails, " ", newPassword, OldPassword);
-                    } else if (!isAge && isEmail && isName && isPassword) {
-                        saveEditInformationOnFirebase(names, emails, " ", newPassword, OldPassword);
-                    } else if (isAge && !isEmail && isName && isPassword) {
-                        saveEditInformationOnFirebase(names, " ", ages, newPassword, OldPassword);
-                    } else if (isAge && isEmail && !isName && isPassword) {
-                        saveEditInformationOnFirebase(" ", emails, ages, newPassword, OldPassword);
-                    } else if (!isAge && isEmail && !isName && !isChecked) {
-                        saveEditInformationOnFirebase(" ", emails, " ", " ", " ");
-                    } else if (!isAge && !isEmail && isName && !isChecked) {
-                        saveEditInformationOnFirebase(names, " ", " ", " ", " ");
-                    } else if (isAge && !isEmail && !isName && !isChecked) {
-                        saveEditInformationOnFirebase(" ", " ", ages, " ", " ");
-                    } else if (isAge && isEmail && !isName && !isChecked) {
-                        saveEditInformationOnFirebase(" ", emails, ages, " ", " ");
-                    } else if (isAge && !isEmail && isName && !isChecked) {
-                        saveEditInformationOnFirebase(names, " ", ages, " ", " ");
-                    } else if (!isAge && isEmail && isName && !isChecked) {
-                        saveEditInformationOnFirebase(names, emails, " ", " ", " ");
-                    } else {
-                        Toast.makeText(getContext(), "Something Wrong! Please Try Again", Toast.LENGTH_SHORT).show();
+                if (isChecked) {
+                    if (Edit_new_Password.getText() != null && Edit_new_Password.getText().length() > 6 &&
+                            EditPassword.getText() != null && EditPassword.getText().length() > 6 &&
+                            EditPassword.getText().toString().equals(password)) {
+
+                        newPassword = Edit_new_Password.getText().toString();
+                        OldPassword = EditPassword.getText().toString();
+                        saveEditInformationOnFirebase(newPassword, OldPassword);
+
+                    }else if (Edit_new_Password.getText() != null && EditPassword.getText() != null){
+                        Toast.makeText(getContext(), "Successfully update...", Toast.LENGTH_LONG).show();
+                    }else if (Edit_new_Password.getText() != null || EditPassword.getText() != null){
+                        Toast.makeText(getContext(), "Successfully update...", Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    Toast.makeText(getContext(), "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Successfully update...", Toast.LENGTH_SHORT).show();
                 }
+
+            }else {
+                Toast.makeText(getContext(), "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
             }
         });
         alertDialog.show();
     }
 
-    private void saveEditInformationOnFirebase(String names, String emails, String ages, String newPassword, String oldPassword) {
+    private void saveEditInformationOnFirebase(String newPassword, String oldPassword) {
         progressDialog.setMessage("Please wait, update your account");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("UserData");
-
-        Map reg = new HashMap();
-
-        if (!names.equals(" ")) {
-            reg.put("userName", names);
-        }
-        if (!emails.equals(" ")) {
-            reg.put("userEmail", emails);
-        }
-        if (!ages.equals(" ")) {
-            reg.put("userAge", ages);
-        }
 
         if (!newPassword.equals(" ") && !oldPassword.equals(" ")) {
 
@@ -389,6 +365,7 @@ public class ProfileFragment extends Fragment {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(getContext(), "Password updated", Toast.LENGTH_SHORT).show();
+                                                databaseReference = FirebaseDatabase.getInstance().getReference("UserData");
                                                 databaseReference.child(UserID).child("userPassword").setValue(newPassword);
                                             } else {
                                                 Toast.makeText(getContext(), "Sorry password not updated. Please try again", Toast.LENGTH_SHORT).show();
@@ -411,7 +388,6 @@ public class ProfileFragment extends Fragment {
             progressDialog.dismiss();
         }
 
-        databaseReference.child(UserID).updateChildren(reg);
     }
 
     // Check Internet
