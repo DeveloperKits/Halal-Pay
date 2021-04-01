@@ -61,17 +61,6 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:onClick="Donation_List"
-            android:text="Donation List"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,12 +72,12 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:onClick="Merchant_Number"
-            android:text="Merchant Number"
+            android:onClick="Donation_List"
+            android:text="Donation List"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -100,6 +89,17 @@
             android:backgroundTint="@color/white"
             android:onClick="Business_Loan_List"
             android:text="Business Loan List"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:onClick="Merchant_Number"
+            android:text="Merchant Number"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp" />

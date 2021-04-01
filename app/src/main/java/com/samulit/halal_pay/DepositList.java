@@ -49,7 +49,8 @@ public class DepositList extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        SubCategory category = new SubCategory(ds.getKey());
+                        SubCategory category = ds.getValue(SubCategory.class);
+                        category.setUID(ds.getKey());
                         arrayList.add(category);
                     }
 
