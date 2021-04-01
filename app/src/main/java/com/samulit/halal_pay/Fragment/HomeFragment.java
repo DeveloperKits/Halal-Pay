@@ -2,11 +2,14 @@ package com.samulit.halal_pay.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,6 +202,52 @@ public class HomeFragment extends Fragment {
         alertDialog.show();
     }
 
+
+    private void donation() {
+        final EditText input = new EditText(getContext());
+        input.setHint("How many amount you want donate");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("Donated Poor People");
+        alert.setView(input);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("Done", (dialogInterface, i) -> {
+            String money = input.getText().toString();
+
+            Calendar calFordDate = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+            String saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+            SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+            String saveCurrentTime = currentTime.format(calFordDate.getTime());
+
+            Map reg = new HashMap();
+            reg.put("userName", userName);
+            reg.put("userUID", UserID);
+            reg.put("Date", saveCurrentDate);
+            reg.put("Time", saveCurrentTime);
+            reg.put("status", "pending...");
+            reg.put("DonationAmount", money);
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
+            databaseReference.push().updateChildren(reg);
+
+            Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+
+        });
+
+        alert.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            // Nothing
+        });
+
+        alert.show();
+    }
+
+
+
+    /*
     private void donation() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_deposit,null);
@@ -328,5 +377,7 @@ public class HomeFragment extends Fragment {
         }); // OnClickListener replace with lambda
         alertDialog.show();
     }
+
+     */
 
 }

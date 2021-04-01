@@ -17,123 +17,192 @@
         app:iconTint="@color/black"
         app:rippleColor="@color/black" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:text="Choose Payment Method"
-        android:textColor="@color/text_color_back"
-        android:textSize="20sp" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="15dp">
+        android:layout_height="430dp"
+        android:scrollbarSize="4dp"
+        android:layout_marginTop="-7dp"
+        android:scrollbarStyle="insideInset">
 
-        <RadioButton
-            android:id="@+id/bkash"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="bKash" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rocket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rocket"/>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:text="Choose Interest Method"
+                android:textColor="@color/text_color_back"
+                android:textSize="20sp" />
 
-        <RadioButton
-            android:id="@+id/nogod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nogod"/>
+            <RadioGroup
+                android:id="@+id/radioGroup2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="15dp">
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/sevenDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="1 Week -------> 15 TK" />
 
-    <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/lpay"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/fifteenDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15 Days -------> 50 TK" />
 
-        <TextView
-            android:textIsSelectable="true"
-            android:layout_marginStart="25dp"
-            android:id="@+id/merchantNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Merchant Number:"
-            android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/oneMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 Month -------> 100 TK" />
 
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/oneYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 Year -------> 150 TK" />
 
-    <LinearLayout
-        android:visibility="visible"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/FiveYears"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 Years -------> 250 TK" />
 
-        <EditText
-            android:textSize="16sp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="1dp"
-            android:inputType="number"
-            android:hint="How many tk you deposited"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/money" />
+            </RadioGroup>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:text="Choose Payment Method"
+                android:textColor="@color/text_color_back"
+                android:textSize="20sp" />
 
-    <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/lNum"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="15dp">
 
-        <EditText
-            android:textSize="16sp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="1dp"
-            android:inputType="number"
-            android:hint="Enter Number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/paymentNumber" />
+                <RadioButton
+                    android:id="@+id/bkash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="BKash" />
 
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/rocket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rocket" />
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:visibility="visible"
-        android:id="@+id/lID"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/nogod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nogod" />
 
-        <EditText
-            android:textSize="16sp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Transfer ID"
-            android:id="@+id/paymentID" />
+            </RadioGroup>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lpay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/merchantNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Merchant Number:"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="1dp"
+                    android:hint="How many tk you deposited"
+                    android:inputType="number"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/paymentNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="1dp"
+                    android:hint="Enter Number"
+                    android:inputType="number"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/paymentID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="Transfer ID"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:layout_width="150dp"
@@ -142,7 +211,7 @@
         android:text="ok"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="15dp"
         android:layout_gravity="center"
         android:id="@+id/done"/>

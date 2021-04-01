@@ -164,13 +164,32 @@
                     android:layout_height="200dp"
                     app:cardCornerRadius="25dp"
                     android:layout_marginStart="25dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="25dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/business_loan"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:cardCornerRadius="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="25dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:layout_gravity="center"
+                        android:text="Upcoming..."
+                        android:textColor="@color/balance_color"
+                        android:textSize="20sp" />
 
                 </com.google.android.material.card.MaterialCardView>
 
