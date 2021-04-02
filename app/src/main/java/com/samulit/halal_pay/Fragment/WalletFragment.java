@@ -259,10 +259,6 @@ public class WalletFragment extends Fragment {
                 SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
                 String saveCurrentTime = currentTime.format(calFordDate.getTime());
 
-                int currentBalance, total_deposit;
-                currentBalance = Integer.parseInt(usersCurrentBalance) + Integer.parseInt(Money);
-                total_deposit = Integer.parseInt(usersTotalBalance) + Integer.parseInt(Money);
-
                 Map reg = new HashMap();
                 reg.put("userName", userName);
                 reg.put("PaymentID", storePaymentID);
@@ -277,10 +273,6 @@ public class WalletFragment extends Fragment {
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
                 databaseReference.push().updateChildren(reg);
-
-                databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
-                databaseReference2.child("userTotalDepositBalance").setValue(String.valueOf(total_deposit));
-                databaseReference2.child("usesCurrentBalance").setValue(String.valueOf(currentBalance));
 
                 Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
 
@@ -357,10 +349,6 @@ public class WalletFragment extends Fragment {
                 SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
                 String saveCurrentTime = currentTime.format(calFordDate.getTime());
 
-                int currentBalance, total_Withdraw;
-                currentBalance = Integer.parseInt(usersCurrentBalance) - Integer.parseInt(storeMoney);
-                total_Withdraw = Integer.parseInt(storeMoney) + Integer.parseInt(userWithdrawBalance);
-
                 Map reg = new HashMap();
                 reg.put("userName", userName);
                 reg.put("withdrawMoney", storeMoney);
@@ -373,10 +361,6 @@ public class WalletFragment extends Fragment {
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
                 databaseReference.push().updateChildren(reg);
-
-                databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
-                databaseReference2.child("usesCurrentBalance").setValue(String.valueOf(currentBalance));
-                databaseReference2.child("TotalWithdraw").setValue(String.valueOf(total_Withdraw));
 
                 Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
 
