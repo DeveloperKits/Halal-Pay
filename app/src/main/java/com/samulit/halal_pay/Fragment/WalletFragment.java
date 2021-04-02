@@ -135,7 +135,7 @@ public class WalletFragment extends Fragment {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     private void deposit() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_deposit,null);
@@ -241,13 +241,13 @@ public class WalletFragment extends Fragment {
             StoreNumber = number.getText().toString();
             Money = money.getText().toString();
 
-            if (storePaymentID.equals(" ") || storePaymentID == null){
+            if (storePaymentID.equals(" ") || storePaymentID.equals("")){
                 paymentID.setError("Enter Yor Transfer ID");
                 paymentID.requestFocus();
             } else if (StoreNumber.length() != 11){
                 number.setError("Check your number");
                 number.requestFocus();
-            }else if (Money.equals(" ") || Money == null){
+            }else if (Money.equals(" ") || Money.equals("")){
                 number.setError("Enter valid Amount");
                 number.requestFocus();
             }else {
@@ -328,7 +328,7 @@ public class WalletFragment extends Fragment {
             storeMoney = money.getText().toString();
             StoreNumber = number.getText().toString();
 
-            if (storeMoney.equals(" ") || storeMoney == null){
+            if (storeMoney.equals(" ") || storeMoney.equals("")){
                 money.setError("Enter how much money");
                 money.requestFocus();
             }else if (Integer.parseInt(storeMoney) >= Integer.parseInt(usersCurrentBalance)){

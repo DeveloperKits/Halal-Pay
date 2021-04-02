@@ -163,7 +163,10 @@ public class HomeFragment extends Fragment {
             storeMoney = money.getText().toString();
             StoreNumber = number.getText().toString();
 
-            if (storeMoney.equals(" ") || storeMoney == null){
+            if (storeMoney.equals("")){
+                money.setError("Enter how much money");
+                money.requestFocus();
+            } else if (storeMoney.equals(" ")){
                 money.setError("Enter how much money");
                 money.requestFocus();
             }else if (Integer.parseInt(storeMoney) < 100 ){
