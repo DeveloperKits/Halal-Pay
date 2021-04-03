@@ -104,6 +104,16 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:onClick="Set_Help_Number"
+            android:text="Set Help Number"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button6"

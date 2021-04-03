@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +17,7 @@ import com.samulit.halal_pay.Adapter.SubCategoryAdapter;
 import com.samulit.halal_pay.Model.SubCategory;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DepositList extends AppCompatActivity {
 
@@ -24,6 +26,7 @@ public class DepositList extends AppCompatActivity {
     private SubCategoryAdapter subCategoryAdapter;
 
     private ArrayList<SubCategory> arrayList;
+    private String getIntentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public class DepositList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        getIntentType = getIntent().getStringExtra("Type");
 
         arrayList = new ArrayList<>();
         subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "DepositRequest");
@@ -49,9 +54,12 @@ public class DepositList extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        SubCategory category = ds.getValue(SubCategory.class);
-                        category.setUID(ds.getKey());
-                        arrayList.add(category);
+                        String InterestType = String.valueOf(ds.child("InterestType").getValue());
+                        if (InterestType.equals(getIntentType)) {
+                            SubCategory category = ds.getValue(SubCategory.class);
+                            Objects.requireNonNull(category).setUID(ds.getKey());
+                            arrayList.add(category);
+                        }
                     }
 
                 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".DepositTypeActivity">
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="DepositList"
+        android:backgroundTint="@color/black"
+        android:tag="OneWeek"
+        android:text="1 Week" />
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="DepositList"
+        android:backgroundTint="@color/black"
+        android:tag="FifteenDays"
+        android:text="15 Days" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="DepositList"
+        android:backgroundTint="@color/black"
+        android:tag="OneMonth"
+        android:text="1 Month" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="DepositList"
+        android:backgroundTint="@color/black"
+        android:tag="OneYear"
+        android:text="1 year" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:onClick="DepositList"
+        android:backgroundTint="@color/black"
+        android:tag="FiveYears"
+        android:text="5 years" />
+</LinearLayout>

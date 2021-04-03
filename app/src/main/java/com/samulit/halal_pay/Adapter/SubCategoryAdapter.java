@@ -3,6 +3,7 @@ package com.samulit.halal_pay.Adapter;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.samulit.halal_pay.DetailsActivity;
 import com.samulit.halal_pay.Model.SubCategory;
 import com.samulit.halal_pay.R;
 
@@ -73,7 +75,11 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         });
 
         holder.itemView.setOnClickListener(view -> {
-            Toast.makeText(pContext, "Click", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+            intent.putExtra("user_uid", category.getUID());
+            intent.putExtra("Type", type);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            pContext.startActivity(intent);
         });
     }
 

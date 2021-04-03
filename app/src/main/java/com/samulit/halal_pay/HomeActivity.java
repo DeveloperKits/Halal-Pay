@@ -9,9 +9,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void Deposit_List(View view) {
-        Intent intent = new Intent(HomeActivity.this, DepositList.class);
+        Intent intent = new Intent(HomeActivity.this, DepositTypeActivity.class);
         startActivity(intent);
     }
 
@@ -146,30 +148,38 @@ public class HomeActivity extends AppCompatActivity {
         final AlertDialog.Builder alert = new AlertDialog.Builder(HomeActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_edit_profile,null);
 
-        final EditText Year = mView.findViewById(R.id.email);
-        final EditText Month = mView.findViewById(R.id.name);
-        final EditText Week = mView.findViewById(R.id.age);
+        final EditText fiveYear = mView.findViewById(R.id.email);
+        final EditText oneYear = mView.findViewById(R.id.name);
+        final EditText oneMonth = mView.findViewById(R.id.age);
+        final EditText fifteenDays = mView.findViewById(R.id.fifteenDays);
+        final EditText oneWeek = mView.findViewById(R.id.week);
         final TextView enter1 = mView.findViewById(R.id.enter1);
         final TextView enter2 = mView.findViewById(R.id.enter2);
         final TextView enter3 = mView.findViewById(R.id.enter3);
+        final LinearLayout ll1 = mView.findViewById(R.id.ll1);
+        final LinearLayout ll2 = mView.findViewById(R.id.ll2);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
 
-        enter1.setText("Year:    ");
-        enter2.setText("Month:");
-        enter3.setText("Week: ");
-        Year.setHint("Yearly Interest");
-        Month.setHint("Monthly Interest");
-        Week.setHint("Weekly Interest");
+        ll1.setVisibility(View.VISIBLE);
+        ll2.setVisibility(View.VISIBLE);
+        enter1.setText("5 Years:    ");
+        enter2.setText("1 Year :     ");
+        enter3.setText("1 Month:   ");
+        fiveYear.setHint("Enter Interest...");
+        oneYear.setHint("Enter Interest...");
+        oneMonth.setHint("Enter Interest...");
 
         databaseReference = FirebaseDatabase.getInstance().getReference("InterestMoney");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Year.setText(snapshot.child("Year").getValue().toString());
-                    Month.setText(snapshot.child("Month").getValue().toString());
-                    Week.setText(snapshot.child("Week").getValue().toString());
+                    fiveYear.setText(snapshot.child("FiveYears").getValue().toString());
+                    oneYear.setText(snapshot.child("OneYear").getValue().toString());
+                    oneMonth.setText(snapshot.child("OneMonth").getValue().toString());
+                    fifteenDays.setText(snapshot.child("FifteenDays").getValue().toString());
+                    oneWeek.setText(snapshot.child("OneWeek").getValue().toString());
                 }
             }
 
@@ -188,14 +198,20 @@ public class HomeActivity extends AppCompatActivity {
             databaseReference = FirebaseDatabase.getInstance().getReference("InterestMoney");
             Map mer = new HashMap();
 
-            if (!Year.getText().toString().equals(" ")){
-                mer.put("Year", Year.getText().toString());
+            if (!fiveYear.getText().toString().equals(" ")){
+                mer.put("FiveYears", fiveYear.getText().toString());
             }
-            if (!Month.getText().toString().equals(" ")){
-                mer.put("Month", Month.getText().toString());
+            if (!oneYear.getText().toString().equals(" ")){
+                mer.put("OneYear", oneYear.getText().toString());
             }
-            if (!Week.getText().toString().equals(" ")){
-                mer.put("Week", Week.getText().toString());
+            if (!oneMonth.getText().toString().equals(" ")){
+                mer.put("OneMonth", oneMonth.getText().toString());
+            }
+            if (!fifteenDays.getText().toString().equals(" ")){
+                mer.put("FifteenDays", fifteenDays.getText().toString());
+            }
+            if (!oneWeek.getText().toString().equals(" ")){
+                mer.put("OneWeek", oneWeek.getText().toString());
             }
 
             databaseReference.updateChildren(mer);
@@ -205,5 +221,32 @@ public class HomeActivity extends AppCompatActivity {
 
         }); // OnClickListener replace with lambda
         alertDialog.show();
+    }
+
+    public void Set_Help_Number(View view) {
+        final EditText input = new EditText(this);
+        input.setHint("Enter Mobile Number...");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Set Help Number");
+        alert.setView(input);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("Done", (dialogInterface, i) -> {
+            String number = input.getText().toString();
+
+            databaseReference = FirebaseDatabase.getInstance().getReference("HelpNumber");
+            databaseReference.child("number").setValue(number);
+
+            Toast.makeText(this, "Successfully done!", Toast.LENGTH_LONG).show();
+
+        });
+
+        alert.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            // Nothing
+        });
+
+        alert.show();
     }
 }
