@@ -240,6 +240,8 @@ public class LoginActivity extends AppCompatActivity {
         reg.put("userTotalDepositBalance", "0");
         reg.put("TotalWithdraw", "0");
         reg.put("WeekMonthYear", " ");
+        reg.put("Interest", " ");
+        reg.put("InterestMoney", " ");
         reg.put("usesCurrentBalance", "0");
         reg.put("HowManyTimeDeposit", "0");
         reg.put("userMembershipTime", saveCurrentTime);

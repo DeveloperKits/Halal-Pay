@@ -213,19 +213,19 @@ public class WalletFragment extends Fragment {
         radioGroup2.setOnCheckedChangeListener((radioGroup1, i) -> {
             switch(i) {
                 case R.id.sevenDays:
-                    InterestType = "1 Week";
+                    InterestType = "OneWeek";
                     break;
                 case R.id.fifteenDays:
-                    InterestType = "15 Days";
+                    InterestType = "FifteenDays";
                     break;
                 case R.id.oneMonth:
-                    InterestType = "1 Month";
+                    InterestType = "OneMonth";
                     break;
                 case R.id.oneYear:
-                    InterestType = "1 Year";
+                    InterestType = "OneYear";
                     break;
                 case R.id.FiveYears:
-                    InterestType = "5 years";
+                    InterestType = "FiveYears";
                     break;
             }
         });
