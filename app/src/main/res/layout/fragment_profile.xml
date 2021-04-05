@@ -176,10 +176,12 @@
             android:fontFamily="sans-serif"
             app:rippleColor="@color/white"
             app:strokeColor="@color/white"
+            android:elevation="0dp"
             android:text="Edit"
             android:textSize="16dp"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            tools:targetApi="lollipop" />
 
     </LinearLayout>
 

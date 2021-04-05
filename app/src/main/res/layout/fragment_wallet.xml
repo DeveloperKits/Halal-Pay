@@ -31,7 +31,7 @@
             android:paddingHorizontal="6dp"
             android:paddingVertical="1dp"
             android:textColor="@color/text_color_back"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/month"
@@ -44,7 +44,7 @@
             android:paddingVertical="1dp"
             android:text="Month"
             android:textColor="@color/text_color_back"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/year"
@@ -58,7 +58,7 @@
             android:fontFamily="sans-serif-condensed"
             android:text="Year"
             android:textColor="@color/text_color_back"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
 
         <LinearLayout
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="50dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -182,11 +182,42 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/InterestText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="15dp"
+                    android:text="Interst Money"
+                    android:visibility="gone"
+                    android:textColor="@color/text_color_back"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/InterestMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="00dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/loading"
+                    android:visibility="gone"
+                    android:textColor="@color/balance_color"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/Note"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -39,13 +39,13 @@ import java.util.Map;
 public class WalletFragment extends Fragment {
     private MaterialCardView Deposit, Withdraw;
     private ImageView Profile_Image;
-    private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year;
+    private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney, InterestTest;
 
     private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
     private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance,
-            usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType;
+            usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType, interest_money;
 
 
     public WalletFragment() {
@@ -68,6 +68,8 @@ public class WalletFragment extends Fragment {
         TotalBalance = view.findViewById(R.id.Total_Balance);
         Available_balance = view.findViewById(R.id.available);
         Withdraw_Balance = view.findViewById(R.id.withdraw);
+        InterestMoney = view.findViewById(R.id.InterestMoney);
+        InterestTest = view.findViewById(R.id.InterestText);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -84,6 +86,7 @@ public class WalletFragment extends Fragment {
                         usersTotalBalance = snapshot.child("userTotalDepositBalance").getValue().toString();
                         userWithdrawBalance = snapshot.child("TotalWithdraw").getValue().toString();
                         WeekMonthYear = snapshot.child("WeekMonthYear").getValue().toString();
+                        interest_money = snapshot.child("InterestMoney").getValue().toString();
 
                         UserName.setText(userName);
                         Available_balance.setText(usersCurrentBalance + " BDT");
@@ -94,6 +97,12 @@ public class WalletFragment extends Fragment {
                             Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);
                         }else {
                             Picasso.get().load(R.drawable.prodile_pic2).fit().centerInside().into(Profile_Image);
+                        }
+
+                        if (!interest_money.equals(" ")){
+                            InterestMoney.setText(interest_money + " BDT");
+                            InterestMoney.setVisibility(View.VISIBLE);
+                            InterestTest.setVisibility(View.VISIBLE);
                         }
 
                         if (!WeekMonthYear.equals(" ")){

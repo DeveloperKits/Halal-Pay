@@ -5,12 +5,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.pdf.PdfDocument;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -23,11 +28,16 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private WalletFragment walletFragment;
@@ -35,7 +45,11 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private TextView PageName;
     private Button Back;
+    private DatabaseReference update;
 
+    private boolean isConnectWithInternet = false;
+
+    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,38 +66,30 @@ public class HomeActivity extends AppCompatActivity {
 
         setFragment(homeFragment);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.home :
-                        setFragment(homeFragment);
-                        PageName.setText("Home");
-                        return true;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.home :
+                    setFragment(homeFragment);
+                    PageName.setText("Home");
+                    return true;
 
-                    case R.id.wallet :
-                        setFragment(walletFragment);
-                        PageName.setText("Wallet");
-                        return true;
+                case R.id.wallet :
+                    setFragment(walletFragment);
+                    PageName.setText("Wallet");
+                    return true;
 
-                    case R.id.profile :
-                        setFragment(profileFragment);
-                        PageName.setText("Profile");
-                        return true;
+                case R.id.profile :
+                    setFragment(profileFragment);
+                    PageName.setText("Profile");
+                    return true;
 
-                    default:
-                        return false;
-                }
+                default:
+                    return false;
             }
         });
 
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        Back.setOnClickListener(view -> onBackPressed());
+
     }
 
     private void setFragment(Fragment fragment) {
@@ -114,12 +120,15 @@ public class HomeActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                //Toast.makeText(HomeActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
 
                 if (menuItem.getTitle().equals("Signout")){
                     Sign_Out();
+                }else if (menuItem.getTitle().equals("About Us")){
+                    Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+                    startActivity(intent);
                 }
                 return true;
+
             }
         });
         popupMenu.show();
@@ -132,34 +141,87 @@ public class HomeActivity extends AppCompatActivity {
 
         builder1.setPositiveButton(
                 "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        progressDialog.show();
-                        progressDialog.setMessage("Signing Out...");
+                (dialog, id) -> {
+                    dialog.cancel();
+                    progressDialog.show();
+                    progressDialog.setMessage("Signing Out...");
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                FirebaseAuth.getInstance().signOut();
-                                progressDialog.dismiss();
-                                HomeActivity.this.finishAffinity();
-                                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                            }
-                        },1500);
-                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            FirebaseAuth.getInstance().signOut();
+                            progressDialog.dismiss();
+                            HomeActivity.this.finishAffinity();
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        }
+                    },1500);
                 });
 
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        builder1.setNegativeButton("No", (dialog, id) -> dialog.cancel());
 
         android.app.AlertDialog alert11 = builder1.create();
         alert11.show();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkAutoUpdate();
+    }
+
+    private void checkAutoUpdate() {
+        //Check Auto Update
+        update = FirebaseDatabase.getInstance().getReference("CheckUpdate");
+        update.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+
+                    String version = dataSnapshot.child("version").getValue().toString();
+                    String url = dataSnapshot.child("url").getValue(String.class);
+
+                    String VersionName = BuildConfig.VERSION_NAME;
+
+                    if (!version.equals(VersionName)) {
+
+                        if (check_again_Internet_connection(HomeActivity.this)) {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                            builder.setTitle("New Version Available");
+                            builder.setIcon(R.drawable.halalpay_logo);
+                            builder.setCancelable(false);
+                            builder.setMessage("Update Halal Pay For Better Experience")
+                                    .setPositiveButton("UPDATE", (dialog, which) -> {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse(url));
+                                        startActivity(intent);
+                                        finish();
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean check_again_Internet_connection(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        isConnectWithInternet = netInfo != null && netInfo.isConnectedOrConnecting();
+        return isConnectWithInternet;
+    }
+
 }

@@ -3,5 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_key" translatable="false">17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com</string>
-    <string name="loading">Loading...</string>
+
+    <string name="loading">Loading…</string>
+    <string name="Note">**Note : Interest money will be added to your balance after a specified time.</string>
 </resources>
