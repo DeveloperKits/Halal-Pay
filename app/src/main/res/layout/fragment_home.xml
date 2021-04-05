@@ -70,10 +70,19 @@
                                 android:textSize="18sp" />
 
                             <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:layout_marginTop="15dp"
+                                android:text="Available Balance"
+                                android:textColor="@color/text_color_back"
+                                android:textSize="12sp" />
+
+                            <TextView
                                 android:id="@+id/UserBalance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
+                                android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="1000.25 BDT"
                                 android:textColor="@color/balance_color"
@@ -162,6 +171,8 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="40dp"
+                        android:textColor="@color/black"
+                        android:alpha="0.5"
                         android:text="For poor people"
                         android:textSize="18sp" />
 
