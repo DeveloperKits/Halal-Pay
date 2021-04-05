@@ -251,8 +251,28 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            progressDialog.show();
+                            progressDialog.setMessage("Wait Some moment...");
+                            progressDialog.setCanceledOnTouchOutside(false);
+                            progressDialog.show();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            Save_user_data_save_on_firebase(user.getDisplayName(), user.getEmail(), user.getPhoneNumber(), user.getUid(), String.valueOf(user.getPhotoUrl()));
+                            databaseReference.child("UserData").child(user.getUid().toString()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()){
+                                        progressDialog.dismiss();
+                                        startActivity(new Intent(RegistrationActivity.this, HomeActivity.class));
+                                    }else{
+                                        Save_user_data_save_on_firebase(user.getDisplayName(), user.getEmail(), user.getPhoneNumber(), user.getUid(), String.valueOf(user.getPhotoUrl()));
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
                         } else {
                             Toast.makeText(RegistrationActivity.this, "Sorry authentication failed.", Toast.LENGTH_SHORT).show();
                         }

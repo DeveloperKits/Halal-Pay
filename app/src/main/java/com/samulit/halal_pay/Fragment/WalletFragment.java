@@ -39,13 +39,15 @@ import java.util.Map;
 public class WalletFragment extends Fragment {
     private MaterialCardView Deposit, Withdraw;
     private ImageView Profile_Image;
-    private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney, InterestTest;
+    private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney,
+            InterestTest, SevenDays, FifteenDays, OneYear, FiveYears, OneMonth;
 
     private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
     private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance,
-            usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType, interest_money;
+            usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType,
+            interest_money, SevenDays_St, OneMonth_st, FifteenDays_st, OneYear_st, FiveYears_st;
 
 
     public WalletFragment() {
@@ -138,6 +140,25 @@ public class WalletFragment extends Fragment {
                     deposit();
                 }
             });
+
+            databaseReference2 = FirebaseDatabase.getInstance().getReference("InterestMoney");
+            databaseReference2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        SevenDays_St = String.valueOf(snapshot.child("OneWeek").getValue());
+                        FifteenDays_st = String.valueOf(snapshot.child("FifteenDays").getValue());
+                        OneMonth_st = String.valueOf(snapshot.child("OneMonth").getValue());
+                        OneYear_st = String.valueOf(snapshot.child("OneYear").getValue());
+                        FiveYears_st = String.valueOf(snapshot.child("FiveYears").getValue());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         return view;
@@ -157,8 +178,18 @@ public class WalletFragment extends Fragment {
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
         RadioGroup radioGroup2 = mView.findViewById(R.id.radioGroup2);
+        SevenDays = mView.findViewById(R.id.sevenDays);
+        FifteenDays = mView.findViewById(R.id.fifteenDays);
+        OneMonth = mView.findViewById(R.id.oneMonth);
+        OneYear = mView.findViewById(R.id.oneYear);
+        FiveYears = mView.findViewById(R.id.FiveYears);
 
         number.setHint("Your Bkash Number");
+        SevenDays.setText("1 Week   -------> " + SevenDays_St + "%");
+        FifteenDays.setText("15 Days  -------> " + FifteenDays_st + "%");
+        OneMonth.setText("1 Month -------> " + OneMonth_st + "%");
+        OneYear.setText("1 Year    -------> " + OneYear_st + "%");
+        FiveYears.setText("5 Years -------> " + FiveYears_st + "%");
         Transfer_Type = "Bkash";
         InterestType = "1 Week";
 
@@ -294,6 +325,7 @@ public class WalletFragment extends Fragment {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     private void withdraw() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box,null);
@@ -305,25 +337,21 @@ public class WalletFragment extends Fragment {
 
         withdraw_Type = "Bkash";
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch(i) {
-                    case R.id.bkash:
-                        withdraw_Type = "Bkash";
-                        number.setHint("Enter your bkash number...");
-                        break;
-                    case R.id.rocket:
-                        withdraw_Type = "Rocket";
-                        number.setHint("Enter your rocket number...");
-                        break;
-                    case R.id.nogod:
-                        withdraw_Type = "Nogod";
-                        number.setHint("Enter your nogod number...");
-                        break;
+        radioGroup.setOnCheckedChangeListener((radioGroup1, i) -> {
+            switch(i) {
+                case R.id.bkash:
+                    withdraw_Type = "Bkash";
+                    number.setHint("Enter your bkash number...");
+                    break;
+                case R.id.rocket:
+                    withdraw_Type = "Rocket";
+                    number.setHint("Enter your rocket number...");
+                    break;
+                case R.id.nogod:
+                    withdraw_Type = "Nogod";
+                    number.setHint("Enter your nogod number...");
+                    break;
 
-                }
             }
         });
 
@@ -340,10 +368,10 @@ public class WalletFragment extends Fragment {
             if (storeMoney.equals(" ") || storeMoney.equals("")){
                 money.setError("Enter how much money");
                 money.requestFocus();
-            }else if (Integer.parseInt(storeMoney) >= Integer.parseInt(usersCurrentBalance)){
+            }else if (Double.parseDouble(storeMoney) >= Double.parseDouble(usersCurrentBalance)){
                 money.setError("Reduce the amount of your money a bit");
                 money.requestFocus();
-            }else if (Integer.parseInt(storeMoney) < 30 ){
+            }else if (Double.parseDouble(storeMoney) < 30 ){
                 money.setError("There will be more than 30 inputs");
                 money.requestFocus();
             } else if (StoreNumber.length() != 11){

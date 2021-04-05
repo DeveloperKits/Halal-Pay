@@ -53,31 +53,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="1 Week  -------> 15 TK" />
+                    android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/fifteenDays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="15 Days -------> 50 TK" />
+                    android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/oneMonth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1 Month -------> 100 TK" />
+                    android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/oneYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1 Year -------> 150 TK" />
+                    android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/FiveYears"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="5 Years -------> 250 TK" />
+                    android:text="@string/loading" />
 
             </RadioGroup>
 

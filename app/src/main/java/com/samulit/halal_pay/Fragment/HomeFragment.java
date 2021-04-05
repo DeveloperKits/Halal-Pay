@@ -220,25 +220,29 @@ public class HomeFragment extends Fragment {
         alert.setPositiveButton("Done", (dialogInterface, i) -> {
             String money = input.getText().toString();
 
-            Calendar calFordDate = Calendar.getInstance();
-            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-            String saveCurrentDate = currentDate.format(calFordDate.getTime());
+            if (Double.parseDouble(usersCurrentBalance) > Double.parseDouble(money)) {
+                Calendar calFordDate = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                String saveCurrentDate = currentDate.format(calFordDate.getTime());
 
-            SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
-            String saveCurrentTime = currentTime.format(calFordDate.getTime());
+                SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                String saveCurrentTime = currentTime.format(calFordDate.getTime());
 
-            Map reg = new HashMap();
-            reg.put("userName", userName);
-            reg.put("userUID", UserID);
-            reg.put("Date", saveCurrentDate);
-            reg.put("Time", saveCurrentTime);
-            reg.put("status", "pending...");
-            reg.put("DonationAmount", money);
+                Map reg = new HashMap();
+                reg.put("userName", userName);
+                reg.put("userUID", UserID);
+                reg.put("Date", saveCurrentDate);
+                reg.put("Time", saveCurrentTime);
+                reg.put("status", "pending...");
+                reg.put("DonationAmount", money);
 
-            databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
-            databaseReference.push().updateChildren(reg);
+                databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
+                databaseReference.push().updateChildren(reg);
 
-            Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(getContext(), "Failed! check you current balance.", Toast.LENGTH_LONG).show();
+            }
 
         });
 
