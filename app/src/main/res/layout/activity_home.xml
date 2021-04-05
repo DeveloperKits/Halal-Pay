@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.samulit.halal_pay.HomeActivity">
+    tools:context="com.samulit.halal_pay_admin_panel.HomeActivity">
 
 
     <TextView
@@ -122,6 +122,17 @@
             android:backgroundTint="@color/white"
             android:onClick="Set_User_Type_Interest"
             android:text="Set User Type Interest"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:onClick="Set_About_Us"
+            android:text="Set About Us Text"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp" />

@@ -8,13 +8,17 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.samulit.halal_pay"
+        applicationId "com.samulit.halal_pay_admin_panel"
         minSdkVersion 18
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
     }
 
     buildTypes {
