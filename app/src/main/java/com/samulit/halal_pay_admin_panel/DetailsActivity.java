@@ -299,8 +299,8 @@ public class DetailsActivity extends AppCompatActivity {
 
                     TotalAmount_int = Double.parseDouble(TotalAmount);
                     Amount_int = Double.parseDouble(Amount);
-                    TotalWithdraw_int = Double.parseDouble(TotalWithdraw);
-                    TotalDeposit_int = Double.parseDouble(userTotalDepositBalance);
+                    //TotalWithdraw_int = Double.parseDouble(TotalWithdraw);
+                    //TotalDeposit_int = Double.parseDouble(userTotalDepositBalance);
 
                     // Check getIntentType......................................................
                     if (getIntentType.equals("DepositRequest")){
