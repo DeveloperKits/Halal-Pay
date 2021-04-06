@@ -113,9 +113,6 @@ public class WalletFragment extends Fragment {
                             InterestTest.setVisibility(View.VISIBLE);
                         }
 
-                        if (!interest_money.equals("0.0") || !interest_money.equals(" ") || !interest_money.equals("0")){
-                            Hint.setVisibility(View.GONE);
-                        }
 
                         if (!WeekMonthYear.equals(" ")){
                             if (WeekMonthYear.equals("Week")) {
