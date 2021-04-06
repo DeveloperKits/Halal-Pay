@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "17875612148",
+    "firebase_url": "https://e-pay-e9e29-default-rtdb.firebaseio.com",
     "project_id": "e-pay-e9e29",
     "storage_bucket": "e-pay-e9e29.appspot.com"
   },
@@ -13,6 +14,67 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "17875612148-07jppghvlb295sp08vmagho059bqphfm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samulit.halal_pay",
+            "certificate_hash": "a1d28495c3a474cb6c3ed2d43f56da8f9ee03c67"
+          }
+        },
+        {
+          "client_id": "17875612148-ht5ms2556mt5rklh5878prlttne44np3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samulit.halal_pay",
+            "certificate_hash": "eee4f9ddbe92dd85f5d17087729f593a1a1d5670"
+          }
+        },
+        {
+          "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIAqX6bkUCuo790Pt8DCFO_fguTRdHVm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17875612148:android:1f49b26ef1d2231c96c9a1",
+        "android_client_info": {
+          "package_name": "com.samulit.halal_pay_admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17875612148-da0qlmv111iq113plolbheajibsr12n3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samulit.halal_pay_admin_panel",
+            "certificate_hash": "eee4f9ddbe92dd85f5d17087729f593a1a1d5670"
+          }
+        },
+        {
+          "client_id": "17875612148-dus0n9v6qv2qatrjjevr5qvqcijqhi1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samulit.halal_pay_admin_panel",
+            "certificate_hash": "9ecf0d0414fae19127d1f2dfd353a6fe1dafebd3"
+          }
+        },
         {
           "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
           "client_type": 3
