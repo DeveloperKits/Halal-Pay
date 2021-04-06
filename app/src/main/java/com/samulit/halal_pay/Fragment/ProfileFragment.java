@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
     private TextView UserName, UserEmail, UserPassword, UserAge, UserPhone, Help_Number, Month, Year;
     private ProgressDialog progressDialog;
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
     StorageReference storageReference;
     StorageTask storageTask;
@@ -149,6 +149,21 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
+            databaseReference2 = FirebaseDatabase.getInstance().getReference("HelpNumber").child("number");
+            databaseReference2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        Help_Number.setText(String.valueOf(snapshot.getValue()));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
             Edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -223,12 +238,8 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getActivity(), "Update Successfully!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            }).addOnFailureListener(e -> Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show());
+
         }else {
             Toast.makeText(getActivity(), "Select An Image", Toast.LENGTH_SHORT).show();
         }

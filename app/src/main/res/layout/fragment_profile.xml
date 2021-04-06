@@ -164,7 +164,6 @@
             android:textColor="@color/white"
             android:textSize="14sp"/>
 
-
         <Button
             android:id="@+id/edit"
             style="?attr/materialButtonOutlinedStyle"

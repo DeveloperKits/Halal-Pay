@@ -189,7 +189,7 @@ public class WalletFragment extends Fragment {
         FifteenDays.setText("15 Days  -------> " + FifteenDays_st + "%");
         OneMonth.setText("1 Month -------> " + OneMonth_st + "%");
         OneYear.setText("1 Year    -------> " + OneYear_st + "%");
-        FiveYears.setText("5 Years -------> " + FiveYears_st + "%");
+        FiveYears.setText("5 Years  -------> " + FiveYears_st + "%");
         Transfer_Type = "Bkash";
         InterestType = "1 Week";
 
