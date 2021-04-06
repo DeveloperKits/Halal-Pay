@@ -108,7 +108,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="sans-serif-black"
                     android:layout_marginTop="10dp"
-                    android:text="Total"
+                    android:text="Total Deposit"
                     android:textColor="@color/text_color_back"
                     android:textSize="14sp" />
 
