@@ -40,7 +40,7 @@ public class WalletFragment extends Fragment {
     private MaterialCardView Deposit, Withdraw;
     private ImageView Profile_Image;
     private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney,
-            InterestTest, SevenDays, FifteenDays, OneYear, FiveYears, OneMonth;
+            InterestTest, SevenDays, FifteenDays, OneYear, FiveYears, OneMonth, Hint;
 
     private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
@@ -72,6 +72,7 @@ public class WalletFragment extends Fragment {
         Withdraw_Balance = view.findViewById(R.id.withdraw);
         InterestMoney = view.findViewById(R.id.InterestMoney);
         InterestTest = view.findViewById(R.id.InterestText);
+        Hint = view.findViewById(R.id.hint);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -105,6 +106,15 @@ public class WalletFragment extends Fragment {
                             InterestMoney.setText(interest_money + " BDT");
                             InterestMoney.setVisibility(View.VISIBLE);
                             InterestTest.setVisibility(View.VISIBLE);
+                        }else {
+                            Hint.setVisibility(View.VISIBLE);
+                            InterestMoney.setText( "0 BDT");
+                            InterestMoney.setVisibility(View.VISIBLE);
+                            InterestTest.setVisibility(View.VISIBLE);
+                        }
+
+                        if (!interest_money.equals("0.0") || !interest_money.equals(" ") || !interest_money.equals("0")){
+                            Hint.setVisibility(View.GONE);
                         }
 
                         if (!WeekMonthYear.equals(" ")){

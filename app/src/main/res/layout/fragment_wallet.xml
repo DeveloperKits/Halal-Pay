@@ -211,11 +211,13 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
+        android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/Note"
         android:textColor="@color/white"
+        android:visibility="visible"
         android:textSize="10sp"
         tools:ignore="SmallSp" />
 
