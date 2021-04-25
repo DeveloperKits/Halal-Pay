@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -42,7 +44,7 @@ public class HomeFragment extends Fragment {
     private ImageView Profile_Image;
     private TextView UserName, UserBalance, UserPercentage, Percentage_Day, Invisible_Text;
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
     String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, Transfer_Type, bkash_mer, rocket_mer, nogod_mer, LoanType, interest;
@@ -68,9 +70,39 @@ public class HomeFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        /*Profile_card.setOnClickListener(view12 -> {
+            WalletFragment walletFragment = new WalletFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.full_frame, walletFragment);
+            fragmentTransaction.commit();
+        });*/
+
         if (firebaseUser != null){
             UserID = firebaseUser.getUid();
             databaseReference = FirebaseDatabase.getInstance().getReference("UserData").child(firebaseUser.getUid());
+            databaseReference2 = FirebaseDatabase.getInstance().getReference("ImageHome");
+
+            databaseReference2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String donationImage = String.valueOf(snapshot.child("donationImage").getValue());
+                    String businessImage = String.valueOf(snapshot.child("businessImage").getValue());
+
+                    if (!donationImage.equals(" ")){
+                        Donation.setBackgroundDrawable(Drawable.createFromPath(donationImage));
+                    }
+
+                    if (!businessImage.equals(" ")){
+                        Business_Loan.setBackgroundDrawable(Drawable.createFromPath(businessImage));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override

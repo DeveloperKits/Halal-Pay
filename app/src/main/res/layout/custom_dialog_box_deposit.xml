@@ -52,19 +52,21 @@
                     android:id="@+id/sevenDays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:visibility="gone"
                     android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/fifteenDays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/oneMonth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/loading" />
 
                 <RadioButton

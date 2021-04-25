@@ -10,14 +10,12 @@ import androidx.lifecycle.LifecycleOwner;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -26,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -100,11 +99,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
     public void onBackPressed() {
         AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
                 .setMessage("Are you sure! You want to exit this app?")
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
+                .setPositiveButton("yes", (dialogInterface, i) -> {
+                    FirebaseAuth.getInstance().signOut();
+                    finishAffinity();
                 })
                 .setNegativeButton("no", null)
                 .create();
@@ -115,19 +112,16 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
         PopupMenu popupMenu = new PopupMenu(HomeActivity.this, findViewById(R.id.popUpMenu));
 
         popupMenu.getMenuInflater().inflate(R.menu.drawer_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
 
-                if (menuItem.getTitle().equals("Signout")){
-                    Sign_Out();
-                }else if (menuItem.getTitle().equals("About Us")){
-                    Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
-                    startActivity(intent);
-                }
-                return true;
-
+            if (menuItem.getTitle().equals("Signout")){
+                Sign_Out();
+            }else if (menuItem.getTitle().equals("About Us")){
+                Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+                startActivity(intent);
             }
+            return true;
+
         });
         popupMenu.show();
     }
@@ -144,14 +138,11 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
                     progressDialog.show();
                     progressDialog.setMessage("Signing Out...");
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            FirebaseAuth.getInstance().signOut();
-                            progressDialog.dismiss();
-                            HomeActivity.this.finishAffinity();
-                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                        }
+                    new Handler().postDelayed(() -> {
+                        FirebaseAuth.getInstance().signOut();
+                        progressDialog.dismiss();
+                        HomeActivity.this.finishAffinity();
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     },1500);
                 });
 
@@ -166,7 +157,18 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
     protected void onStart() {
         super.onStart();
         checkAutoUpdate();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null){
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().signOut();
+    }
+
 
     private void checkAutoUpdate() {
         //Check Auto Update
@@ -201,6 +203,8 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
                             AlertDialog alert = builder.create();
                             alert.show();
 
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -210,7 +214,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
             }
         });
     }

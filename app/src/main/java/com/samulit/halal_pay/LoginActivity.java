@@ -165,6 +165,11 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+                progressDialog.show();
+                progressDialog.setMessage("Logging in...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -180,10 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            progressDialog.show();
-                            progressDialog.setMessage("Logging in...");
-                            progressDialog.setCanceledOnTouchOutside(false);
-                            progressDialog.show();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             databaseReference.child("UserData").child(user.getUid().toString()).addValueEventListener(new ValueEventListener() {
                                 @Override
