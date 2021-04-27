@@ -8,8 +8,10 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +19,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +44,14 @@ public class HomeActivity extends AppCompatActivity {
     private TextView PageName;
     private Button Back;
     private DatabaseReference databaseReference, databaseReference2;
+    private Uri resultUri, contentURI;
+    StorageReference storageReference;
+    StorageTask storageTask;
+    StorageReference fileReference;
+
+    private String imageUri;
+    private static final int PICK_FROM_GALLERY = 1;
+    private int check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +61,14 @@ public class HomeActivity extends AppCompatActivity {
         PageName = findViewById(R.id.pageName);
         Back = findViewById(R.id.back);
 
+        storageReference = FirebaseStorage.getInstance().getReference("ImageHome");
+
         progressDialog = new ProgressDialog(HomeActivity.this);
 
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        Back.setOnClickListener(view -> onBackPressed());
+
+        FirebaseAuth.getInstance().signInAnonymously();
+
     }
 
 
@@ -291,4 +310,90 @@ public class HomeActivity extends AppCompatActivity {
 
         alert.show();
     }
+
+    public void donationImage(View view) {
+        check = 1;
+        Change_Profile_Image();
+    }
+
+    public void BusinessImage(View view) {
+        check = 2;
+        Change_Profile_Image();
+    }
+
+    // Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    private void Change_Profile_Image() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_FROM_GALLERY);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_FROM_GALLERY
+                && resultCode == RESULT_OK && data.getData() != null) {
+
+            contentURI = data.getData();
+
+            CropImage.activity(contentURI).start(this);
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                resultUri = result.getUri();
+
+                SaveImageOnFirebaseStorage();
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+    }
+
+    private void SaveImageOnFirebaseStorage() {
+
+        if (resultUri!= null) {
+            progressDialog.setMessage("Updating Profile Picture");
+            progressDialog.show();
+            progressDialog.setCanceledOnTouchOutside(false);
+
+            databaseReference2 = FirebaseDatabase.getInstance().getReference("ImageHome");
+            if (PICK_FROM_GALLERY == 1) {
+                fileReference = storageReference.child("donationImage");
+            }else {
+                fileReference = storageReference.child("businessImage");
+            }
+
+            storageTask = fileReference.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!urlTask.isSuccessful());
+                    Uri uri = urlTask.getResult();
+                    imageUri = uri.toString();
+
+                    if (check == 1) {
+                        databaseReference2.child("donationImage").setValue(imageUri);
+                    }else {
+                        databaseReference2.child("businessImage").setValue(imageUri);
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Update Successfully!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i("Error", e.getMessage());
+                progressDialog.dismiss();
+            });
+
+        }else {
+            Toast.makeText(getApplicationContext(), "Select An Image", Toast.LENGTH_SHORT).show();
+        }
+    }
+    // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 }
