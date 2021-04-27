@@ -45,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.samulit.halal_pay.ChangeImageActivity;
 import com.samulit.halal_pay.R;
 import com.samulit.halal_pay.RegistrationActivity;
 import com.squareup.picasso.Picasso;
@@ -176,7 +177,9 @@ public class ProfileFragment extends Fragment {
             Change_Profile_Image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Change_Profile_Image();
+                    //Change_Profile_Image();
+                    Intent intent = new Intent(getContext(), ChangeImageActivity.class);
+                    startActivity(intent);
                 }
             });
         }
@@ -184,6 +187,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /*
     // Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     private void Change_Profile_Image() {
         Intent intent = new Intent();
@@ -245,7 +249,7 @@ public class ProfileFragment extends Fragment {
         }
     }
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+*/
 
 
     // When Click Edit Button

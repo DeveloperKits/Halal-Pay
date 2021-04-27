@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -34,7 +35,10 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
-public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private WalletFragment walletFragment;
@@ -43,6 +47,10 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
     private TextView PageName;
     private Button Back;
     private DatabaseReference update;
+
+    private static String TAG = "HomeActivity";
+    private Handler handler;
+    private Runnable r;
 
     private boolean isConnectWithInternet = false;
 
@@ -166,7 +174,11 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner {
     @Override
     protected void onStop() {
         super.onStop();
-        FirebaseAuth.getInstance().signOut();
+
+        new Handler().postDelayed(() -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        },2*70*1000);
     }
 
 

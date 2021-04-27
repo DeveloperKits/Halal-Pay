@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,16 +39,21 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.samulit.halal_pay.R.drawable.business_loan;
+import static com.samulit.halal_pay.R.drawable.donation;
+import static com.samulit.halal_pay.R.drawable.loading_gif__;
+
 
 public class HomeFragment extends Fragment {
     private MaterialCardView Donation, Business_Loan, Profile_card;
-    private ImageView Profile_Image;
+    private ImageView Profile_Image, Image_Donation, Image_Business;
     private TextView UserName, UserBalance, UserPercentage, Percentage_Day, Invisible_Text;
+    private RelativeLayout DonationImage, BusinessImage;
 
     private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
-    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, Transfer_Type, bkash_mer, rocket_mer, nogod_mer, LoanType, interest;
+    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, LoanType, interest;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -67,6 +73,10 @@ public class HomeFragment extends Fragment {
         UserPercentage = view.findViewById(R.id.UserPercentage);
         Percentage_Day = view.findViewById(R.id.percentage_day);
         Invisible_Text = view.findViewById(R.id.invisible);
+        DonationImage = view.findViewById(R.id.donationImage);
+        BusinessImage = view.findViewById(R.id.businessImage);
+        Image_Donation = view.findViewById(R.id.Image_Donation);
+        Image_Business = view.findViewById(R.id.Image_Business);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -89,11 +99,15 @@ public class HomeFragment extends Fragment {
                     String businessImage = String.valueOf(snapshot.child("businessImage").getValue());
 
                     if (!donationImage.equals(" ")){
-                        Donation.setBackgroundDrawable(Drawable.createFromPath(donationImage));
+                        Picasso.get().load(donationImage).fit().centerInside().placeholder(loading_gif__).into(Image_Donation);
+                    }else {
+                        DonationImage.setBackgroundResource(donation);
                     }
 
                     if (!businessImage.equals(" ")){
-                        Business_Loan.setBackgroundDrawable(Drawable.createFromPath(businessImage));
+                        Picasso.get().load(businessImage).fit().centerInside().into(Image_Business);
+                    }else {
+                        BusinessImage.setBackgroundResource(business_loan);
                     }
                 }
 
