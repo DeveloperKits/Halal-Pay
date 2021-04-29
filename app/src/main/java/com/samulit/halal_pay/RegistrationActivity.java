@@ -10,11 +10,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.method.SingleLineTransformationMethod;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -328,6 +325,10 @@ public class RegistrationActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 
     // Check Internet Connection
     private boolean isNetworkAvaliable(RegistrationActivity registrationActivity) {

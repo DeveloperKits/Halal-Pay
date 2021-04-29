@@ -14,8 +14,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samulit.halal_pay.Fragment.HomeFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,12 +50,11 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialCardView google_login;
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private ProgressDialog progressDialog;
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
-    private String user_id, name, email, number, password;
+    private String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,5 +298,10 @@ public class LoginActivity extends AppCompatActivity {
                 .create();
         dialog.show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

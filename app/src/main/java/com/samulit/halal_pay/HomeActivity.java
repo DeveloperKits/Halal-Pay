@@ -3,6 +3,7 @@ package com.samulit.halal_pay;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
@@ -16,7 +17,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -35,8 +35,6 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
