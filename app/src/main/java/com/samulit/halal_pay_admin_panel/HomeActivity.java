@@ -91,7 +91,9 @@ public class HomeActivity extends AppCompatActivity {
     public void Deposit_List(View view) {
         Intent intent = new Intent(HomeActivity.this, DepositTypeActivity.class);
         startActivity(intent);
+        //Create_helper_dialog(1);
     }
+
 
     public void Donation_List(View view) {
         Intent intent = new Intent(HomeActivity.this, DonationList.class);
@@ -99,9 +101,69 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void Withdraw_List(View view) {
-        Intent intent = new Intent(HomeActivity.this, WithdrawList.class);
-        startActivity(intent);
+        Create_helper_dialog(2);
     }
+
+    public void Business_Loan_List(View view) {
+        Create_helper_dialog(3);
+    }
+
+    private void Create_helper_dialog(int i) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.helper_dialog,null);
+
+        Button successful = (Button)view.findViewById(R.id.button);
+        Button pending = (Button)view.findViewById(R.id.button2);
+
+        alert.setView(view);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        successful.setOnClickListener(view1 -> {
+            String string;
+            if(i == 1){
+                string = "Successfully Done";
+            }else {
+                string = "done...";
+            }
+
+            create_intent(string, i);
+            alertDialog.dismiss();
+        });
+
+        pending.setOnClickListener(view1 -> {
+            String string;
+            if(i == 1){
+                string = " ";
+            }else {
+                string = "pending...";
+            }
+
+            create_intent(string, i);
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
+    }
+
+    private void create_intent(String string, int i) {
+        Intent intent;
+
+        if (i==1){
+            intent = new Intent(HomeActivity.this, DepositList.class);
+            intent.putExtra("string", string);
+            startActivity(intent);
+        }else if(i==2){
+            intent = new Intent(HomeActivity.this, WithdrawList.class);
+            intent.putExtra("string", string);
+            startActivity(intent);
+        }else {
+            intent = new Intent(HomeActivity.this, BusinessLoanList.class);
+            intent.putExtra("string", string);
+            startActivity(intent);
+        }
+    }
+
 
     public void Merchant_Number(View view) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(HomeActivity.this);
@@ -156,11 +218,6 @@ public class HomeActivity extends AppCompatActivity {
 
         }); // OnClickListener replace with lambda
         alertDialog.show();
-    }
-
-    public void Business_Loan_List(View view) {
-        Intent intent = new Intent(HomeActivity.this, BusinessLoanList.class);
-        startActivity(intent);
     }
 
     @SuppressLint("SetTextI18n")

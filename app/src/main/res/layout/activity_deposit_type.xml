@@ -16,6 +16,7 @@
         android:onClick="DepositList"
         android:backgroundTint="@color/black"
         android:tag="OneWeek"
+        android:visibility="gone"
         android:text="1 Week" />
 
     <Button
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:onClick="DepositList"
         android:backgroundTint="@color/black"
+        android:visibility="gone"
         android:tag="FifteenDays"
         android:text="15 Days" />
 

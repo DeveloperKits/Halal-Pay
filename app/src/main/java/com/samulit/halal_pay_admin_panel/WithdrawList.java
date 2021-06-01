@@ -24,6 +24,7 @@ public class WithdrawList extends AppCompatActivity {
     private SubCategoryAdapter subCategoryAdapter;
 
     private ArrayList<SubCategory> arrayList;
+    private String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class WithdrawList extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        string = getIntent().getStringExtra("string");
         arrayList = new ArrayList<>();
         subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "WithdrawRequest");
         recyclerView.setAdapter(subCategoryAdapter);
@@ -49,8 +51,12 @@ public class WithdrawList extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        SubCategory category = new SubCategory(ds.getKey());
-                        arrayList.add(category);
+                        String status = ds.child("status").getValue().toString();
+
+                        if (string.equals(status)) {
+                            SubCategory category = new SubCategory(ds.getKey());
+                            arrayList.add(category);
+                        }
                     }
 
                 }

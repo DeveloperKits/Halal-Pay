@@ -24,6 +24,7 @@ public class BusinessLoanList extends AppCompatActivity {
     private SubCategoryAdapter subCategoryAdapter;
 
     private ArrayList<SubCategory> arrayList;
+    private String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class BusinessLoanList extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        string = getIntent().getStringExtra("string");
         arrayList = new ArrayList<>();
         subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "BusinessLoanRequest");
         recyclerView.setAdapter(subCategoryAdapter);
@@ -49,9 +51,13 @@ public class BusinessLoanList extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        SubCategory category = ds.getValue(SubCategory.class);
-                        category.setUID(ds.getKey());
-                        arrayList.add(category);
+                        String status = ds.child("status").getValue().toString();
+
+                        if (string.equals(status)) {
+                            SubCategory category = ds.getValue(SubCategory.class);
+                            category.setUID(ds.getKey());
+                            arrayList.add(category);
+                        }
                     }
                     subCategoryAdapter.notifyDataSetChanged();
 

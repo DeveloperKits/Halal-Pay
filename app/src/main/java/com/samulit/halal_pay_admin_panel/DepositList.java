@@ -25,7 +25,7 @@ public class DepositList extends AppCompatActivity {
     private SubCategoryAdapter subCategoryAdapter;
 
     private ArrayList<SubCategory> arrayList;
-    private String getIntentType;
+    private String getIntentType, string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class DepositList extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         getIntentType = getIntent().getStringExtra("Type");
+        string = getIntent().getStringExtra("string");
 
         arrayList = new ArrayList<>();
         subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "DepositRequest");
@@ -54,10 +55,21 @@ public class DepositList extends AppCompatActivity {
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         String InterestType = String.valueOf(ds.child("InterestType").getValue());
-                        if (InterestType.equals(getIntentType)) {
-                            SubCategory category = ds.getValue(SubCategory.class);
-                            Objects.requireNonNull(category).setUID(ds.getKey());
-                            arrayList.add(category);
+                        String status = ds.child("status").getValue().toString();
+
+                        if (string.equals("Successfully Done")) {
+                            if (InterestType.equals(getIntentType) && string.equals(status)) {
+                                SubCategory category = ds.getValue(SubCategory.class);
+                                Objects.requireNonNull(category).setUID(ds.getKey());
+                                arrayList.add(category);
+                            }
+
+                        }else {
+                            if (InterestType.equals(getIntentType) && !status.equals("Successfully Done")){
+                                SubCategory category = ds.getValue(SubCategory.class);
+                                Objects.requireNonNull(category).setUID(ds.getKey());
+                                arrayList.add(category);
+                            }
                         }
                     }
 
