@@ -196,7 +196,7 @@ public class WalletFragment extends Fragment {
         OneYear.setText("1 Year    -------> " + OneYear_st + "%");
         FiveYears.setText("5 Years  -------> " + FiveYears_st + "%");
         Transfer_Type = "Bkash";
-        InterestType = "OneWeek";
+        InterestType = "OneMonth";
 
         databaseReference = FirebaseDatabase.getInstance().getReference("MerchantNumber");
         databaseReference.addValueEventListener(new ValueEventListener() {
