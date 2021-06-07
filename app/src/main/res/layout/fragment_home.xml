@@ -90,7 +90,7 @@
 
                             <LinearLayout
                                 android:id="@+id/interest_ll"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
@@ -98,9 +98,8 @@
                                     android:id="@+id/percentage_day"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:gravity="center"
                                     android:layout_marginTop="15dp"
-                                    android:text="Interest"
+                                    android:text="Total Interest"
                                     android:textColor="@color/text_color_back"
                                     android:textSize="12sp"
                                     android:visibility="visible" />
@@ -109,13 +108,12 @@
                                     android:id="@+id/UserPercentage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
                                     android:layout_marginTop="3dp"
                                     android:layout_marginBottom="15dp"
                                     android:background="@drawable/gradiant_background_linear_style"
                                     android:paddingHorizontal="20dp"
                                     android:paddingVertical="6dp"
-                                    android:text="5%"
+                                    android:text="0%"
                                     android:textColor="@color/white"
                                     android:textSize="10sp"
                                     android:textStyle="bold"
