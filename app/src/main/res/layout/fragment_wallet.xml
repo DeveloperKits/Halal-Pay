@@ -193,34 +193,17 @@
                     android:textColor="@color/text_color_back"
                     android:textSize="14sp" />
 
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/InterestMoney"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="00dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/loading"
+                    android:visibility="visible"
+                    android:textColor="@color/balance_color"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/InterestMoney"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="00dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="@string/loading"
-                        android:visibility="visible"
-                        android:textColor="@color/balance_color"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="-3dp"
-                        android:text="Associated with Total Balance"
-                        android:textColor="#FD7E8D"
-                        android:textSize="8sp" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -234,6 +217,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/Note"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:visibility="visible"
         android:textSize="10sp"
