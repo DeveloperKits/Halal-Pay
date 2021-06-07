@@ -218,8 +218,8 @@ public class DetailsActivity extends AppCompatActivity {
                             String sumDeposit = String.valueOf(TotalDeposit_int + Amount_int);
 
                             if (counter == 0) {
-                                databaseReference3.child("usesCurrentBalance").setValue(Total);
-                                databaseReference.child("status").setValue("done...");
+                                //databaseReference3.child("usesCurrentBalance").setValue(Total);
+                                databaseReference.child("status").setValue("Successfully Done");
                                 databaseReference3.child("userTotalDepositBalance").setValue(sumDeposit);
 
                                 databaseReference4.child(Interest).addValueEventListener(new ValueEventListener() {
@@ -228,6 +228,7 @@ public class DetailsActivity extends AppCompatActivity {
                                         String interest_st = String.valueOf(snapshot.getValue());
 
                                         InterestMoney_int = Amount_int * (Double.parseDouble(interest_st) / 100);
+                                        Total = String.valueOf(InterestMoney_int + Double.parseDouble(Total));
 
                                         if (!Interest_String.equals(" ")){
                                             string1 =  String.valueOf(Integer.parseInt(interest_st) + Integer.parseInt(Interest_String));
@@ -244,6 +245,8 @@ public class DetailsActivity extends AppCompatActivity {
                                         databaseReference3.child("Interest").setValue(string1);
                                         databaseReference3.child("InterestMoney").setValue(string2);
 
+                                        databaseReference3.child("usesCurrentBalance").setValue(Total);
+
                                     }
 
                                     @Override
@@ -255,7 +258,8 @@ public class DetailsActivity extends AppCompatActivity {
                                 Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
                                 text.setVisibility(View.GONE);
                                 done.setVisibility(View.GONE);
-                                Add_Money.setVisibility(View.VISIBLE);
+                                //Add_Money.setVisibility(View.VISIBLE);
+                                //addmoney();
                                 counter++;
                             }
 
@@ -281,7 +285,10 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-    public void AddMoney(View view) {
+
+
+    // No need
+    private void addmoney() {
         databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
         databaseReference2 = FirebaseDatabase.getInstance().getReference();
         databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
@@ -333,7 +340,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     databaseReference3.child("Interest").setValue(string1);
                                     databaseReference3.child("InterestMoney").setValue(string2);
                                     databaseReference3.child("usesCurrentBalance").setValue(Total);
-                                    databaseReference.child("status").setValue("Successfully Done");
+                                    //databaseReference.child("status").setValue("Successfully Done");
                                 }
 
                                 @Override
@@ -359,5 +366,10 @@ public class DetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    public void AddMoney(View view) {
+
     }
 }
