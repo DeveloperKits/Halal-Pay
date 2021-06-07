@@ -74,7 +74,7 @@ class ChangeImageActivity : AppCompatActivity() {
             progressDialog.show()
             progressDialog.setCanceledOnTouchOutside(false)
 
-            val UserID = FirebaseAuth.getInstance().currentUser.uid
+            val UserID = FirebaseAuth.getInstance().currentUser!!.uid
 
             storageReference = FirebaseStorage.getInstance().reference.child("UserImage").child(UserID)
             databaseReference = FirebaseDatabase.getInstance().getReference("UserData").child(UserID)
