@@ -15,6 +15,7 @@
         android:roundIcon="@drawable/halalpay_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
+        <activity android:name=".DepositHistoryActivity"></activity>
         <activity android:name=".ChangeImageActivity" />
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".LoginActivity" />

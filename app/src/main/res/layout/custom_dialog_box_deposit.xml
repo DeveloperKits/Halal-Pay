@@ -73,12 +73,14 @@
                     android:id="@+id/oneYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="@string/loading" />
 
                 <RadioButton
                     android:id="@+id/FiveYears"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="@string/loading" />
 
             </RadioGroup>

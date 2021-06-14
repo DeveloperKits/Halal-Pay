@@ -35,7 +35,6 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
-
 public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
@@ -124,6 +123,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                 Sign_Out();
             }else if (menuItem.getTitle().equals("About Us")){
                 Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+                startActivity(intent);
+            }else if (menuItem.getTitle().equals("Deposit History")){
+                Intent intent = new Intent(HomeActivity.this, DepositHistoryActivity.class);
                 startActivity(intent);
             }
             return true;

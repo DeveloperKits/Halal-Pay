@@ -2,11 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_SignOut"
-        android:title="Signout" />
+        android:id="@+id/depositHistory"
+        android:title="Deposit History" />
 
     <item
         android:id="@+id/about_us"
         android:title="About Us" />
+
+    <item
+        android:id="@+id/nav_SignOut"
+        android:title="Signout" />
+
 
 </menu>
