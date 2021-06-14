@@ -93,6 +93,7 @@
         android:visibility="gone"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
+        android:textIsSelectable="true"
         android:textStyle="bold" />
 
     <TextView
@@ -128,10 +129,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:text="Payment ID : "
-        android:visibility="gone"
         android:textColor="@color/balance_color"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textIsSelectable="true"
+        android:visibility="gone" />
 
 
     <TextView
@@ -159,10 +161,10 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:onClick="AddMoney"
-        android:visibility="gone"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/black"
-        android:text="Add Money" />
+        android:text="Cancel"
+        android:visibility="visible"
+        tools:ignore="OnClick" />
 
 </LinearLayout>

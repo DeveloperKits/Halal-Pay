@@ -38,6 +38,7 @@ public class PasswordActivity extends AppCompatActivity {
 
                 if (pass.equals(text.getText().toString())){
                     startActivity(new Intent(PasswordActivity.this, HomeActivity.class));
+                    finish();
                 }else {
                     Toast.makeText(PasswordActivity.this, "Password wrong! Please try again.", Toast.LENGTH_SHORT).show();
                 }

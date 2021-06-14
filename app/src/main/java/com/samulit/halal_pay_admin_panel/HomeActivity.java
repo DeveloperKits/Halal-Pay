@@ -95,11 +95,49 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    // Deposit .....................................................................................
     public void Deposit_List(View view) {
-        Intent intent = new Intent(HomeActivity.this, DepositTypeActivity.class);
-        startActivity(intent);
-        //Create_helper_dialog(1);
+        /*Intent intent = new Intent(HomeActivity.this, DepositTypeActivity.class);
+        startActivity(intent);*/
+        Create_helper_dialog2();
     }
+
+    private void Create_helper_dialog2() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.helper_dialog2,null);
+
+        Button successful = (Button)view.findViewById(R.id.button);
+        Button pending = (Button)view.findViewById(R.id.button2);
+        Button cancel = (Button)view.findViewById(R.id.button3);
+
+        alert.setView(view);
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        successful.setOnClickListener(view1 -> {
+            create_intent("Successfully Done");
+            alertDialog.dismiss();
+        });
+
+        pending.setOnClickListener(view1 -> {
+            create_intent("pending...");
+            alertDialog.dismiss();
+        });
+
+        cancel.setOnClickListener(view1 -> {
+            create_intent("Cancel!");
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
+    }
+
+    private void create_intent(String s) {
+        Intent intent = new Intent(HomeActivity.this, DepositList.class);
+        intent.putExtra("string", s);
+        startActivity(intent);
+    }
+    // End Deposit .................................................................................
 
 
     public void Donation_List(View view) {

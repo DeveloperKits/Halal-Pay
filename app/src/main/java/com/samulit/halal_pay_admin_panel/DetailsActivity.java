@@ -22,15 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailsActivity extends AppCompatActivity {
 
     private TextView name, amount, date, time, status, type, number, interest, paymentId, text;
-    private Button done, Add_Money;
+    private Button done, cancel;
 
     private DatabaseReference databaseReference, databaseReference2, databaseReference3, databaseReference4;
 
     private String getIntentUID, getIntentType, Name, Amount, Date, Time, Status, Type, Number, Interest,
-            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String, string1, string2;
-    private boolean isDonation = false;
+            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String;
+
     private int counter;
-    double InterestMoney_int, TotalAmount_int, Amount_int, TotalWithdraw_int, TotalDeposit_int;
+    double TotalAmount_int, Amount_int, TotalWithdraw_int, TotalDeposit_int;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -50,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         text = findViewById(R.id.text);
 
         done = findViewById(R.id.button8);
-        Add_Money = findViewById(R.id.button9);
+        cancel = findViewById(R.id.button9);
 
         getIntentUID = getIntent().getStringExtra("user_uid");
         getIntentType = getIntent().getStringExtra("Type");
@@ -71,20 +71,24 @@ public class DetailsActivity extends AppCompatActivity {
                     date.setText("Date : \t" + Date);
                     time.setText("Time : \t" + Time);
 
-                    if (Status.equals("done...")){
-                        text.setText("Successfully Done!");
+                    if (Status.equals("Cancel!")){
+                        text.setText("Cancel!");
                         text.setVisibility(View.VISIBLE);
                         done.setVisibility(View.GONE);
-
-                        if (getIntentType.equals("DepositRequest")){
-                            Add_Money.setVisibility(View.VISIBLE);
-                        }
-
+                        cancel.setVisibility(View.GONE);
                     }else if(Status.equals("Successfully Done")){
                         text.setText("Successfully Add Money!");
                         text.setVisibility(View.VISIBLE);
                         done.setVisibility(View.GONE);
-                        Add_Money.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
+                    }else if (Status.equals("done...")){
+                        text.setVisibility(View.GONE);
+                        done.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
+                    }else {
+                        if (!getIntentType.equals("DepositRequest")){
+                            cancel.setVisibility(View.GONE);
+                        }
                     }
 
                     switch (getIntentType) {
@@ -184,6 +188,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
                                     text.setVisibility(View.GONE);
                                     done.setVisibility(View.GONE);
+                                    cancel.setVisibility(View.GONE);
                                     counter++;
                                 }
 
@@ -205,6 +210,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
                                     text.setVisibility(View.GONE);
                                     done.setVisibility(View.GONE);
+                                    cancel.setVisibility(View.GONE);
                                     counter++;
                                 }
 
@@ -218,48 +224,13 @@ public class DetailsActivity extends AppCompatActivity {
                             String sumDeposit = String.valueOf(TotalDeposit_int + Amount_int);
 
                             if (counter == 0) {
-                                //databaseReference3.child("usesCurrentBalance").setValue(Total);
                                 databaseReference.child("status").setValue("Successfully Done");
                                 databaseReference3.child("userTotalDepositBalance").setValue(sumDeposit);
-
-                                databaseReference4.child(Interest).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String interest_st = String.valueOf(snapshot.getValue());
-
-                                        InterestMoney_int = Amount_int * (Double.parseDouble(interest_st) / 100);
-                                        Total = String.valueOf(InterestMoney_int + Double.parseDouble(Total));
-
-                                        if (!Interest_String.equals(" ")){
-                                            string1 =  String.valueOf(Integer.parseInt(interest_st) + Integer.parseInt(Interest_String));
-                                        }else {
-                                            string1 = interest_st;
-                                        }
-
-                                        if (!InterestMoney_String.equals(" ")){
-                                            string2 =  String.valueOf(InterestMoney_int + Double.parseDouble(InterestMoney_String));
-                                        }else {
-                                            string2 = String.valueOf(InterestMoney_int);
-                                        }
-
-                                        databaseReference3.child("Interest").setValue(string1);
-                                        databaseReference3.child("InterestMoney").setValue(string2);
-
-                                        databaseReference3.child("usesCurrentBalance").setValue(Total);
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
 
                                 Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
                                 text.setVisibility(View.GONE);
                                 done.setVisibility(View.GONE);
-                                //Add_Money.setVisibility(View.VISIBLE);
-                                //addmoney();
+                                cancel.setVisibility(View.GONE);
                                 counter++;
                             }
 
@@ -268,7 +239,7 @@ public class DetailsActivity extends AppCompatActivity {
                             databaseReference.child("status").setValue("done...");
                             text.setVisibility(View.GONE);
                             done.setVisibility(View.GONE);
-                            Add_Money.setVisibility(View.VISIBLE);
+                            cancel.setVisibility(View.GONE);
                         }
 
                     }
@@ -282,94 +253,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         });
 
-    }
 
-
-
-
-    // No need
-    private void addmoney() {
-        databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
-        databaseReference2 = FirebaseDatabase.getInstance().getReference();
-        databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
-        databaseReference4 = FirebaseDatabase.getInstance().getReference("InterestMoney");
-        counter = 0;
-
-        databaseReference2.child("UserData").child(UID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
-                    userTotalDepositBalance = String.valueOf(snapshot.child("userTotalDepositBalance").getValue());
-                    Interest_String = String.valueOf(snapshot.child("Interest").getValue());
-                    InterestMoney_String = String.valueOf(snapshot.child("InterestMoney").getValue());
-
-                    TotalAmount_int = Double.parseDouble(TotalAmount);
-                    Amount_int = Double.parseDouble(Amount);
-                    //TotalWithdraw_int = Double.parseDouble(TotalWithdraw);
-                    //TotalDeposit_int = Double.parseDouble(userTotalDepositBalance);
-
-                    // Check getIntentType......................................................
-                    if (getIntentType.equals("DepositRequest")){
-
-                        if (counter == 0) {
-                            databaseReference4.child(Interest).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String interest_st = String.valueOf(snapshot.getValue());
-
-                                    Total = String.valueOf((Amount_int * (Double.parseDouble(interest_st) / 100)) + TotalAmount_int);
-                                    InterestMoney_int = (Amount_int * (Double.parseDouble(interest_st) / 100));
-
-                                    if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) <= Integer.parseInt(interest_st)){
-                                        string1 =  String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String));
-                                    }else if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) >= Integer.parseInt(interest_st)){
-                                        string1 = String.valueOf(Integer.parseInt(Interest_String) - Integer.parseInt(interest_st));;
-                                    }else {
-                                        string1 = " ";
-                                    }
-
-                                    if (!InterestMoney_String.equals(" ") && InterestMoney_int >= Double.parseDouble(InterestMoney_String)){
-                                        string2 =  String.valueOf(InterestMoney_int - Double.parseDouble(InterestMoney_String));
-                                    }else if (!InterestMoney_String.equals(" ") && InterestMoney_int <= Double.parseDouble(InterestMoney_String)){
-                                        string2 =  String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_int);
-                                    }else {
-                                        string2 = " ";
-                                    }
-
-                                    databaseReference3.child("Interest").setValue(string1);
-                                    databaseReference3.child("InterestMoney").setValue(string2);
-                                    databaseReference3.child("usesCurrentBalance").setValue(Total);
-                                    //databaseReference.child("status").setValue("Successfully Done");
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-                            Toast.makeText(DetailsActivity.this, "Successfully Added!", Toast.LENGTH_SHORT).show();
-                            text.setVisibility(View.GONE);
-                            done.setVisibility(View.GONE);
-                            Add_Money.setVisibility(View.GONE);
-                            counter++;
-                        }
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+        cancel.setOnClickListener(view -> {
+            databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
+            databaseReference.child("status").setValue("Cancel!");
         });
-    }
-
-
-    public void AddMoney(View view) {
 
     }
+
+
 }

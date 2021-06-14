@@ -37,7 +37,7 @@ public class DepositList extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        getIntentType = getIntent().getStringExtra("Type");
+        //getIntentType = getIntent().getStringExtra("Type");
         string = getIntent().getStringExtra("string");
 
         arrayList = new ArrayList<>();
@@ -57,19 +57,10 @@ public class DepositList extends AppCompatActivity {
                         String InterestType = String.valueOf(ds.child("InterestType").getValue());
                         String status = ds.child("status").getValue().toString();
 
-                        if (string.equals("Successfully Done")) {
-                            if (InterestType.equals(getIntentType) && string.equals(status)) {
-                                SubCategory category = ds.getValue(SubCategory.class);
-                                Objects.requireNonNull(category).setUID(ds.getKey());
-                                arrayList.add(category);
-                            }
-
-                        }else {
-                            if (InterestType.equals(getIntentType) && !status.equals("Successfully Done")){
-                                SubCategory category = ds.getValue(SubCategory.class);
-                                Objects.requireNonNull(category).setUID(ds.getKey());
-                                arrayList.add(category);
-                            }
+                        if (string.equals(status)){
+                            SubCategory category = ds.getValue(SubCategory.class);
+                            Objects.requireNonNull(category).setUID(ds.getKey());
+                            arrayList.add(category);
                         }
                     }
 
