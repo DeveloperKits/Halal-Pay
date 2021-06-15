@@ -3,7 +3,6 @@ package com.samulit.halal_pay;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
@@ -17,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -35,6 +35,11 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
@@ -43,11 +48,11 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private ProgressDialog progressDialog;
     private TextView PageName;
     private Button Back;
-    private DatabaseReference update;
+    private DatabaseReference update, databaseReference, databaseReference2;
+    FirebaseUser user;
 
-    private static String TAG = "HomeActivity";
-    private Handler handler;
-    private Runnable r;
+    private String UserID, TotalAmount, Interest_String, InterestMoney_String, Total, string1, string2, amount;
+    private double TotalAmount_double, Amount_double, InterestMoney_double;
 
     private boolean isConnectWithInternet = false;
 
@@ -65,6 +70,11 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         profileFragment = new ProfileFragment();
 
         progressDialog = new ProgressDialog(HomeActivity.this);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        UserID = user.getUid();
+
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData");
 
         setFragment(homeFragment);
 
@@ -91,6 +101,10 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         });
 
         Back.setOnClickListener(view -> onBackPressed());
+
+
+        // Check Deposit Date & And Add Money There Wallet
+        checkDeposit();
 
     }
 
@@ -237,5 +251,136 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         isConnectWithInternet = netInfo != null && netInfo.isConnectedOrConnecting();
         return isConnectWithInternet;
     }
+
+
+    private void checkDeposit(){
+        databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()) {
+
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                        String key = postSnapshot.getKey();
+
+                        String ID = postSnapshot.child("userUID").getValue().toString();
+                        String status = postSnapshot.child("status").getValue().toString();
+
+                        if (UserID.equals(ID) && status.equals("Successfully Done")) {
+                            String Date = postSnapshot.child("Date").getValue().toString();
+                            List<String> list = Arrays.asList(Date.split("-"));
+                            int index = checkIndex(list.get(1));
+
+                            amount = String.valueOf(postSnapshot.child("DepositAmount").getValue());
+
+                            // Current Date
+                            Calendar calFordDate = Calendar.getInstance();
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                            String CurrentDate = currentDate.format(calFordDate.getTime());
+                            List<String> list2 = Arrays.asList(CurrentDate.split("-"));
+                            int index2 = checkIndex(list2.get(1));
+
+                            // Check month == 1 && date > 0 && Year == 0
+                            if (index2-index == 1 && (Integer.parseInt(list2.get(0))-Integer.parseInt(list.get(0)) > 0) &&
+                                    (Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) == 0)){
+
+                                AddedUserInterest(key, amount);
+                                Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+                            }else if ((Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) == 0) || index2-index > 1){
+                                AddedUserInterest(key, amount);
+                                Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(HomeActivity.this, "Not added", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            Toast.makeText(HomeActivity.this, "Not added!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    private void AddedUserInterest(String key, String Amount) {
+        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
+        databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest").child(key);
+
+        databaseReference2.child(UserID).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
+                    Interest_String = String.valueOf(snapshot.child("Interest").getValue());
+                    InterestMoney_String = String.valueOf(snapshot.child("InterestMoney").getValue());
+
+                    TotalAmount_double = Double.parseDouble(TotalAmount);
+                    Amount_double = Double.parseDouble(Amount);
+
+                    databaseReference3.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String interest_st = String.valueOf(snapshot.getValue());
+
+                            Total = String.valueOf((Amount_double * (Double.parseDouble(interest_st) / 100)) + TotalAmount_double);
+                            InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
+
+                            if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) <= Integer.parseInt(interest_st)){
+                                string1 =  String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String));
+                            }else if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) >= Integer.parseInt(interest_st)){
+                                string1 = String.valueOf(Integer.parseInt(Interest_String) - Integer.parseInt(interest_st));;
+                            }else {
+                                string1 = " ";
+                            }
+
+                            if (!InterestMoney_String.equals(" ") && InterestMoney_double >= Double.parseDouble(InterestMoney_String)){
+                                string2 =  String.valueOf(InterestMoney_double - Double.parseDouble(InterestMoney_String));
+                            }else if (!InterestMoney_String.equals(" ") && InterestMoney_double <= Double.parseDouble(InterestMoney_String)){
+                                string2 =  String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_double);
+                            }else {
+                                string2 = " ";
+                            }
+
+                            databaseReference2.child("Interest").setValue(string1);
+                            databaseReference2.child("InterestMoney").setValue(string2);
+                            databaseReference2.child("usesCurrentBalance").setValue(Total);
+                            databaseReference.child("status").setValue("Added Interest");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    Toast.makeText(HomeActivity.this, "Successfully Added Money!", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    private int checkIndex(String s) {
+        String [] strings = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        int index = Arrays.asList(strings).indexOf(s);
+
+        return index+1;
+    }
+
 
 }

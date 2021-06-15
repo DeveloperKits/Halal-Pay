@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/back"
-        android:paddingTop="0dp"
+        android:paddingTop="5dp"
         tools:listitem="@layout/deposit_history_item"/>
 
 </RelativeLayout>
