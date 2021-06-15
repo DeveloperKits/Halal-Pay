@@ -37,6 +37,9 @@ public class DepositHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit_history);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        UserID = user.getUid();
+
         back = findViewById(R.id.back);
         recyclerView = findViewById(R.id.recycle);
 
@@ -49,9 +52,6 @@ public class DepositHistoryActivity extends AppCompatActivity {
         adapterArrayList = new ArrayList<>();
         depositHistoryAdapter = new Deposit_History_Adapter(this, adapterArrayList);
         recyclerView.setAdapter(depositHistoryAdapter);
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        UserID = user.getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
         databaseReference.addValueEventListener(new ValueEventListener() {

@@ -16,7 +16,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -36,9 +35,12 @@ import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
@@ -52,9 +54,10 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     FirebaseUser user;
 
     private String UserID, TotalAmount, Interest_String, InterestMoney_String, Total, string1, string2, amount;
-    private double TotalAmount_double, Amount_double, InterestMoney_double;
 
+    private double TotalAmount_double, Amount_double, InterestMoney_double;
     private boolean isConnectWithInternet = false;
+    private int justOneTime = 0;
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @Override
@@ -74,7 +77,32 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
         databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData");
+        databaseReference2.child(UserID).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
+                    Interest_String = String.valueOf(snapshot.child("Interest").getValue());
+                    InterestMoney_String = String.valueOf(snapshot.child("InterestMoney").getValue());
+
+                    TotalAmount_double = Double.parseDouble(TotalAmount);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // Check Deposit Date & And Add Money There Wallet
+        checkDeposit();
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
 
         setFragment(homeFragment);
 
@@ -101,10 +129,6 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         });
 
         Back.setOnClickListener(view -> onBackPressed());
-
-
-        // Check Deposit Date & And Add Money There Wallet
-        checkDeposit();
 
     }
 
@@ -192,7 +216,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         new Handler().postDelayed(() -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        },2*70*1000);
+        },2*90*1000);
     }
 
 
@@ -245,6 +269,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         });
     }
 
+
     private boolean check_again_Internet_connection(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -253,6 +278,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private void checkDeposit(){
         databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -283,22 +309,16 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                             int index2 = checkIndex(list2.get(1));
 
                             // Check month == 1 && date > 0 && Year == 0
-                            if (index2-index == 1 && (Integer.parseInt(list2.get(0))-Integer.parseInt(list.get(0)) > 0) &&
-                                    (Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) == 0)){
+                            if ((index2 - index == 1) && (Integer.parseInt(list2.get(0)) - Integer.parseInt(list.get(0)) > 0) &&
+                                    (Integer.parseInt(list2.get(2)) - Integer.parseInt(list.get(2)) == 0)) {
 
                                 AddedUserInterest(key, amount);
-                                Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
-                            }else if ((Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) > 0) || index2-index > 1){
+                            }else if ((Integer.parseInt(list2.get(2)) - Integer.parseInt(list.get(2)) > 0) || (index2 - index > 1)) {
                                 AddedUserInterest(key, amount);
-                                Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(HomeActivity.this, "Not added", Toast.LENGTH_SHORT).show();
                             }
-                        }else {
-                            Toast.makeText(HomeActivity.this, "Not added!", Toast.LENGTH_SHORT).show();
                         }
-
                     }
+
                 }
             }
 
@@ -307,71 +327,58 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
             }
         });
+
     }
 
 
     private void AddedUserInterest(String key, String Amount) {
-        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
-        databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest").child(key);
+        if (!key.isEmpty() && !Amount.isEmpty()) {
+            if(justOneTime == 0) {
 
-        databaseReference2.child(UserID).addValueEventListener(new ValueEventListener() {
+                Amount_double = Double.parseDouble(Amount);
+                databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest").child(key);
+                DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
+                databaseReference3.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String interest_st = String.valueOf(snapshot.getValue());
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
-                    Interest_String = String.valueOf(snapshot.child("Interest").getValue());
-                    InterestMoney_String = String.valueOf(snapshot.child("InterestMoney").getValue());
+                        InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
+                        Total = String.valueOf(InterestMoney_double + TotalAmount_double + Amount_double);
 
-                    TotalAmount_double = Double.parseDouble(TotalAmount);
-                    Amount_double = Double.parseDouble(Amount);
-
-                    databaseReference3.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String interest_st = String.valueOf(snapshot.getValue());
-
-                            Total = String.valueOf((Amount_double * (Double.parseDouble(interest_st) / 100)) + TotalAmount_double);
-                            InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
-
-                            if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) <= Integer.parseInt(interest_st)){
-                                string1 =  String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String));
-                            }else if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) >= Integer.parseInt(interest_st)){
-                                string1 = String.valueOf(Integer.parseInt(Interest_String) - Integer.parseInt(interest_st));;
-                            }else {
-                                string1 = " ";
-                            }
-
-                            if (!InterestMoney_String.equals(" ") && InterestMoney_double >= Double.parseDouble(InterestMoney_String)){
-                                string2 =  String.valueOf(InterestMoney_double - Double.parseDouble(InterestMoney_String));
-                            }else if (!InterestMoney_String.equals(" ") && InterestMoney_double <= Double.parseDouble(InterestMoney_String)){
-                                string2 =  String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_double);
-                            }else {
-                                string2 = " ";
-                            }
-
-                            databaseReference2.child(UserID).child("Interest").setValue(string1);
-                            databaseReference2.child(UserID).child("InterestMoney").setValue(string2);
-                            databaseReference2.child(UserID).child("usesCurrentBalance").setValue(Total);
-                            databaseReference.child("status").setValue("Added Interest");
+                        if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) <= Integer.parseInt(interest_st)) {
+                            string1 = String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String));
+                        } else if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) >= Integer.parseInt(interest_st)) {
+                            string1 = String.valueOf(Integer.parseInt(Interest_String) - Integer.parseInt(interest_st));
+                        } else {
+                            string1 = " ";
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
+                        if (!InterestMoney_String.equals(" ") && InterestMoney_double >= Double.parseDouble(InterestMoney_String)) {
+                            string2 = String.valueOf(InterestMoney_double - Double.parseDouble(InterestMoney_String));
+                        } else if (!InterestMoney_String.equals(" ") && InterestMoney_double <= Double.parseDouble(InterestMoney_String)) {
+                            string2 = String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_double);
+                        } else {
+                            string2 = " ";
                         }
-                    });
 
-                    Toast.makeText(HomeActivity.this, "Successfully Added Money!", Toast.LENGTH_SHORT).show();
+                        databaseReference2.child(UserID).child("Interest").setValue(string1);
+                        databaseReference2.child(UserID).child("InterestMoney").setValue(string2);
+                        databaseReference2.child(UserID).child("usesCurrentBalance").setValue(Total);
+                        databaseReference.child("status").setValue("Added Interest");
 
-                }
+                        justOneTime++;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                justOneTime++;
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        }
     }
 
 
@@ -381,6 +388,6 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
         return index+1;
     }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
