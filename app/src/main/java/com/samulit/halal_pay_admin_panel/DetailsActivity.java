@@ -27,10 +27,10 @@ public class DetailsActivity extends AppCompatActivity {
     private DatabaseReference databaseReference, databaseReference2, databaseReference3, databaseReference4;
 
     private String getIntentUID, getIntentType, Name, Amount, Date, Time, Status, Type, Number, Interest,
-            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String;
+            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String, string1, string2;
 
     private int counter;
-    double TotalAmount_int, Amount_int, TotalWithdraw_int, TotalDeposit_int;
+    double TotalAmount_int, Amount_int, TotalWithdraw_int, TotalDeposit_int, Amount_double, InterestMoney_double;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -156,7 +156,6 @@ public class DetailsActivity extends AppCompatActivity {
             databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
             databaseReference2 = FirebaseDatabase.getInstance().getReference();
             databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
-            databaseReference4 = FirebaseDatabase.getInstance().getReference("InterestMoney");
             counter = 0;
 
             databaseReference2.child("UserData").child(UID).addValueEventListener(new ValueEventListener() {
@@ -231,6 +230,9 @@ public class DetailsActivity extends AppCompatActivity {
                                 text.setVisibility(View.GONE);
                                 done.setVisibility(View.GONE);
                                 cancel.setVisibility(View.GONE);
+
+                                addInterest(Interest_String, InterestMoney_String);
+
                                 counter++;
                             }
 
@@ -259,6 +261,41 @@ public class DetailsActivity extends AppCompatActivity {
             databaseReference.child("status").setValue("Cancel!");
         });
 
+    }
+
+
+    private void addInterest(String interest_String, String interestMoney_String) {
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
+        databaseReference4 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
+        databaseReference4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String interest_st = String.valueOf(snapshot.getValue());
+
+                Amount_double = Double.parseDouble(Amount);
+                InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
+
+                if (!interest_String.equals(" ")){
+                    string1 =  String.valueOf(Integer.parseInt(interest_st) + Integer.parseInt(interest_String));
+                }else {
+                    string1 = interest_st;
+                }
+
+                if (!interestMoney_String.equals(" ")){
+                    string2 =  String.valueOf(InterestMoney_double + Double.parseDouble(interestMoney_String));
+                }else {
+                    string2 = String.valueOf(InterestMoney_double);
+                }
+
+                databaseReference2.child("Interest").setValue(string1);
+                databaseReference2.child("InterestMoney").setValue(string2);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

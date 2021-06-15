@@ -280,11 +280,13 @@ public class HomeActivity extends AppCompatActivity {
         final TextView enter3 = mView.findViewById(R.id.enter3);
         final LinearLayout ll1 = mView.findViewById(R.id.ll1);
         final LinearLayout ll2 = mView.findViewById(R.id.ll2);
+        final LinearLayout ll3 = mView.findViewById(R.id.lNum);
+        final LinearLayout ll4 = mView.findViewById(R.id.lID);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
 
-        ll1.setVisibility(View.VISIBLE);
-        ll2.setVisibility(View.VISIBLE);
+        ll3.setVisibility(View.GONE);
+        ll4.setVisibility(View.GONE);
         enter1.setText("5 Years:    ");
         enter2.setText("1 Year :     ");
         enter3.setText("1 Month:   ");
