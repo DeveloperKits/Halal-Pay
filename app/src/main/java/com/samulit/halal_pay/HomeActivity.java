@@ -288,7 +288,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
                                 AddedUserInterest(key, amount);
                                 Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
-                            }else if ((Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) == 0) || index2-index > 1){
+                            }else if ((Integer.parseInt(list2.get(2))-Integer.parseInt(list.get(2)) > 0) || index2-index > 1){
                                 AddedUserInterest(key, amount);
                                 Toast.makeText(HomeActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
                             }else {
@@ -350,9 +350,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                                 string2 = " ";
                             }
 
-                            databaseReference2.child("Interest").setValue(string1);
-                            databaseReference2.child("InterestMoney").setValue(string2);
-                            databaseReference2.child("usesCurrentBalance").setValue(Total);
+                            databaseReference2.child(UserID).child("Interest").setValue(string1);
+                            databaseReference2.child(UserID).child("InterestMoney").setValue(string2);
+                            databaseReference2.child(UserID).child("usesCurrentBalance").setValue(Total);
                             databaseReference.child("status").setValue("Added Interest");
                         }
 
