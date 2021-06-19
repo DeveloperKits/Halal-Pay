@@ -44,6 +44,7 @@ public class Deposit_History_Adapter extends RecyclerView.Adapter<Deposit_Histor
 
         if (position == historyModel.size()-1){
             holder.viewX.setVisibility(View.GONE);
+            holder.depositNumber.setPadding(0,0,0,50);
         }
 
         holder.databaseReference.child(key).addValueEventListener(new ValueEventListener() {

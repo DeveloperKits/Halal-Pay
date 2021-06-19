@@ -20,6 +20,7 @@ import com.samulit.halal_pay.Adapter.Deposit_History_Adapter;
 import com.samulit.halal_pay.Model.depositHistoryModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DepositHistoryActivity extends AppCompatActivity {
 
@@ -74,6 +75,7 @@ public class DepositHistoryActivity extends AppCompatActivity {
                         }
 
                     }
+                    Collections.reverse(adapterArrayList);
                     depositHistoryAdapter.notifyDataSetChanged();
                 }
             }
