@@ -21,12 +21,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private TextView name, amount, date, time, status, type, number, interest, paymentId, text;
+    private TextView name, amount, date, time, status, type, number, interest, paymentId, text, Email;
     private Button done, cancel;
 
     private DatabaseReference databaseReference, databaseReference2, databaseReference3, databaseReference4;
 
-    private String getIntentUID, getIntentType, Name, Amount, Date, Time, Status, Type, Number, Interest,
+    private String getIntentUID, getIntentType, Name, Amount, Date, Time, Status, Type, Number, Interest, email,
             PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String, string1, string2;
 
     private int counter;
@@ -39,6 +39,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         name = findViewById(R.id.name);
+        Email = findViewById(R.id.email);
         amount = findViewById(R.id.amount);
         date = findViewById(R.id.date);
         time = findViewById(R.id.time);
@@ -87,6 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
                         cancel.setVisibility(View.GONE);
                     }else {
                         if (!getIntentType.equals("DepositRequest")){
+                            done.setVisibility(View.GONE);
                             cancel.setVisibility(View.GONE);
                         }
                     }
@@ -99,30 +101,38 @@ public class DetailsActivity extends AppCompatActivity {
                             break;
 
                         case "WithdrawRequest":
+                            email = String.valueOf(snapshot.child("userEmail").getValue());
                             Amount = String.valueOf(snapshot.child("withdrawMoney").getValue());
                             Type = String.valueOf(snapshot.child("withdrawType").getValue());
                             Number = String.valueOf(snapshot.child("WithdrawPhone").getValue());
 
+                            Email.setText("Email : \t" + email);
                             type.setText("Withdraw Type : \t" + Type);
                             number.setText("Withdraw Number : \t" + Number);
                             amount.setText("Withdraw Amount : \t" + Amount);
+
+                            Email.setVisibility(View.VISIBLE);
                             amount.setVisibility(View.VISIBLE);
                             type.setVisibility(View.VISIBLE);
                             number.setVisibility(View.VISIBLE);
                             break;
 
                         case "DepositRequest":
+                            email = String.valueOf(snapshot.child("userEmail").getValue());
                             Amount = String.valueOf(snapshot.child("DepositAmount").getValue());
                             Type = String.valueOf(snapshot.child("depositType").getValue());
                             Number = String.valueOf(snapshot.child("depositNumber").getValue());
                             Interest = String.valueOf(snapshot.child("InterestType").getValue());
                             PaymentID = String.valueOf(snapshot.child("PaymentID").getValue());
 
+                            Email.setText("Email : \t" + email);
                             paymentId.setText("Payment ID : \t" + PaymentID);
                             interest.setText("Interest Type : \t" + Interest);
                             type.setText("Deposit Type : \t" + Type);
                             number.setText("Deposit Number : \t" + Number);
                             amount.setText("Deposit Amount : \t" + Amount);
+
+                            Email.setVisibility(View.VISIBLE);
                             amount.setVisibility(View.VISIBLE);
                             type.setVisibility(View.VISIBLE);
                             number.setVisibility(View.VISIBLE);

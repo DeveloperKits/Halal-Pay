@@ -26,10 +26,25 @@
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="10dp"
         android:text="Name : "
+        android:textIsSelectable="true"
         android:textColor="@color/text_color_back"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        android:text="Email : "
+        android:textIsSelectable="true"
+        android:textColor="@color/balance_color"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/amount"
@@ -40,6 +55,7 @@
         android:layout_marginEnd="10dp"
         android:visibility="gone"
         android:text="Amount : "
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -52,6 +68,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="Date : "
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -64,6 +81,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="Time : "
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -78,6 +96,7 @@
         android:layout_marginEnd="10dp"
         android:text="Type : "
         android:visibility="gone"
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -105,6 +124,7 @@
         android:layout_marginEnd="10dp"
         android:text="Interest : "
         android:visibility="gone"
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -117,6 +137,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="Status : "
+        android:textIsSelectable="true"
         android:textColor="@color/balance_color"
         android:textSize="16sp"
         android:textStyle="bold" />
