@@ -86,6 +86,9 @@ public class DetailsActivity extends AppCompatActivity {
                         text.setVisibility(View.GONE);
                         done.setVisibility(View.GONE);
                         cancel.setVisibility(View.GONE);
+                    }else if (Status.equals("pending...")){
+                        done.setVisibility(View.VISIBLE);
+                        cancel.setVisibility(View.GONE);
                     }else {
                         if (!getIntentType.equals("DepositRequest")){
                             done.setVisibility(View.GONE);
@@ -247,11 +250,18 @@ public class DetailsActivity extends AppCompatActivity {
                             }
 
                         }else {
-                            Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
-                            databaseReference.child("status").setValue("done...");
-                            text.setVisibility(View.GONE);
-                            done.setVisibility(View.GONE);
-                            cancel.setVisibility(View.GONE);
+                            Total = String.valueOf(TotalAmount_int + Amount_int);
+
+                            if (counter == 0) {
+                                databaseReference3.child("usesCurrentBalance").setValue(Total);
+                                Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
+                                databaseReference.child("status").setValue("done...");
+                                text.setVisibility(View.GONE);
+                                done.setVisibility(View.GONE);
+                                cancel.setVisibility(View.GONE);
+
+                                counter++;
+                            }
                         }
 
                     }

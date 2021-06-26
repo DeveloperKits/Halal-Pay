@@ -16,6 +16,7 @@ import com.samulit.halal_pay_admin_panel.Adapter.SubCategoryAdapter;
 import com.samulit.halal_pay_admin_panel.Model.SubCategory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DonationList extends AppCompatActivity {
 
@@ -54,7 +55,7 @@ public class DonationList extends AppCompatActivity {
                     }
 
                 }
-
+                Collections.reverse(arrayList);
                 subCategoryAdapter.notifyDataSetChanged();
 
             }

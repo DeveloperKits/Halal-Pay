@@ -16,6 +16,7 @@ import com.samulit.halal_pay_admin_panel.Adapter.SubCategoryAdapter;
 import com.samulit.halal_pay_admin_panel.Model.SubCategory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BusinessLoanList extends AppCompatActivity {
 
@@ -60,6 +61,7 @@ public class BusinessLoanList extends AppCompatActivity {
                         }
                     }
                     subCategoryAdapter.notifyDataSetChanged();
+                    Collections.reverse(arrayList);
 
                 }
 
