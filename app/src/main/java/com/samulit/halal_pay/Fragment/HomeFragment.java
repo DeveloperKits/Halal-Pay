@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference, databaseReference2;
     private FirebaseUser firebaseUser;
 
-    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, LoanType, interest;
+    String UserID, userName, userImage, usersCurrentBalance, WeekMonthYear, LoanType, interest, currentUserBalance;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -263,6 +263,10 @@ public class HomeFragment extends Fragment {
             String money = input.getText().toString();
 
             if (Double.parseDouble(usersCurrentBalance) > Double.parseDouble(money)) {
+                currentUserBalance = String.valueOf(Double.parseDouble(usersCurrentBalance) - Double.parseDouble(money));
+                databaseReference = FirebaseDatabase.getInstance().getReference("UserData").child(firebaseUser.getUid());
+                databaseReference.child("usesCurrentBalance").setValue(currentUserBalance);
+
                 Calendar calFordDate = Calendar.getInstance();
                 SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
                 String saveCurrentDate = currentDate.format(calFordDate.getTime());
@@ -275,13 +279,13 @@ public class HomeFragment extends Fragment {
                 reg.put("userUID", UserID);
                 reg.put("Date", saveCurrentDate);
                 reg.put("Time", saveCurrentTime);
-                reg.put("status", "pending...");
+                reg.put("status", "done...");
                 reg.put("DonationAmount", money);
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
                 databaseReference.push().updateChildren(reg);
 
-                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Successfully done!", Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(getContext(), "Failed! check you current balance.", Toast.LENGTH_LONG).show();
             }

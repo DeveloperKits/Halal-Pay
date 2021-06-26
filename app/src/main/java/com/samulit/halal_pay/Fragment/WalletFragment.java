@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,12 +41,12 @@ public class WalletFragment extends Fragment {
     private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney,
             InterestTest, SevenDays, FifteenDays, OneYear, FiveYears, OneMonth, Hint;
 
-    private DatabaseReference databaseReference, databaseReference2;
+    private DatabaseReference databaseReference, databaseReference2, databaseReference3;
     private FirebaseUser firebaseUser;
 
-    private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance,
+    private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance, userEmail,
             usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType,
-            interest_money, SevenDays_St, OneMonth_st, FifteenDays_st, OneYear_st, FiveYears_st;
+            interest_money, SevenDays_St, OneMonth_st, FifteenDays_st, OneYear_st, FiveYears_st, currentUserBalance, interest;
 
 
     public WalletFragment() {
@@ -81,6 +82,7 @@ public class WalletFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
+                        userEmail = snapshot.child("userEmail").getValue().toString();
                         userName = snapshot.child("userName").getValue().toString();
                         userImage = snapshot.child("userImage").getValue().toString();
                         usersCurrentBalance = snapshot.child("usesCurrentBalance").getValue().toString();
@@ -88,6 +90,7 @@ public class WalletFragment extends Fragment {
                         userWithdrawBalance = snapshot.child("TotalWithdraw").getValue().toString();
                         WeekMonthYear = snapshot.child("WeekMonthYear").getValue().toString();
                         interest_money = snapshot.child("InterestMoney").getValue().toString();
+                        interest = snapshot.child("Interest").getValue().toString();
 
                         UserName.setText(userName);
                         Available_balance.setText(usersCurrentBalance + " BDT");
@@ -233,6 +236,7 @@ public class WalletFragment extends Fragment {
 
                 Map reg = new HashMap();
                 reg.put("userName", userName);
+                reg.put("userEmail", userEmail);
                 reg.put("withdrawMoney", storeMoney);
                 reg.put("WithdrawPhone", StoreNumber);
                 reg.put("userUID", UserID);
@@ -266,6 +270,8 @@ public class WalletFragment extends Fragment {
         final EditText paymentID = mView.findViewById(R.id.paymentID);
         final EditText money = mView.findViewById(R.id.money);
         final EditText number = mView.findViewById(R.id.paymentNumber);
+        final LinearLayout linearLayout1 = mView.findViewById(R.id.lNum);
+        final LinearLayout linearLayout2 = mView.findViewById(R.id.lID);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
@@ -315,6 +321,8 @@ public class WalletFragment extends Fragment {
             switch(i) {
                 case R.id.bkash:
                     Transfer_Type = "Bkash";
+                    linearLayout1.setVisibility(View.VISIBLE);
+                    linearLayout2.setVisibility(View.VISIBLE);
                     if (bkash_mer.isEmpty()){
                         merchantNumber.setText("Sorry not available");
                     }else {
@@ -322,8 +330,11 @@ public class WalletFragment extends Fragment {
                     }
                     number.setHint("Your Bkash Number");
                     break;
+
                 case R.id.rocket:
                     Transfer_Type = "Rocket";
+                    linearLayout1.setVisibility(View.VISIBLE);
+                    linearLayout2.setVisibility(View.VISIBLE);
                     if (rocket_mer.isEmpty()){
                         merchantNumber.setText("Merchant Number: Sorry not available");
                     }else {
@@ -331,8 +342,11 @@ public class WalletFragment extends Fragment {
                     }
                     number.setHint("Your Rocket Number");
                     break;
+
                 case R.id.nogod:
                     Transfer_Type = "Nogod";
+                    linearLayout1.setVisibility(View.VISIBLE);
+                    linearLayout2.setVisibility(View.VISIBLE);
                     if (nogod_mer.isEmpty()){
                         merchantNumber.setText("Merchant Number: Sorry not available");
                     }else {
@@ -341,6 +355,12 @@ public class WalletFragment extends Fragment {
                     number.setHint("Your Nogod Number");
                     break;
 
+                case R.id.wallet:
+                    Transfer_Type = "Wallet Balance";
+                    merchantNumber.setText("Your Wallet Current Balance : " + usersCurrentBalance);
+                    linearLayout1.setVisibility(View.GONE);
+                    linearLayout2.setVisibility(View.GONE);
+                    break;
             }
         });
 
@@ -375,42 +395,85 @@ public class WalletFragment extends Fragment {
             StoreNumber = number.getText().toString();
             Money = money.getText().toString();
 
-            if (storePaymentID.equals(" ") || storePaymentID.equals("")){
-                paymentID.setError("Enter Yor Transfer ID");
-                paymentID.requestFocus();
-            } else if (StoreNumber.length() != 11){
-                number.setError("Check your number");
-                number.requestFocus();
-            }else if (Money.equals(" ") || Money.equals("")){
-                number.setError("Enter valid Amount");
-                number.requestFocus();
+            if (!Transfer_Type.equals("Wallet Balance")) {
+                if (storePaymentID.equals(" ") || storePaymentID.equals("")) {
+                    paymentID.setError("Enter Yor Transfer ID");
+                    paymentID.requestFocus();
+                } else if (StoreNumber.length() != 11) {
+                    number.setError("Check your number");
+                    number.requestFocus();
+                } else if (Money.equals(" ") || Money.equals("")) {
+                    number.setError("Enter valid Amount");
+                    number.requestFocus();
+                } else {
+
+                    Calendar calFordDate = Calendar.getInstance();
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                    String saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+                    SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                    String saveCurrentTime = currentTime.format(calFordDate.getTime());
+
+                    Map reg = new HashMap();
+                    reg.put("userName", userName);
+                    reg.put("userEmail", userEmail);
+                    reg.put("PaymentID", storePaymentID);
+                    reg.put("depositNumber", StoreNumber);
+                    reg.put("userUID", UserID);
+                    reg.put("Date", saveCurrentDate);
+                    reg.put("Time", saveCurrentTime);
+                    reg.put("status", "pending...");
+                    reg.put("DepositAmount", Money);
+                    reg.put("depositType", Transfer_Type);
+                    reg.put("InterestType", InterestType);
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
+                    databaseReference.push().updateChildren(reg);
+
+                    Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+
+                    alertDialog.dismiss();
+                }
             }else {
 
-                Calendar calFordDate = Calendar.getInstance();
-                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-                String saveCurrentDate = currentDate.format(calFordDate.getTime());
+                if(Double.parseDouble(usersCurrentBalance) > Double.parseDouble(Money)){
+                    currentUserBalance = String.valueOf(Double.parseDouble(usersCurrentBalance) - Double.parseDouble(Money));
+                    String Interest_Money = String.valueOf(Double.parseDouble(Money) * (Double.parseDouble(OneMonth_st) / 100));
 
-                SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
-                String saveCurrentTime = currentTime.format(calFordDate.getTime());
+                    databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(firebaseUser.getUid());
+                    databaseReference3.child("usesCurrentBalance").setValue(currentUserBalance);
+                    databaseReference3.child("Interest").setValue(String.valueOf(Double.parseDouble(interest) + Double.parseDouble(OneMonth_st)));
+                    databaseReference3.child("InterestMoney").setValue(String.valueOf(Double.parseDouble(interest_money) + Double.parseDouble(Interest_Money)));
+                    databaseReference3.child("userTotalDepositBalance").setValue(String.valueOf(Double.parseDouble(usersTotalBalance) + Double.parseDouble(Money)));
 
-                Map reg = new HashMap();
-                reg.put("userName", userName);
-                reg.put("PaymentID", storePaymentID);
-                reg.put("depositNumber", StoreNumber);
-                reg.put("userUID", UserID);
-                reg.put("Date", saveCurrentDate);
-                reg.put("Time", saveCurrentTime);
-                reg.put("status", "pending...");
-                reg.put("DepositAmount", Money);
-                reg.put("depositType", Transfer_Type);
-                reg.put("InterestType", InterestType);
+                    Calendar calFordDate = Calendar.getInstance();
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                    String saveCurrentDate = currentDate.format(calFordDate.getTime());
 
-                databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
-                databaseReference.push().updateChildren(reg);
+                    SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+                    String saveCurrentTime = currentTime.format(calFordDate.getTime());
 
-                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+                    Map reg = new HashMap();
+                    reg.put("userName", userName);
+                    reg.put("userEmail", userEmail);
+                    reg.put("PaymentID", "None");
+                    reg.put("depositNumber", "None");
+                    reg.put("userUID", UserID);
+                    reg.put("Date", saveCurrentDate);
+                    reg.put("Time", saveCurrentTime);
+                    reg.put("status", "Successfully Done");
+                    reg.put("DepositAmount", Money);
+                    reg.put("depositType", Transfer_Type);
+                    reg.put("InterestType", InterestType);
 
-                alertDialog.dismiss();
+                    databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
+                    databaseReference.push().updateChildren(reg);
+
+                    Toast.makeText(getContext(), "Successfully done!", Toast.LENGTH_LONG).show();
+
+                    alertDialog.dismiss();
+                }
+
             }
 
         }); // OnClickListener replace with lambda
