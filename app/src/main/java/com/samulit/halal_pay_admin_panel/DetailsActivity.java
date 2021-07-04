@@ -88,11 +88,10 @@ public class DetailsActivity extends AppCompatActivity {
                         cancel.setVisibility(View.GONE);
                     }else if (Status.equals("pending...")){
                         done.setVisibility(View.VISIBLE);
-                        cancel.setVisibility(View.GONE);
+                        cancel.setVisibility(View.VISIBLE);
                     }else {
                         if (!getIntentType.equals("DepositRequest")){
                             done.setVisibility(View.GONE);
-                            cancel.setVisibility(View.GONE);
                         }
                     }
 
