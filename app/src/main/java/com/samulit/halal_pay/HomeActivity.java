@@ -34,13 +34,13 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
+
 import java.util.List;
-import java.util.Random;
+
 
 public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private BottomNavigationView bottomNavigationView;
@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     private DatabaseReference update, databaseReference, databaseReference2;
     FirebaseUser user;
 
-    private String UserID, TotalAmount, Interest_String, InterestMoney_String, Total, string1, string2, amount;
+    private String UserID, TotalAmount, Interest_String, InterestMoney_String, Total, string1, string2, amount, Interest_String_Ex = "";
 
     private double TotalAmount_double, Amount_double, InterestMoney_double;
     private boolean isConnectWithInternet = false;
@@ -335,6 +335,15 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
         if (!key.isEmpty() && !Amount.isEmpty()) {
             if(justOneTime == 0) {
 
+                char[] charString = Interest_String.toCharArray();
+                for (char i : charString){
+                    if (i == '.'){
+                        break;
+                    }else{
+                        Interest_String_Ex =  Interest_String_Ex + i;
+                    }
+                }
+
                 Amount_double = Double.parseDouble(Amount);
                 databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest").child(key);
                 DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
@@ -346,10 +355,10 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                         InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
                         Total = String.valueOf(InterestMoney_double + TotalAmount_double + Amount_double);
 
-                        if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) <= Integer.parseInt(interest_st)) {
-                            string1 = String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String));
-                        } else if (!Interest_String.equals(" ") && Integer.parseInt(Interest_String) >= Integer.parseInt(interest_st)) {
-                            string1 = String.valueOf(Integer.parseInt(Interest_String) - Integer.parseInt(interest_st));
+                        if (!Interest_String_Ex.equals(" ") && Integer.parseInt(Interest_String_Ex) <= Integer.parseInt(interest_st)) {
+                            string1 = String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String_Ex));
+                        } else if (!Interest_String_Ex.equals(" ") && Integer.parseInt(Interest_String_Ex) >= Integer.parseInt(interest_st)) {
+                            string1 = String.valueOf(Integer.parseInt(Interest_String_Ex) - Integer.parseInt(interest_st));
                         } else {
                             string1 = " ";
                         }

@@ -436,7 +436,7 @@ public class WalletFragment extends Fragment {
                 }
             }else {
 
-                if(Double.parseDouble(usersCurrentBalance) > Double.parseDouble(Money)){
+                if(Double.parseDouble(usersCurrentBalance) >= Double.parseDouble(Money)){
                     currentUserBalance = String.valueOf(Double.parseDouble(usersCurrentBalance) - Double.parseDouble(Money));
                     String Interest_Money = String.valueOf(Double.parseDouble(Money) * (Double.parseDouble(OneMonth_st) / 100));
 
