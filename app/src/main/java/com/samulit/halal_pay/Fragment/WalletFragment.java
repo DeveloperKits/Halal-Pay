@@ -41,7 +41,7 @@ public class WalletFragment extends Fragment {
     private TextView UserName, Available_balance, TotalBalance, Withdraw_Balance, Week, Month, Year, InterestMoney,
             InterestTest, SevenDays, FifteenDays, OneYear, FiveYears, OneMonth, Hint;
 
-    private DatabaseReference databaseReference, databaseReference2, databaseReference3;
+    private DatabaseReference databaseReference, databaseReference2, databaseReference3, databaseReference4;
     private FirebaseUser firebaseUser;
 
     private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance, userEmail,
@@ -248,7 +248,11 @@ public class WalletFragment extends Fragment {
                 databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
                 databaseReference.push().updateChildren(reg);
 
-                Toast.makeText(getContext(), "Successfully done! You will receive updates within 24 hours.", Toast.LENGTH_LONG).show();
+                databaseReference4 = FirebaseDatabase.getInstance().getReference("UserData").child(firebaseUser.getUid());
+                currentUserBalance = String.valueOf(Double.parseDouble(usersCurrentBalance) - Double.parseDouble(storeMoney));
+                databaseReference4.child("usesCurrentBalance").setValue(currentUserBalance);
+
+                Toast.makeText(getContext(), "Successfully done!", Toast.LENGTH_LONG).show();
 
                 alertDialog.dismiss();
             }
@@ -277,16 +281,6 @@ public class WalletFragment extends Fragment {
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroup);
         RadioGroup radioGroup2 = mView.findViewById(R.id.radioGroup2);
         OneMonth = mView.findViewById(R.id.oneMonth);
-
-        /*SevenDays = mView.findViewById(R.id.sevenDays);
-        FifteenDays = mView.findViewById(R.id.fifteenDays);
-        OneYear = mView.findViewById(R.id.oneYear);
-        FiveYears = mView.findViewById(R.id.FiveYears);*/
-
-        /*SevenDays.setText("1 Week   -------> " + SevenDays_St + "%");
-        FifteenDays.setText("15 Days  -------> " + FifteenDays_st + "%");
-        OneYear.setText("1 Year    -------> " + OneYear_st + "%");
-        FiveYears.setText("5 Years  -------> " + FiveYears_st + "%");*/
 
         number.setHint("Your Bkash Number");
         OneMonth.setText("1 Month -------> " + OneMonth_st + "%");
@@ -363,26 +357,6 @@ public class WalletFragment extends Fragment {
                     break;
             }
         });
-
-        /*radioGroup2.setOnCheckedChangeListener((radioGroup1, i) -> {
-            switch(i) {
-                case R.id.sevenDays:
-                    InterestType = "OneWeek";
-                    break;
-                case R.id.fifteenDays:
-                    InterestType = "FifteenDays";
-                    break;
-                case R.id.oneMonth:
-                    InterestType = "OneMonth";
-                    break;
-                case R.id.oneYear:
-                    InterestType = "OneYear";
-                    break;
-                case R.id.FiveYears:
-                    InterestType = "FiveYears";
-                    break;
-            }
-        });*/
 
         alert.setView(mView);
         final AlertDialog alertDialog = alert.create();
