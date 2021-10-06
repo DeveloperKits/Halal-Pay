@@ -209,24 +209,21 @@ public class DetailsActivity extends AppCompatActivity {
                             }
 
                         }else if (getIntentType.equals("WithdrawRequest")){
-                            if (TotalAmount_int >= Amount_int){
-                                Total = String.valueOf(TotalAmount_int - Amount_int);
-                                String sumWithdraw = String.valueOf(TotalWithdraw_int + Amount_int);
+                            String sumWithdraw = String.valueOf(TotalWithdraw_int + Amount_int);
 
-                                if (counter == 0) {
-                                    databaseReference3.child("usesCurrentBalance").setValue(Total);
-                                    databaseReference.child("status").setValue("done...");
-                                    databaseReference3.child("TotalWithdraw").setValue(sumWithdraw);
+                            if (counter == 0) {
+                                databaseReference3.child("usesCurrentBalance").setValue(Total);
+                                databaseReference.child("status").setValue("done...");
+                                databaseReference3.child("TotalWithdraw").setValue(sumWithdraw);
 
-                                    Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
-                                    text.setVisibility(View.GONE);
-                                    done.setVisibility(View.GONE);
-                                    cancel.setVisibility(View.GONE);
-                                    counter++;
-                                }
+                                Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
+                                text.setVisibility(View.GONE);
+                                done.setVisibility(View.GONE);
+                                cancel.setVisibility(View.GONE);
+                                counter++;
 
                             }else {
-                                text.setText("The user's current balance is less than the donation amount");
+                                text.setText("Save failed!");
                                 Toast.makeText(DetailsActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                             }
 
@@ -276,6 +273,11 @@ public class DetailsActivity extends AppCompatActivity {
 
 
         cancel.setOnClickListener(view -> {
+            if (getIntentType.equals("WithdrawRequest")){
+                databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
+                Total = String.valueOf(TotalAmount_int + Amount_int);
+                databaseReference3.child("usesCurrentBalance").setValue(Total);
+            }
             databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
             databaseReference.child("status").setValue("Cancel!");
         });
