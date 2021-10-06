@@ -212,7 +212,6 @@ public class DetailsActivity extends AppCompatActivity {
                             String sumWithdraw = String.valueOf(TotalWithdraw_int + Amount_int);
 
                             if (counter == 0) {
-                                databaseReference3.child("usesCurrentBalance").setValue(Total);
                                 databaseReference.child("status").setValue("done...");
                                 databaseReference3.child("TotalWithdraw").setValue(sumWithdraw);
 
@@ -274,10 +273,32 @@ public class DetailsActivity extends AppCompatActivity {
 
         cancel.setOnClickListener(view -> {
             if (getIntentType.equals("WithdrawRequest")){
-                databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
-                Total = String.valueOf(TotalAmount_int + Amount_int);
-                databaseReference3.child("usesCurrentBalance").setValue(Total);
+                counter = 0;
+                databaseReference2 = FirebaseDatabase.getInstance().getReference();
+                databaseReference2.child("UserData").child(UID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
+                            TotalAmount_int = Double.parseDouble(TotalAmount);
+                            Amount_int = Double.parseDouble(Amount);
+
+                            if (counter == 0){
+                                databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
+                                Total = String.valueOf(TotalAmount_int + Amount_int);
+                                databaseReference3.child("usesCurrentBalance").setValue(Total);
+                                counter++;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
+
             databaseReference = FirebaseDatabase.getInstance().getReference(getIntentType).child(getIntentUID);
             databaseReference.child("status").setValue("Cancel!");
         });
