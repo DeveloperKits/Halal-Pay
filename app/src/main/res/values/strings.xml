@@ -6,4 +6,6 @@
 
     <string name="loading">Loading…</string>
     <string name="Note">**Note : Interest Money Associated with Total Balance.</string>
+
+    <string name="text_label">Successfully done! You will receive updates within 24 hours.</string>
 </resources>

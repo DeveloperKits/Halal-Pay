@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -73,14 +75,12 @@
                     android:id="@+id/oneYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:text="@string/loading" />
 
                 <RadioButton
-                    android:id="@+id/FiveYears"
+                    android:id="@+id/ThreeYears"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:text="@string/loading" />
 
             </RadioGroup>
@@ -109,21 +109,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:text="BKash" />
 
                 <RadioButton
                     android:id="@+id/rocket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:text="Rocket" />
 
                 <RadioButton
                     android:id="@+id/nogod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:text="Nogod" />
 
                 <RadioButton
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="1dp"
-                    android:hint="How many tk you deposited"
+                    android:hint="Amount"
                     android:inputType="number"
                     android:textSize="16sp" />
 
