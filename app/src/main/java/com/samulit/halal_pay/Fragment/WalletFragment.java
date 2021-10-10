@@ -266,6 +266,7 @@ public class WalletFragment extends Fragment {
         text.setVisibility(View.GONE);
         wallet.setVisibility(View.GONE);
         number.setHint("Your Bkash Number");
+        Transfer_Type = "Bkash";
 
         databaseReference = FirebaseDatabase.getInstance().getReference("MerchantNumber");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -489,7 +490,7 @@ public class WalletFragment extends Fragment {
                     break;
 
                 case R.id.ThreeYears:
-                    InterestType = "FiveYears";
+                    InterestType = "ThreeYears";
                     break;
             }
         });
