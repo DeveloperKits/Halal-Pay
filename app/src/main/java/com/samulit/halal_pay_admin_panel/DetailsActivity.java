@@ -27,7 +27,7 @@ public class DetailsActivity extends AppCompatActivity {
     private DatabaseReference databaseReference, databaseReference2, databaseReference3, databaseReference4;
 
     private String getIntentUID, getIntentType, Name, Amount, Date, Time, Status, Type, Number, Interest, email,
-            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, WeekMonthYear, Interest_String, InterestMoney_String, string1, string2;
+            PaymentID, UID, Total, TotalAmount, TotalWithdraw, userTotalDepositBalance, Interest_String, InterestMoney_String, string1, string2;
 
     private int counter;
     double TotalAmount_int, Amount_int, TotalWithdraw_int, TotalDeposit_int, Amount_double, InterestMoney_double;
@@ -178,7 +178,6 @@ public class DetailsActivity extends AppCompatActivity {
                         TotalAmount = String.valueOf(snapshot.child("usesCurrentBalance").getValue());
                         TotalWithdraw = String.valueOf(snapshot.child("TotalWithdraw").getValue());
                         userTotalDepositBalance = String.valueOf(snapshot.child("userTotalDepositBalance").getValue());
-                        WeekMonthYear = String.valueOf(snapshot.child("WeekMonthYear").getValue());
                         Interest_String = String.valueOf(snapshot.child("Interest").getValue());
                         InterestMoney_String = String.valueOf(snapshot.child("InterestMoney").getValue());
 
@@ -239,7 +238,9 @@ public class DetailsActivity extends AppCompatActivity {
                                 done.setVisibility(View.GONE);
                                 cancel.setVisibility(View.GONE);
 
-                                addInterest(Interest_String, InterestMoney_String);
+                                if (!Interest.equals("Add Money")){
+                                    addInterest(Interest_String, InterestMoney_String);
+                                }
 
                                 counter++;
                             }
@@ -308,25 +309,57 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void addInterest(String interest_String, String interestMoney_String) {
         databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData").child(UID);
-        databaseReference4 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
+        databaseReference4 = FirebaseDatabase.getInstance().getReference("InterestMoney");
         databaseReference4.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String interest_st = String.valueOf(snapshot.getValue());
+                String interest_oneMonth = String.valueOf(snapshot.child("OneMonth").getValue());
+                String interest_oneYear = String.valueOf(snapshot.child("OneYear").getValue());
+                String interest_threeYears = String.valueOf(snapshot.child("FiveYears").getValue()); // Data store for three years
 
                 Amount_double = Double.parseDouble(Amount);
-                InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
 
-                if (!interest_String.equals(" ")){
-                    string1 =  String.valueOf(Integer.parseInt(interest_st) + Integer.parseInt(interest_String));
-                }else {
-                    string1 = interest_st;
+                if (!interest_String.equals(" ") && Interest.equals("OneMonth")){
+                    string1 =  String.valueOf(Integer.parseInt(interest_oneMonth) + Integer.parseInt(interest_String));
+                }else if(!interest_String.equals(" ") && Interest.equals("OneYear")) {
+                    string1 =  String.valueOf(Integer.parseInt(interest_oneYear) + Integer.parseInt(interest_String));
+                }else if(!interest_String.equals(" ") && Interest.equals("ThreeYears")){
+                    string1 =  String.valueOf(Integer.parseInt(interest_threeYears) + Integer.parseInt(interest_String));
+                } else {
+                    if (Interest.equals("OneMonth")){
+                        string1 = interest_oneMonth;
+                    }else if (Interest.equals("OneYear")){
+                        string1 = interest_oneYear;
+                    }else if (Interest.equals("ThreeYears")){
+                        string1 = interest_threeYears;
+                    }else {
+                        string1 = interest_String;
+                    }
                 }
 
-                if (!interestMoney_String.equals(" ")){
+                if (!interestMoney_String.equals(" ") && Interest.equals("OneMonth")){
+                    InterestMoney_double = (Amount_double * (Double.parseDouble(interest_oneMonth) / 100));
                     string2 =  String.valueOf(InterestMoney_double + Double.parseDouble(interestMoney_String));
-                }else {
-                    string2 = String.valueOf(InterestMoney_double);
+                }else if (!interestMoney_String.equals(" ") && Interest.equals("OneYear")){
+                    InterestMoney_double = (Amount_double * (Double.parseDouble(interest_oneYear) / 100));
+                    string2 =  String.valueOf(InterestMoney_double + Double.parseDouble(interestMoney_String));
+                }else if (!interestMoney_String.equals(" ") && Interest.equals("ThreeYears")){
+                    InterestMoney_double = (Amount_double * (Double.parseDouble(interest_threeYears) / 100));
+                    string2 =  String.valueOf(InterestMoney_double + Double.parseDouble(interestMoney_String));
+                }
+                else {
+                    if (Interest.equals("OneMonth")){
+                        InterestMoney_double = (Amount_double * (Double.parseDouble(interest_oneMonth) / 100));
+                        string2 = String.valueOf(InterestMoney_double);
+                    }else if (Interest.equals("OneYear")){
+                        InterestMoney_double = (Amount_double * (Double.parseDouble(interest_oneYear) / 100));
+                        string2 = String.valueOf(InterestMoney_double);
+                    }else if (Interest.equals("ThreeYears")){
+                        InterestMoney_double = (Amount_double * (Double.parseDouble(interest_threeYears) / 100));
+                        string2 = String.valueOf(InterestMoney_double);
+                    }else {
+                        string2 = interestMoney_String;
+                    }
                 }
 
                 databaseReference2.child("Interest").setValue(string1);
