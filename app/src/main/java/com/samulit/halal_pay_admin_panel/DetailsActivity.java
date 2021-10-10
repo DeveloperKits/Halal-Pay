@@ -315,7 +315,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String interest_oneMonth = String.valueOf(snapshot.child("OneMonth").getValue());
                 String interest_oneYear = String.valueOf(snapshot.child("OneYear").getValue());
-                String interest_threeYears = String.valueOf(snapshot.child("FiveYears").getValue()); // Data store for three years
+                String interest_threeYears = String.valueOf(snapshot.child("ThreeYears").getValue());
 
                 Amount_double = Double.parseDouble(Amount);
 

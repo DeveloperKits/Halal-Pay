@@ -270,7 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         final AlertDialog.Builder alert = new AlertDialog.Builder(HomeActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.custom_dialog_box_edit_profile,null);
 
-        final EditText fiveYear = mView.findViewById(R.id.email);
+        final EditText threeYears = mView.findViewById(R.id.email);
         final EditText oneYear = mView.findViewById(R.id.name);
         final EditText oneMonth = mView.findViewById(R.id.age);
         final EditText fifteenDays = mView.findViewById(R.id.fifteenDays);
@@ -285,12 +285,10 @@ public class HomeActivity extends AppCompatActivity {
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
 
-        ll3.setVisibility(View.GONE);
-        ll4.setVisibility(View.GONE);
-        enter1.setText("5 Years:    ");
+        enter1.setText("3 Years:    ");
         enter2.setText("1 Year :     ");
         enter3.setText("1 Month:   ");
-        fiveYear.setHint("Enter Interest...");
+        threeYears.setHint("Enter Interest...");
         oneYear.setHint("Enter Interest...");
         oneMonth.setHint("Enter Interest...");
 
@@ -299,7 +297,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    fiveYear.setText(snapshot.child("FiveYears").getValue().toString());
+                    threeYears.setText(snapshot.child("ThreeYears").getValue().toString());
                     oneYear.setText(snapshot.child("OneYear").getValue().toString());
                     oneMonth.setText(snapshot.child("OneMonth").getValue().toString());
                     fifteenDays.setText(snapshot.child("FifteenDays").getValue().toString());
@@ -322,8 +320,8 @@ public class HomeActivity extends AppCompatActivity {
             databaseReference = FirebaseDatabase.getInstance().getReference("InterestMoney");
             Map mer = new HashMap();
 
-            if (!fiveYear.getText().toString().equals(" ")){
-                mer.put("FiveYears", fiveYear.getText().toString());
+            if (!threeYears.getText().toString().equals(" ")){
+                mer.put("ThreeYears", threeYears.getText().toString());
             }
             if (!oneYear.getText().toString().equals(" ")){
                 mer.put("OneYear", oneYear.getText().toString());
@@ -331,12 +329,12 @@ public class HomeActivity extends AppCompatActivity {
             if (!oneMonth.getText().toString().equals(" ")){
                 mer.put("OneMonth", oneMonth.getText().toString());
             }
-            if (!fifteenDays.getText().toString().equals(" ")){
+            /*if (!fifteenDays.getText().toString().equals(" ")){
                 mer.put("FifteenDays", fifteenDays.getText().toString());
             }
             if (!oneWeek.getText().toString().equals(" ")){
                 mer.put("OneWeek", oneWeek.getText().toString());
-            }
+            }*/
 
             databaseReference.updateChildren(mer);
             Toast.makeText(getApplicationContext(), "Successfully Done!", Toast.LENGTH_SHORT).show();
