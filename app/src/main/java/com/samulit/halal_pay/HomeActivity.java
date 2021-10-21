@@ -293,8 +293,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
                         String ID = postSnapshot.child("userUID").getValue().toString();
                         String status = postSnapshot.child("status").getValue().toString();
+                        String InterestType = postSnapshot.child("InterestType").getValue().toString();
 
-                        if (UserID.equals(ID) && status.equals("Successfully Done")) {
+                        if (UserID.equals(ID) && status.equals("Successfully Done") && !InterestType.equals("Add Money")) {
                             String Date = postSnapshot.child("Date").getValue().toString();
                             List<String> list = Arrays.asList(Date.split("-"));
                             int index = checkIndex(list.get(1));
@@ -312,9 +313,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                             if ((index2 - index == 1) && (Integer.parseInt(list2.get(0)) - Integer.parseInt(list.get(0)) > 0) &&
                                     (Integer.parseInt(list2.get(2)) - Integer.parseInt(list.get(2)) == 0)) {
 
-                                AddedUserInterest(key, amount);
+                                AddedUserInterest(key, amount, InterestType);
                             }else if ((Integer.parseInt(list2.get(2)) - Integer.parseInt(list.get(2)) > 0) || (index2 - index > 1)) {
-                                AddedUserInterest(key, amount);
+                                AddedUserInterest(key, amount, InterestType);
                             }
                         }
                     }
@@ -331,7 +332,8 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     }
 
 
-    private void AddedUserInterest(String key, String Amount) {
+    // After puja
+    private void AddedUserInterest(String key, String Amount, String Type) {
         if (!key.isEmpty() && !Amount.isEmpty()) {
             if(justOneTime == 0) {
 
@@ -346,34 +348,26 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
                 Amount_double = Double.parseDouble(Amount);
                 databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest").child(key);
-                DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney").child("OneMonth");
+                DatabaseReference databaseReference3 = FirebaseDatabase.getInstance().getReference("InterestMoney");
                 databaseReference3.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String interest_st = String.valueOf(snapshot.getValue());
+                        String interest_oneMonth = String.valueOf(snapshot.child("OneMonth").getValue());
+                        String interest_oneYear = String.valueOf(snapshot.child("OneYear").getValue());
+                        String interest_threeYears = String.valueOf(snapshot.child("ThreeYears").getValue());
 
-                        InterestMoney_double = (Amount_double * (Double.parseDouble(interest_st) / 100));
-                        Total = String.valueOf(InterestMoney_double + TotalAmount_double + Amount_double);
-
-                        if (!Interest_String_Ex.equals(" ") && Integer.parseInt(Interest_String_Ex) <= Integer.parseInt(interest_st)) {
-                            string1 = String.valueOf(Integer.parseInt(interest_st) - Integer.parseInt(Interest_String_Ex));
-                        } else if (!Interest_String_Ex.equals(" ") && Integer.parseInt(Interest_String_Ex) >= Integer.parseInt(interest_st)) {
-                            string1 = String.valueOf(Integer.parseInt(Interest_String_Ex) - Integer.parseInt(interest_st));
-                        } else {
-                            string1 = " ";
+                        switch (Type) {
+                            case "OneYear":
+                                check_and_add(Amount_double, interest_oneYear, Interest_String_Ex);
+                                break;
+                            case "OneMonth":
+                                check_and_add(Amount_double, interest_oneMonth, Interest_String_Ex);
+                                break;
+                            case "ThreeYears":
+                                check_and_add(Amount_double, interest_threeYears, Interest_String_Ex);
+                                break;
                         }
 
-                        if (!InterestMoney_String.equals(" ") && InterestMoney_double >= Double.parseDouble(InterestMoney_String)) {
-                            string2 = String.valueOf(InterestMoney_double - Double.parseDouble(InterestMoney_String));
-                        } else if (!InterestMoney_String.equals(" ") && InterestMoney_double <= Double.parseDouble(InterestMoney_String)) {
-                            string2 = String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_double);
-                        } else {
-                            string2 = " ";
-                        }
-
-                        databaseReference2.child(UserID).child("Interest").setValue(string1);
-                        databaseReference2.child(UserID).child("InterestMoney").setValue(string2);
-                        databaseReference2.child(UserID).child("usesCurrentBalance").setValue(Total);
                         databaseReference.child("status").setValue("Added Interest");
 
                         justOneTime++;
@@ -388,6 +382,32 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
                 justOneTime++;
             }
         }
+    }
+
+    private void check_and_add(double amount_double, String interest, String interest_string_ex) {
+        InterestMoney_double = (amount_double * (Double.parseDouble(interest) / 100));
+        Total = String.valueOf(InterestMoney_double + TotalAmount_double + amount_double);
+
+        if (!interest_string_ex.equals(" ") && Integer.parseInt(interest_string_ex) <= Integer.parseInt(interest)) {
+            string1 = String.valueOf(Integer.parseInt(interest) - Integer.parseInt(interest_string_ex));
+        } else if (!interest_string_ex.equals(" ") && Integer.parseInt(interest_string_ex) >= Integer.parseInt(interest)) {
+            string1 = String.valueOf(Integer.parseInt(interest_string_ex) - Integer.parseInt(interest));
+        } else {
+            string1 = " ";
+        }
+
+        if (!InterestMoney_String.equals(" ") && InterestMoney_double >= Double.parseDouble(InterestMoney_String)) {
+            string2 = String.valueOf(InterestMoney_double - Double.parseDouble(InterestMoney_String));
+        } else if (!InterestMoney_String.equals(" ") && InterestMoney_double <= Double.parseDouble(InterestMoney_String)) {
+            string2 = String.valueOf(Double.parseDouble(InterestMoney_String) - InterestMoney_double);
+        } else {
+            string2 = " ";
+        }
+
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData");
+        databaseReference2.child(UserID).child("Interest").setValue(string1);
+        databaseReference2.child(UserID).child("InterestMoney").setValue(string2);
+        databaseReference2.child(UserID).child("usesCurrentBalance").setValue(Total);
     }
 
 
