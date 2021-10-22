@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment {
                         interest = snapshot.child("Interest").getValue().toString();
 
                         UserName.setText(userName);
-                        UserBalance.setText(usersCurrentBalance + " BDT");
+                        UserBalance.setText(new DecimalFormat("##.##").format(Double.parseDouble(usersCurrentBalance)) + " BDT");
 
                         if (!userImage.equals(" ")){
                             Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);

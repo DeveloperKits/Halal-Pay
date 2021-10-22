@@ -64,12 +64,12 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="sans-serif-black"
                     android:layout_marginTop="10dp"
-                    android:text="Total Deposit"
+                    android:text="Available"
                     android:textColor="@color/text_color_back"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/Total_Balance"
+                    android:id="@+id/available"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="00dp"
@@ -120,12 +120,12 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-black"
                             android:layout_marginTop="15dp"
-                            android:text="Available"
+                            android:text="Total Deposit"
                             android:textColor="@color/text_color_back"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/available"
+                            android:id="@+id/Total_Balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0dp"

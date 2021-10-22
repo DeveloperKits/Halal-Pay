@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -95,9 +96,9 @@ public class WalletFragment extends Fragment {
                         interest = snapshot.child("Interest").getValue().toString();
 
                         UserName.setText(userName);
-                        Available_balance.setText(usersCurrentBalance + " BDT");
-                        TotalBalance.setText(usersTotalBalance + " BDT");
-                        Withdraw_Balance.setText(userWithdrawBalance + " BDT");
+                        Available_balance.setText(new DecimalFormat("##.##").format(Double.parseDouble(usersCurrentBalance)) + " BDT");
+                        TotalBalance.setText(new DecimalFormat("##.##").format(Double.parseDouble(usersTotalBalance)) + " BDT");
+                        Withdraw_Balance.setText(new DecimalFormat("##.##").format(Double.parseDouble(userWithdrawBalance)) + " BDT");
 
                         if (!userImage.equals(" ")){
                             Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);
@@ -106,7 +107,7 @@ public class WalletFragment extends Fragment {
                         }
 
                         if (!interest_money.equals(" ")){
-                            InterestMoney.setText(interest_money + " BDT");
+                            InterestMoney.setText(new DecimalFormat("##.##").format(Double.parseDouble(interest_money)) + " BDT");
                             InterestMoney.setVisibility(View.VISIBLE);
                             InterestTest.setVisibility(View.VISIBLE);
                         }else {
@@ -171,15 +172,15 @@ public class WalletFragment extends Fragment {
             switch(i) {
                 case R.id.bkash:
                     withdraw_Type = "Bkash";
-                    number.setHint("Enter your bkash number...");
+                    number.setHint("Your Bkash Number");
                     break;
                 case R.id.rocket:
                     withdraw_Type = "Rocket";
-                    number.setHint("Enter your rocket number...");
+                    number.setHint("Your Rocket Number");
                     break;
                 case R.id.nogod:
                     withdraw_Type = "Nogod";
-                    number.setHint("Enter your nogod number...");
+                    number.setHint("Your Nogod Number");
                     break;
 
             }
