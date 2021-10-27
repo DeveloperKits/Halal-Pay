@@ -407,6 +407,7 @@ public class WalletFragment extends Fragment {
         ThreeYears.setText("3 Years -------> " + ThreeYears_st + "%"); // The value of Five Years will serve as the value of three Years
         Transfer_Type = "Bkash";
         InterestType = "OneMonth";
+        SevenDays_St = OneMonth_st;
 
         databaseReference = FirebaseDatabase.getInstance().getReference("MerchantNumber");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -483,17 +484,17 @@ public class WalletFragment extends Fragment {
             switch (i){
                 case R.id.oneMonth:
                     InterestType = "OneMonth";
-                    OneMonth_st = OneMonth_st;
+                    SevenDays_St = OneMonth_st;
                     break;
 
                 case R.id.oneYear:
                     InterestType = "OneYear";
-                    OneMonth_st = OneYear_st;
+                    SevenDays_St = OneYear_st;
                     break;
 
                 case R.id.ThreeYears:
                     InterestType = "ThreeYears";
-                    OneMonth_st = ThreeYears_st;
+                    SevenDays_St = ThreeYears_st;
                     break;
             }
         });
@@ -554,11 +555,11 @@ public class WalletFragment extends Fragment {
 
                 if(Double.parseDouble(usersCurrentBalance) >= Double.parseDouble(Money)){
                     currentUserBalance = String.valueOf(Double.parseDouble(usersCurrentBalance) - Double.parseDouble(Money));
-                    String Interest_Money = String.valueOf(Double.parseDouble(Money) * (Double.parseDouble(OneMonth_st) / 100));
+                    String Interest_Money = String.valueOf(Double.parseDouble(Money) * (Double.parseDouble(SevenDays_St) / 100));
 
                     databaseReference3 = FirebaseDatabase.getInstance().getReference("UserData").child(firebaseUser.getUid());
                     databaseReference3.child("usesCurrentBalance").setValue(currentUserBalance);
-                    databaseReference3.child("Interest").setValue(String.valueOf(Double.parseDouble(interest) + Double.parseDouble(OneMonth_st)));
+                    databaseReference3.child("Interest").setValue(String.valueOf(Double.parseDouble(interest) + Double.parseDouble(SevenDays_St)));
                     databaseReference3.child("InterestMoney").setValue(String.valueOf(Double.parseDouble(interest_money) + Double.parseDouble(Interest_Money)));
                     databaseReference3.child("userTotalDepositBalance").setValue(String.valueOf(Double.parseDouble(usersTotalBalance) + Double.parseDouble(Money)));
 
