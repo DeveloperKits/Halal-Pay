@@ -37,7 +37,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class WalletFragment extends Fragment {
     private MaterialCardView Deposit, Withdraw, Add_Money;
     private ImageView Profile_Image;

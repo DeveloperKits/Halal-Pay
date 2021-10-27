@@ -6,6 +6,10 @@
         android:title="Deposit History" />
 
     <item
+        android:id="@+id/withdrawHistory"
+        android:title="Withdraw History" />
+
+    <item
         android:id="@+id/about_us"
         android:title="About Us" />
 

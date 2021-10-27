@@ -165,6 +165,9 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
             }else if (menuItem.getTitle().equals("Deposit History")){
                 Intent intent = new Intent(HomeActivity.this, DepositHistoryActivity.class);
                 startActivity(intent);
+            }else if (menuItem.getTitle().equals("Withdraw History")){
+                Intent intent = new Intent(HomeActivity.this, Withdraw_History_Activity.class);
+                startActivity(intent);
             }
             return true;
 

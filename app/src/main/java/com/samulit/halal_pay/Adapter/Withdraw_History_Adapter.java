@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,12 +21,12 @@ import com.samulit.halal_pay.R;
 
 import java.util.ArrayList;
 
-public class Deposit_History_Adapter extends RecyclerView.Adapter<Deposit_History_Adapter.viewHolder> {
+public class Withdraw_History_Adapter extends RecyclerView.Adapter<Withdraw_History_Adapter.viewHolder> {
 
     private final Context pContext;
     private final ArrayList<depositHistoryModel> historyModel;
 
-    public Deposit_History_Adapter(Context pContext, ArrayList<depositHistoryModel> historyModel) {
+    public Withdraw_History_Adapter(Context pContext, ArrayList<depositHistoryModel> historyModel){
         this.pContext = pContext;
         this.historyModel = historyModel;
     }
@@ -44,29 +45,28 @@ public class Deposit_History_Adapter extends RecyclerView.Adapter<Deposit_Histor
 
         if (position == historyModel.size()-1){
             holder.viewX.setVisibility(View.GONE);
-            holder.depositNumber.setPadding(0,0,0,50);
+            holder.withdrawNumber.setPadding(0,0,0,50);
         }
 
         holder.databaseReference.child(key).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
+            @SuppressLint({"SetTextI18n", "ResourceAsColor"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String payID = snapshot.child("PaymentID").getValue().toString();
                 String date = snapshot.child("Date").getValue().toString();
                 String time = snapshot.child("Time").getValue().toString();
-                String Amount = snapshot.child("DepositAmount").getValue().toString();
-                String number = snapshot.child("depositNumber").getValue().toString();
-                String type = snapshot.child("depositType").getValue().toString();
+                String Amount = snapshot.child("withdrawMoney").getValue().toString();
+                String number = snapshot.child("WithdrawPhone").getValue().toString();
+                String type = snapshot.child("withdrawType").getValue().toString();
                 String Status = snapshot.child("status").getValue().toString();
-                String Interest = snapshot.child("InterestType").getValue().toString();
 
-                holder.paymentID.setText("Pay ID: " + payID);
+                holder.DateTime.setTextColor(ContextCompat.getColor(pContext, R.color.red_light));
                 holder.DateTime.setText(date + "  " + time);
                 holder.status.setText(Status);
-                holder.depositNumber.setText("Dep Num: " + number);
-                holder.depositType.setText("Dep Type: " + type);
+                holder.withdrawNumber.setText("Dep Num: " + number);
+                holder.withdrawType.setText("Dep Type: " + type);
                 holder.Amount.setText("+ ৳" + Amount);
-                holder.interest_Text.setText("Interest   : " + Interest);
+                holder.interest_Text.setVisibility(View.GONE);
+                holder.paymentID.setVisibility(View.GONE);
             }
 
             @Override
@@ -81,10 +81,9 @@ public class Deposit_History_Adapter extends RecyclerView.Adapter<Deposit_Histor
         return historyModel.size();
     }
 
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-    public static class viewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView paymentID, DateTime, depositType, Amount, depositNumber, status, interest_Text;
+        private final TextView paymentID, DateTime, withdrawType, Amount, withdrawNumber, status, interest_Text;
         private final View viewX;
         private final DatabaseReference databaseReference;
 
@@ -94,13 +93,13 @@ public class Deposit_History_Adapter extends RecyclerView.Adapter<Deposit_Histor
             interest_Text = itemView.findViewById(R.id.InterestText);
             paymentID = itemView.findViewById(R.id.transID);
             DateTime = itemView.findViewById(R.id.dateTime);
-            depositType = itemView.findViewById(R.id.depType);
+            withdrawType = itemView.findViewById(R.id.depType);
             Amount = itemView.findViewById(R.id.amount);
-            depositNumber = itemView.findViewById(R.id.depNum);
+            withdrawNumber = itemView.findViewById(R.id.depNum);
             status = itemView.findViewById(R.id.status);
             viewX = itemView.findViewById(R.id.view);
 
-            databaseReference = FirebaseDatabase.getInstance().getReference("DepositRequest");
+            databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
         }
     }
 }

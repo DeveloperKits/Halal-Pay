@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Transparent">#00ff001C</color>
     <color name="Red">#FF0000</color>
+    <color name="red_light">#FFA2A2</color>
 
     <color name="statusBar">#283B59</color>
     <color name="colour_bottom_bar">#FB3F8E</color>
