@@ -48,7 +48,7 @@ public class WalletFragment extends Fragment {
 
     private String Transfer_Type, withdraw_Type, UserID, userName, userImage, usersCurrentBalance, userEmail,
             usersTotalBalance, userWithdrawBalance ,WeekMonthYear, bkash_mer, rocket_mer, nogod_mer, InterestType,
-            interest_money, SevenDays_St, OneMonth_st, FifteenDays_st, OneYear_st, FiveYears_st, currentUserBalance, interest;
+            interest_money, SevenDays_St, OneMonth_st, FifteenDays_st, OneYear_st, ThreeYears_st, currentUserBalance, interest;
 
     private View view;
 
@@ -141,7 +141,7 @@ public class WalletFragment extends Fragment {
                         FifteenDays_st = String.valueOf(snapshot.child("FifteenDays").getValue());
                         OneMonth_st = String.valueOf(snapshot.child("OneMonth").getValue());
                         OneYear_st = String.valueOf(snapshot.child("OneYear").getValue());
-                        FiveYears_st = String.valueOf(snapshot.child("FiveYears").getValue());
+                        ThreeYears_st = String.valueOf(snapshot.child("ThreeYears").getValue());
                     }
                 }
 
@@ -404,7 +404,7 @@ public class WalletFragment extends Fragment {
         number.setHint("Your Bkash Number");
         OneMonth.setText("1 Month -------> " + OneMonth_st + "%");
         OneYear.setText("1 Year -------> " + OneYear_st + "%");
-        ThreeYears.setText("3 Years -------> " + FiveYears_st + "%"); // The value of Five Years will serve as the value of three Years
+        ThreeYears.setText("3 Years -------> " + ThreeYears_st + "%"); // The value of Five Years will serve as the value of three Years
         Transfer_Type = "Bkash";
         InterestType = "OneMonth";
 
@@ -483,14 +483,17 @@ public class WalletFragment extends Fragment {
             switch (i){
                 case R.id.oneMonth:
                     InterestType = "OneMonth";
+                    OneMonth_st = OneMonth_st;
                     break;
 
                 case R.id.oneYear:
                     InterestType = "OneYear";
+                    OneMonth_st = OneYear_st;
                     break;
 
                 case R.id.ThreeYears:
                     InterestType = "ThreeYears";
+                    OneMonth_st = ThreeYears_st;
                     break;
             }
         });
