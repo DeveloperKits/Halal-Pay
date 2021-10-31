@@ -231,7 +231,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                             if (counter == 0) {
                                 databaseReference.child("status").setValue("Successfully Done");
-                                databaseReference3.child("userTotalDepositBalance").setValue(sumDeposit);
+                                //databaseReference3.child("userTotalDepositBalance").setValue(sumDeposit);
 
                                 Toast.makeText(DetailsActivity.this, "Successfully Done!", Toast.LENGTH_SHORT).show();
                                 text.setVisibility(View.GONE);
@@ -239,7 +239,10 @@ public class DetailsActivity extends AppCompatActivity {
                                 cancel.setVisibility(View.GONE);
 
                                 if (!Interest.equals("Add Money")){
+                                    databaseReference3.child("userTotalDepositBalance").setValue(sumDeposit);
                                     addInterest(Interest_String, InterestMoney_String);
+                                } else if(Interest.equals("Add Money")){
+                                    databaseReference3.child("usesCurrentBalance").setValue(Total);
                                 }
 
                                 counter++;
