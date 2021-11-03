@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/depositHistory"
-        android:title="Deposit History" />
+        android:title="Transaction History" />
 
     <item
         android:id="@+id/withdrawHistory"

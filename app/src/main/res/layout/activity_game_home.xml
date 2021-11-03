@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Game.GameHome">
+
+    <Button
+        android:id="@+id/back"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        app:icon="@drawable/ic_baseline_arrow_back_24"
+        app:iconTint="@color/white"
+        app:rippleColor="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/coin_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp">
+
+        <TextView
+            android:id="@+id/coin_note"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/ic_path_one"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:paddingVertical="5dp"
+            android:text="9999"
+            android:textColor="@color/white_light"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
+
+        <ImageView
+            android:id="@+id/coin_pic"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/coin" />
+
+        <ImageView
+            android:id="@+id/add_coin"
+            android:layout_marginTop="1dp"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="-20dp"
+            android:layout_toEndOf="@+id/coin_note"
+            android:src="@drawable/add_cart" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="340dp"
+        android:layout_below="@id/coin_layout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-170dp"
+        android:src="@drawable/logo_game_eagle" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo_game"
+        android:layout_below="@id/coin_layout"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tic_toc_toe"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_above="@id/corona_runner"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/white_light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/tic_toc_toe"
+                android:scaleType="centerCrop"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/corona_runner"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/white_light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/corona_runner"
+                android:scaleType="centerCrop"/>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

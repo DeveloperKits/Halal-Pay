@@ -27,7 +27,8 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    app:cardCornerRadius="25dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/white_light">
 
                     <LinearLayout
                         android:id="@+id/Profile_card"
@@ -140,13 +141,37 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/donation"
+                    android:id="@+id/game"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="20dp"
-                    app:cardCornerRadius="25dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/white_light">
+
+                    <RelativeLayout
+                        android:id="@+id/gameImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <ImageView
+                            android:id="@+id/Image_Game"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/donation"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="20dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/white_light">
 
                     <RelativeLayout
                         android:id="@+id/donationImage"
@@ -156,20 +181,21 @@
                         <ImageView
                             android:id="@+id/Image_Donation"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"/>
 
                     </RelativeLayout>
-
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/business_loan"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     app:cardCornerRadius="25dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="25dp">
+                    android:layout_marginEnd="20dp"
+                    app:cardBackgroundColor="@color/white_light">
 
                     <RelativeLayout
                         android:id="@+id/businessImage"
@@ -179,10 +205,10 @@
                         <ImageView
                             android:id="@+id/Image_Business"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"/>
 
                     </RelativeLayout>
-
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -191,7 +217,8 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="15dp"
-                    app:cardCornerRadius="25dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/white_light">
 
                     <TextView
                         android:layout_width="wrap_content"
