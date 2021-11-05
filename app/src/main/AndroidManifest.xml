@@ -15,7 +15,9 @@
         android:roundIcon="@drawable/halalpay_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
-        <activity android:name=".Game.GameHome"></activity>
+        <activity android:name=".Game.TicTacToe_Minimax_algo"></activity>
+        <activity android:name=".Game.Corona_Runner" />
+        <activity android:name=".Game.GameHome" />
         <activity android:name=".Withdraw_History_Activity" />
         <activity android:name=".DepositHistoryActivity" />
         <activity android:name=".ChangeImageActivity" />

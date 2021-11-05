@@ -2,6 +2,7 @@ package com.samulit.halal_pay.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.samulit.halal_pay.Game.GameHome;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +44,7 @@ import static com.samulit.halal_pay.R.drawable.loading_gif__;
 
 
 public class HomeFragment extends Fragment {
-    private MaterialCardView Donation, Business_Loan, Profile_card;
+    private MaterialCardView Donation, Business_Loan, Profile_card, Game;
     private ImageView Profile_Image, Image_Donation, Image_Business;
     private TextView UserName, UserBalance, UserPercentage, Percentage_Day, Invisible_Text;
     private RelativeLayout DonationImage, BusinessImage;
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Game = view.findViewById(R.id.game);
         Donation = view.findViewById(R.id.donation);
         Business_Loan = view.findViewById(R.id.business_loan);
         Profile_card = view.findViewById(R.id.profileCard);
@@ -76,6 +79,10 @@ public class HomeFragment extends Fragment {
         Image_Business = view.findViewById(R.id.Image_Business);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        Game.setOnClickListener(view1 -> {
+            startActivity(new Intent(getContext(), GameHome.class));
+        });
 
         /*Profile_card.setOnClickListener(view12 -> {
             WalletFragment walletFragment = new WalletFragment();

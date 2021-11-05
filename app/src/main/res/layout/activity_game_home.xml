@@ -65,7 +65,7 @@
         android:layout_height="340dp"
         android:layout_below="@id/coin_layout"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="-170dp"
         android:src="@drawable/logo_game_eagle" />
 
@@ -73,7 +73,7 @@
         android:id="@+id/logo"
         android:layout_width="250dp"
         android:layout_height="240dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/logo_game"
         android:layout_below="@id/coin_layout"/>
@@ -86,7 +86,9 @@
         android:layout_above="@id/corona_runner"
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/white_light">
+        app:cardBackgroundColor="@color/white_light"
+        android:clickable="true"
+        android:focusable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -108,7 +110,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/white_light">
+        app:cardBackgroundColor="@color/white_light"
+        android:clickable="true"
+        android:focusable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
