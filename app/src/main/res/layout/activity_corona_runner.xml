@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".Game.Corona_Runner">
 
     <Button
@@ -15,7 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         app:icon="@drawable/ic_baseline_arrow_back_24"
-        app:iconTint="@color/text_color_back"
+        app:iconTint="@color/white"
         app:rippleColor="@color/white" />
 
     <TextView
@@ -26,7 +27,17 @@
         android:fontFamily="@font/aldrich"
         android:text="Corona Runner"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/white_light"/>
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="340dp"
+        android:layout_below="@id/back"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-170dp"
+        android:src="@drawable/logo_game_eagle" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +45,8 @@
         android:text="Let's Play"
         android:layout_above="@id/web"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/white_light"/>
 
 
     <androidx.cardview.widget.CardView
@@ -49,7 +61,9 @@
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbarSize="0dp"
+            android:background="@color/white_light"/>
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

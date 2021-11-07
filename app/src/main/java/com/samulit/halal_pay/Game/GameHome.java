@@ -20,9 +20,9 @@ public class GameHome extends AppCompatActivity {
         View view = gameHomeBinding.getRoot();
         setContentView(view);
 
-        gameHomeBinding.coronaRunner.setOnClickListener(view1 -> {
-            startActivity(new Intent(this, Corona_Runner.class));
-        });
+        gameHomeBinding.coronaRunner.setOnClickListener(view1 -> startActivity(new Intent(this, Corona_Runner.class)));
+
+        gameHomeBinding.ticTocToe.setOnClickListener(view1 -> startActivity(new Intent(this, TicTacToe_Minimax_algo.class)));
 
         gameHomeBinding.back.setOnClickListener(view1 -> onBackPressed());
     }

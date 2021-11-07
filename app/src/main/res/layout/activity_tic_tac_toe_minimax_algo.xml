@@ -19,12 +19,34 @@
         app:iconTint="@color/white"
         app:rippleColor="@color/white" />
 
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="340dp"
+        android:layout_below="@id/back"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-170dp"
+        android:src="@drawable/logo_game_eagle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/aldrich"
+        android:text="Tik Toc Toe"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white_light"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_below="@id/back">
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -34,7 +56,7 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="#062424"
+                app:cardBackgroundColor="@color/deep_blue"
                 app:strokeColor="@color/white_light"
                 app:strokeWidth="1dp"
                 app:cardElevation="2dp">
@@ -72,7 +94,7 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="#062424"
+                app:cardBackgroundColor="@color/deep_blue"
                 app:cardElevation="2dp">
 
                 <LinearLayout
@@ -104,7 +126,9 @@
             android:padding="16dp"
             android:alignmentMode="alignBounds"
             android:useDefaultMargins="true"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/ll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
             android:rowCount="3"
             android:columnCount="3"
             android:id="@+id/layout_board"
