@@ -1,17 +1,28 @@
 package com.samulit.halal_pay.Game;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.samulit.halal_pay.Dialog.EnterGameDialog;
 import com.samulit.halal_pay.R;
 import com.samulit.halal_pay.databinding.ActivityGameHomeBinding;
 
 public class GameHome extends AppCompatActivity {
 
     private ActivityGameHomeBinding gameHomeBinding;
+
+    String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +31,32 @@ public class GameHome extends AppCompatActivity {
         View view = gameHomeBinding.getRoot();
         setContentView(view);
 
+        UserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserData");
+        databaseReference.child(UserID).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    long UserCoin = (long) snapshot.child("UserCoin").getValue();
+                    gameHomeBinding.coinNote.setText(String.valueOf(UserCoin));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         gameHomeBinding.coronaRunner.setOnClickListener(view1 -> startActivity(new Intent(this, Corona_Runner.class)));
 
-        gameHomeBinding.ticTocToe.setOnClickListener(view1 -> startActivity(new Intent(this, TicTacToe_Minimax_algo.class)));
+        gameHomeBinding.ticTocToe.setOnClickListener(view1 -> {
+            @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_enter_game,null);
+            EnterGameDialog gameDialog = new EnterGameDialog(this, mView);
+            gameDialog.createDialog();
+        });
 
         gameHomeBinding.back.setOnClickListener(view1 -> onBackPressed());
     }

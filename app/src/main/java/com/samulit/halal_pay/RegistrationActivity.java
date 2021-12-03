@@ -200,6 +200,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg.put("InterestMoney", " ");
         reg.put("usesCurrentBalance", "0");
         reg.put("HowManyTimeDeposit", "0");
+        reg.put("UserCoin", 300);
         reg.put("userMembershipTime", saveCurrentTime);
         reg.put("userMembershipDate", saveCurrentDate);
 
@@ -314,6 +315,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg.put("InterestMoney", " ");
         reg.put("usesCurrentBalance", "0");
         reg.put("HowManyTimeDeposit", "0");
+        reg.put("UserCoin", 300);
         reg.put("userMembershipTime", saveCurrentTime);
         reg.put("userMembershipDate", saveCurrentDate);
 
