@@ -6,14 +6,14 @@
 
     <TextView
         android:id="@+id/play"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play Game"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/dark_light"
         android:layout_marginTop="-25dp"
-        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/cancel"/>
 
     <Button

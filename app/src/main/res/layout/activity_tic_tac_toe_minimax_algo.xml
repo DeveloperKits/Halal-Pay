@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Game.TicTacToe_Minimax_algo">
+    tools:context=".Game.TicTacToe_Minimax_algo"
+    tools:ignore="VectorDrawableCompat">
 
     <Button
         android:id="@+id/back"
@@ -39,11 +40,43 @@
         android:textStyle="bold"
         android:textColor="@color/white_light"/>
 
+    <LinearLayout
+        android:id="@+id/favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:id="@+id/f1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+        <ImageView
+            android:id="@+id/f2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+        <ImageView
+            android:id="@+id/f3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_below="@id/back">
+        android:layout_below="@id/favourite">
 
         <LinearLayout
             android:id="@+id/ll"

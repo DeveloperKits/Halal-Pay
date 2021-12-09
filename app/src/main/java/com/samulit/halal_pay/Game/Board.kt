@@ -12,7 +12,7 @@ class Board {
     val board = Array(3) { arrayOfNulls<String>(3) }
 
     //This property is giving us
-    //a list of all the empty cells
+    //a list of all the empty cells+
     val availableCells: List<Cell>
         get() {
             val cells = mutableListOf<Cell>()
