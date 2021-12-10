@@ -1,17 +1,18 @@
 package com.samulit.halal_pay.Game
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
-import android.icu.text.CaseMap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.samulit.halal_pay.Model.MediaSound
 import com.samulit.halal_pay.R
 import com.samulit.tictoctoewithai.Board
@@ -28,7 +29,16 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
     //creating the board instance
     var board = Board()
 
-    var count = 0
+    private var count: Int? = 0
+    private var entryFee: Int? = 0
+    private var computerwincount: Int? = 0
+    private var yourwincount: Int? = 0
+    private var userRef: DatabaseReference? = null
+    private var userID: String? = null
+    private var imageHint: String? = null
+    private var ishard: String? = null
+    private var name: String? = null
+    private var userCoin: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +51,55 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
             onBackPressed()
             media.buttonSound(this)
         }
+
+        // Game Field
+        userID = FirebaseAuth.getInstance().uid
+        userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
+        userRef!!.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                count = snapshot.child("Count").getValue(Int:: class.java)
+                entryFee = snapshot.child("Entry Fee").getValue(Int:: class.java)
+                imageHint = snapshot.child("Piece Image").getValue(String:: class.java)
+                ishard = snapshot.child("isHard").getValue(String:: class.java)
+                name = snapshot.child("name").getValue(String:: class.java)
+                computerwincount = snapshot.child("computer win").getValue(Int:: class.java)
+                yourwincount = snapshot.child("you win").getValue(Int:: class.java)
+
+                opponent_name.text = name
+
+                if (count == 1) {
+                    f1.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    f2.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                }
+                else if (count == 2) {
+                    f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    f2.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                }
+                else {
+                    f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    f2.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+        userRef!!.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userCoin = snapshot.child("UserCoin").getValue(Int:: class.java)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
     }
 
@@ -163,15 +222,30 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         val youWin = dialog.findViewById(R.id.you_win) as ImageView
 
         textWin.text = titles
+        if (count == 2){
+            done.text = "3rd Time"
+        }else if (count == 3){
+            done.text = "Back Home"
+        }
+
+        count = count?.plus(1)
+        userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
+        userRef!!.child("Count").setValue(count)
 
         if (titles == "Computer Won"){
             winning.visibility = View.INVISIBLE
             winning2.visibility = View.INVISIBLE
             youWin.setImageResource(R.drawable.you_lost)
+
+            computerwincount = computerwincount?.plus(1)
+            userRef!!.child("computer win").setValue(computerwincount)
         }else if(titles == "You Won"){
             winning.visibility = View.VISIBLE
             winning2.visibility = View.VISIBLE
             youWin.setImageResource(R.drawable.you_win)
+
+            yourwincount = yourwincount?.plus(1)
+            userRef!!.child("you win").setValue(yourwincount)
         }else{
             winning.visibility = View.INVISIBLE
             winning2.visibility = View.INVISIBLE
@@ -181,9 +255,38 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         cancel.setOnClickListener { dialog.dismiss() }
 
         done.setOnClickListener {
-            val intent = Intent(this, TicTacToe_Minimax_algo::class.java)
-            startActivity(intent)
-            finish()
+            if (count == 4){
+                userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
+                userRef!!.addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        computerwincount = snapshot.child("computer win").getValue(Int::class.java)
+                        yourwincount = snapshot.child("you win").getValue(Int::class.java)
+
+                        if (yourwincount!! > computerwincount!!){
+                            userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+                            userRef!!.child("UserCoin").setValue(userCoin?.plus((entryFee?.times(1.5)!!)))
+                        }else if (yourwincount!! < computerwincount!!){
+                            userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+                            userRef!!.child("UserCoin").setValue(userCoin?.minus(entryFee!!))
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+                dialog.dismiss()
+                val intent = Intent(this, GameHome::class.java)
+                startActivity(intent)
+                finish()
+
+            }else {
+                dialog.dismiss()
+                val intent = Intent(this, TicTacToe_Minimax_algo::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         dialog.show()

@@ -32,7 +32,7 @@ public class EnterGameDialog {
     private String user;
     private DatabaseReference userRef;
 
-    private long entry_fee = 5000;
+    private int entry_fee = 5000;
 
     public EnterGameDialog(Context context, View view) {
         this.context = context;
@@ -93,11 +93,12 @@ public class EnterGameDialog {
             add.put("isHard", "No");
             add.put("Piece Image", piece[x]);
             add.put("name", OpponentName[y]);
+            add.put("you win", 0);
+            add.put("computer win", 0);
 
             userRef.child(user).updateChildren(add);
 
             Intent intent = new Intent(context, TicTacToe_Minimax_algo.class);
-            intent.putExtra("Entry Fee", entry_fee);
             context.startActivity(intent);
             alertDialog.dismiss();
         });
