@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.Dialog.EnterGameDialog;
+import com.samulit.halal_pay.Dialog.ShopDialog;
 import com.samulit.halal_pay.R;
 import com.samulit.halal_pay.databinding.ActivityGameHomeBinding;
 
@@ -22,7 +23,8 @@ public class GameHome extends AppCompatActivity {
 
     private ActivityGameHomeBinding gameHomeBinding;
 
-    String UserID;
+    private String UserID, usersCurrentBalance;
+    private long UserCoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,9 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    long UserCoin = (long) snapshot.child("UserCoin").getValue();
+                    UserCoin = (long) snapshot.child("UserCoin").getValue();
                     gameHomeBinding.coinNote.setText(String.valueOf(UserCoin));
+                    usersCurrentBalance = snapshot.child("usesCurrentBalance").getValue().toString();
                 }
             }
 
@@ -54,10 +57,16 @@ public class GameHome extends AppCompatActivity {
 
         gameHomeBinding.ticTocToe.setOnClickListener(view1 -> {
             @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_enter_game,null);
-            EnterGameDialog gameDialog = new EnterGameDialog(this, mView);
+            EnterGameDialog gameDialog = new EnterGameDialog(this, mView, UserCoin);
             gameDialog.createDialog();
         });
 
         gameHomeBinding.back.setOnClickListener(view1 -> onBackPressed());
+
+        gameHomeBinding.addCoin.setOnClickListener(view1 -> {
+            @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_shop,null);
+            ShopDialog shopDialog = new ShopDialog(this, mView, usersCurrentBalance, UserCoin);
+            shopDialog.createDialog();
+        });
     }
 }

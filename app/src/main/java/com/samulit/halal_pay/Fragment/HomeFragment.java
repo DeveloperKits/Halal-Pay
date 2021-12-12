@@ -307,10 +307,4 @@ public class HomeFragment extends Fragment {
         alert.show();
     }
 
-
-    /*
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:icon="@mipmap/ic_launcher"
-    */
-
 }

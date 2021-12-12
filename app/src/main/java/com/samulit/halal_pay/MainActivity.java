@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                         postValues.put(snapshot.getKey(),snapshot.getValue());
                                     }
 
-                                    postValues.put("UserCoin", 300);
+                                    postValues.put("UserCoin", 6000);
                                     //postValues.put("vPanelAccess", "No");
                                     userRef.child(snapshot.getKey()).updateChildren(postValues);
                                 }

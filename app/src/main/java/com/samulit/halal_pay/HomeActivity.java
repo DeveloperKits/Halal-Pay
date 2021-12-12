@@ -5,7 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -34,7 +37,6 @@ import com.samulit.halal_pay.Fragment.HomeFragment;
 import com.samulit.halal_pay.Fragment.ProfileFragment;
 import com.samulit.halal_pay.Fragment.WalletFragment;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -42,7 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
+public class HomeActivity extends AppCompatActivity implements LifecycleObserver {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private WalletFragment walletFragment;
@@ -76,6 +78,8 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
+
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,10 +220,15 @@ public class HomeActivity extends AppCompatActivity implements LifecycleOwner{
     protected void onStop() {
         super.onStop();
 
-        new Handler().postDelayed(() -> {
+        /*new Handler().postDelayed(() -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        },2*90*1000);
+        },2*90*1000);*/
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onMoveToBackground(){
+        FirebaseAuth.getInstance().signOut();
     }
 
 

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,7 @@ public class EnterGameDialog {
 
     private final Context context;
     private final View view;
+    private final long fee;
     private CustomDialogEnterGameBinding gameBinding;
 
     private String user;
@@ -34,9 +36,10 @@ public class EnterGameDialog {
 
     private int entry_fee = 5000;
 
-    public EnterGameDialog(Context context, View view) {
+    public EnterGameDialog(Context context, View view, long fee) {
         this.context = context;
         this.view = view;
+        this.fee = fee;
     }
 
     @SuppressLint("SetTextI18n")
@@ -75,32 +78,38 @@ public class EnterGameDialog {
         });
 
         gameBinding.done.setOnClickListener(view1 -> {
-            user = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-            userRef = FirebaseDatabase.getInstance().getReference("Game");
+            if (((long) entry_fee) <= fee){
+                user = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                userRef = FirebaseDatabase.getInstance().getReference("Game");
 
-            Random random = new Random();
+                Random random = new Random();
 
-            String[] piece = {"X", "0"};
-            String[] OpponentName = {"Toyota", "Mega Man", "Awesom-O", "Bishop", "Clank", "Daft Punk", "Roboto", "Robbie",
-                    "Astro Boy", "Roomba", "Cindi", "Rosie", "Terminator", "Sojourner", "Rodriguez", "Wall-E"};
+                String[] piece = {"X", "0"};
+                String[] OpponentName = {"Toyota", "Mega Man", "Awesom-O", "Bishop", "Clank", "Daft Punk", "Roboto", "Robbie",
+                        "Astro Boy", "Roomba", "Cindi", "Rosie", "Terminator", "Sojourner", "Rodriguez", "Wall-E"};
 
-            int x = random.nextInt(2), y = random.nextInt(15);
+                int x = random.nextInt(2), y = random.nextInt(15);
 
-            Map add = new HashMap();
+                Map add = new HashMap();
 
-            add.put("Entry Fee", entry_fee);
-            add.put("Count", 1);
-            add.put("isHard", "No");
-            add.put("Piece Image", piece[x]);
-            add.put("name", OpponentName[y]);
-            add.put("you win", 0);
-            add.put("computer win", 0);
+                add.put("Entry Fee", entry_fee);
+                add.put("Count", 1);
+                add.put("isHard", "No");
+                add.put("Piece Image", piece[x]);
+                add.put("name", OpponentName[y]);
+                add.put("you win", 0);
+                add.put("computer win", 0);
 
-            userRef.child(user).updateChildren(add);
+                userRef.child(user).updateChildren(add);
 
-            Intent intent = new Intent(context, TicTacToe_Minimax_algo.class);
-            context.startActivity(intent);
-            alertDialog.dismiss();
+                Intent intent = new Intent(context, TicTacToe_Minimax_algo.class);
+                context.startActivity(intent);
+                alertDialog.dismiss();
+            }else {
+                alertDialog.dismiss();
+                Toast.makeText(context, "Sorry, you have selected more than the available balance.", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         alertDialog.show();

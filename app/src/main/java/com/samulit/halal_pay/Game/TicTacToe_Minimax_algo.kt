@@ -1,11 +1,11 @@
 package com.samulit.halal_pay.Game
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.*
@@ -47,23 +47,18 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         //calling the function to load our tic tac toe board
         loadBoard()
 
-        back.setOnClickListener {
-            onBackPressed()
-            media.buttonSound(this)
-        }
-
         // Game Field
         userID = FirebaseAuth.getInstance().uid
         userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
-        userRef!!.addValueEventListener(object: ValueEventListener{
+        userRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                count = snapshot.child("Count").getValue(Int:: class.java)
-                entryFee = snapshot.child("Entry Fee").getValue(Int:: class.java)
-                imageHint = snapshot.child("Piece Image").getValue(String:: class.java)
-                ishard = snapshot.child("isHard").getValue(String:: class.java)
-                name = snapshot.child("name").getValue(String:: class.java)
-                computerwincount = snapshot.child("computer win").getValue(Int:: class.java)
-                yourwincount = snapshot.child("you win").getValue(Int:: class.java)
+                count = snapshot.child("Count").getValue(Int::class.java)
+                entryFee = snapshot.child("Entry Fee").getValue(Int::class.java)
+                imageHint = snapshot.child("Piece Image").getValue(String::class.java)
+                ishard = snapshot.child("isHard").getValue(String::class.java)
+                name = snapshot.child("name").getValue(String::class.java)
+                computerwincount = snapshot.child("computer win").getValue(Int::class.java)
+                yourwincount = snapshot.child("you win").getValue(Int::class.java)
 
                 opponent_name.text = name
 
@@ -71,13 +66,11 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
                     f1.setImageResource(R.drawable.ic_baseline_favorite_24)
                     f2.setImageResource(R.drawable.ic_baseline_favorite_24)
                     f3.setImageResource(R.drawable.ic_baseline_favorite_24)
-                }
-                else if (count == 2) {
+                } else if (count == 2) {
                     f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                     f2.setImageResource(R.drawable.ic_baseline_favorite_24)
                     f3.setImageResource(R.drawable.ic_baseline_favorite_24)
-                }
-                else {
+                } else {
                     f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                     f2.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                     f3.setImageResource(R.drawable.ic_baseline_favorite_24)
@@ -91,15 +84,27 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         })
 
         userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
-        userRef!!.addValueEventListener(object: ValueEventListener{
+        userRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                userCoin = snapshot.child("UserCoin").getValue(Int:: class.java)
+                userCoin = snapshot.child("UserCoin").getValue(Int::class.java)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
+
+        back.setOnClickListener {
+            val dialog: AlertDialog = AlertDialog.Builder(this)
+                    .setMessage("Are you sure! Are you ready to lose the game?")
+                    .setPositiveButton("yes") { dialogInterface, i ->
+                        onBackPressed()
+                        userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+                        userRef!!.child("UserCoin").setValue(userCoin?.minus(entryFee!!)) }
+                    .setNegativeButton("no", null)
+                    .create()
+            dialog.show()
+        }
 
     }
 
@@ -118,13 +123,12 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
                     }
                     Board.COMPUTER -> {
                         // For click sound
-                        media.buttonSound(this)
-
                         Handler(Looper.getMainLooper()).postDelayed({
                             boardCells[i][j]?.setImageResource(R.drawable.yinyang)
                             boardCells[i][j]?.setPadding(25, 25, 25, 25)
                             boardCells[i][j]?.isEnabled = false
-                        }, 500)
+                            media.buttonSound(this)
+                        }, 700)
 
                     }
                     else -> {
@@ -257,15 +261,15 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         done.setOnClickListener {
             if (count == 4){
                 userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
-                userRef!!.addValueEventListener(object: ValueEventListener{
+                userRef!!.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         computerwincount = snapshot.child("computer win").getValue(Int::class.java)
                         yourwincount = snapshot.child("you win").getValue(Int::class.java)
 
-                        if (yourwincount!! > computerwincount!!){
+                        if (yourwincount!! > computerwincount!!) {
                             userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
                             userRef!!.child("UserCoin").setValue(userCoin?.plus((entryFee?.times(1.5)!!)))
-                        }else if (yourwincount!! < computerwincount!!){
+                        } else if (yourwincount!! < computerwincount!!) {
                             userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
                             userRef!!.child("UserCoin").setValue(userCoin?.minus(entryFee!!))
                         }
