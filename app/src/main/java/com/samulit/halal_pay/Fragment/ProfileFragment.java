@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.AuthCredential;
@@ -43,9 +45,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.samulit.halal_pay.ChangeImageActivity;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class ProfileFragment extends Fragment implements LifecycleObserver {
@@ -126,7 +131,7 @@ public class ProfileFragment extends Fragment implements LifecycleObserver {
                         }
 
                         if (!userImage.equals(" ")) {
-                            Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);
+                            Picasso.get().load(userImage).fit().centerCrop().placeholder(R.drawable.loading_gif__).into(Profile_Image);
                         } else {
                             Picasso.get().load(R.drawable.prodile_pic2).fit().centerInside().into(Profile_Image);
                         }
@@ -155,33 +160,16 @@ public class ProfileFragment extends Fragment implements LifecycleObserver {
                 }
             });
 
-            Edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    EditProfile();
-                }
+            Edit.setOnClickListener(view12 -> EditProfile());
+
+            Change_Profile_Image.setOnClickListener(view1 -> {
+                Change_Profile_Image();
             });
-
-
-            Change_Profile_Image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Change_Profile_Image();
-                    isClicked = true;
-                    Intent intent = new Intent(getContext(), ChangeImageActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-
-        if(!isClicked){
-            //ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         }
 
         return view;
     }
 
-    /*
     // Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     private void Change_Profile_Image() {
         Intent intent = new Intent();
@@ -190,29 +178,17 @@ public class ProfileFragment extends Fragment implements LifecycleObserver {
         startActivityForResult(intent, PICK_FROM_GALLERY);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == PICK_FROM_GALLERY
-                && resultCode == RESULT_OK && data.getData() != null) {
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null) {
 
-            contentURI = data.getData();
-
-            CropImage.activity(contentURI)
-                    .setAspectRatio(1,1)
-                    .start(getActivity(),this);
-
-
-        }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                resultUri = result.getUri();
-
-                Picasso.get().load(resultUri).fit().centerInside().into(Profile_Image);
-                SaveImageOnFirebaseStorage();
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
+            resultUri = data.getData();
+            SaveImageOnFirebaseStorage();
         }
     }
 
@@ -243,7 +219,6 @@ public class ProfileFragment extends Fragment implements LifecycleObserver {
         }
     }
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-*/
 
 
     // When Click Edit Button

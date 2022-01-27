@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.Game.GameHome;
+import com.samulit.halal_pay.HomeActivity;
 import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
@@ -46,6 +48,7 @@ import static com.samulit.halal_pay.R.drawable.business_loan;
 import static com.samulit.halal_pay.R.drawable.donation;
 import static com.samulit.halal_pay.R.drawable.game_image;
 import static com.samulit.halal_pay.R.drawable.loading_gif__;
+import static com.samulit.halal_pay.R.drawable.prodile_pic2;
 
 
 public class HomeFragment extends Fragment implements LifecycleObserver {
@@ -86,18 +89,9 @@ public class HomeFragment extends Fragment implements LifecycleObserver {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-
         Game.setOnClickListener(view1 -> {
             startActivity(new Intent(getContext(), GameHome.class));
         });
-
-        /*Profile_card.setOnClickListener(view12 -> {
-            WalletFragment walletFragment = new WalletFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.full_frame, walletFragment);
-            fragmentTransaction.commit();
-        });*/
 
         if (firebaseUser != null){
             UserID = firebaseUser.getUid();
@@ -112,19 +106,22 @@ public class HomeFragment extends Fragment implements LifecycleObserver {
                     String gameImage = String.valueOf(snapshot.child("gameImage").getValue());
 
                     if (!donationImage.equals(" ")){
-                        Picasso.get().load(donationImage).fit().centerInside().placeholder(loading_gif__).into(Image_Donation);
+                        Picasso.get().load(donationImage).fit().centerInside().into(Image_Donation);
+                        //Glide.with(getContext()).load(donationImage).centerInside().placeholder(loading_gif__).into(Image_Donation);
                     }else {
                         DonationImage.setBackgroundResource(donation);
                     }
 
                     if (!businessImage.equals(" ")){
                         Picasso.get().load(businessImage).fit().centerInside().into(Image_Business);
+                        //Glide.with(getContext()).load(businessImage).centerInside().placeholder(loading_gif__).into(Image_Business);
                     }else {
                         BusinessImage.setBackgroundResource(business_loan);
                     }
 
                     if (!gameImage.equals(" ")){
                         Picasso.get().load(gameImage).fit().centerInside().into(Image_game);
+                        //Glide.with(getContext()).load(gameImage).centerInside().placeholder(loading_gif__).into(Image_game);
                     }else {
                         Image_game.setBackgroundResource(game_image);
                     }
@@ -151,9 +148,11 @@ public class HomeFragment extends Fragment implements LifecycleObserver {
                         UserBalance.setText(new DecimalFormat("##.##").format(Double.parseDouble(usersCurrentBalance)) + " BDT");
 
                         if (!userImage.equals(" ")){
-                            Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);
+                            Picasso.get().load(userImage).fit().centerCrop().placeholder(R.drawable.loading_gif__).into(Profile_Image);
+                            //Glide.with(getActivity()).load(userImage).centerCrop().placeholder(loading_gif__).into(Profile_Image);
                         }else {
                             Picasso.get().load(R.drawable.prodile_pic2).fit().centerInside().into(Profile_Image);
+                            //Glide.with(getContext()).load(prodile_pic2).centerInside().placeholder(loading_gif__).into(Profile_Image);
                         }
 
                         if (interest.equals(" ")){

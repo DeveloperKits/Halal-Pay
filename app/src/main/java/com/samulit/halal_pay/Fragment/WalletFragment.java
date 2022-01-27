@@ -100,7 +100,7 @@ public class WalletFragment extends Fragment {
                         Withdraw_Balance.setText(new DecimalFormat("##.##").format(Double.parseDouble(userWithdrawBalance)) + " BDT");
 
                         if (!userImage.equals(" ")){
-                            Picasso.get().load(userImage).fit().centerInside().placeholder(R.drawable.loading_gif__).into(Profile_Image);
+                            Picasso.get().load(userImage).fit().centerCrop().placeholder(R.drawable.loading_gif__).into(Profile_Image);
                         }else {
                             Picasso.get().load(R.drawable.prodile_pic2).fit().centerInside().into(Profile_Image);
                         }
