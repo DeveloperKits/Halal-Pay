@@ -4,8 +4,10 @@
     package="com.samulit.halal_pay"
     tools:ignore="ExtraText">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Model.OfflineFirebase"
@@ -15,7 +17,8 @@
         android:roundIcon="@drawable/halalpay_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
-        <activity android:name=".Game.TicTacToe_Minimax_algo"></activity>
+        <activity android:name=".Game.TicTocToe_Easy_Algo" />
+        <activity android:name=".Game.TicTacToe_Minimax_algo" />
         <activity android:name=".Game.Corona_Runner" />
         <activity android:name=".Game.GameHome" />
         <activity android:name=".Withdraw_History_Activity" />
@@ -37,9 +40,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

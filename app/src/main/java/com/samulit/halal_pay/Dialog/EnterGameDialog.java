@@ -14,7 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.samulit.halal_pay.Game.GameHome;
 import com.samulit.halal_pay.Game.TicTacToe_Minimax_algo;
+import com.samulit.halal_pay.Game.TicTocToe_Easy_Algo;
 import com.samulit.halal_pay.databinding.CustomDialogEnterGameBinding;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class EnterGameDialog {
     private String user;
     private DatabaseReference userRef;
 
-    private int entry_fee = 5000;
+    private int entry_fee = 2000;
 
     public EnterGameDialog(Context context, View view, long fee) {
         this.context = context;
@@ -88,22 +90,35 @@ public class EnterGameDialog {
                 String[] OpponentName = {"Toyota", "Mega Man", "Awesom-O", "Bishop", "Clank", "Daft Punk", "Roboto", "Robbie",
                         "Astro Boy", "Roomba", "Cindi", "Rosie", "Terminator", "Sojourner", "Rodriguez", "Wall-E"};
 
-                int x = random.nextInt(2), y = random.nextInt(15);
+                int x = random.nextInt(2), y = random.nextInt(16);
+                String isHard;
+
+                if (x == 0){
+                    isHard = "Yes";
+                }else {
+                    isHard = "No";
+                }
 
                 Map add = new HashMap();
 
                 add.put("Entry Fee", entry_fee);
                 add.put("Count", 1);
-                add.put("isHard", "No");
+                add.put("isHard", isHard);
                 add.put("Piece Image", piece[x]);
                 add.put("name", OpponentName[y]);
                 add.put("you win", 0);
                 add.put("computer win", 0);
 
                 userRef.child(user).updateChildren(add);
+                Intent intent;
 
-                Intent intent = new Intent(context, TicTacToe_Minimax_algo.class);
+                if (x == 0){
+                    intent = new Intent(context, TicTacToe_Minimax_algo.class);
+                }else {
+                    intent = new Intent(context, TicTocToe_Easy_Algo.class);
+                }
                 context.startActivity(intent);
+
                 alertDialog.dismiss();
             }else {
                 alertDialog.dismiss();

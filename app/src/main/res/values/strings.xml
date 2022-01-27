@@ -8,5 +8,10 @@
     <string name="Note">**Note : Interest Money Associated with Total Balance.</string>
 
     <string name="text_label">Successfully done! You will receive updates within 24 hours.</string>
-    <string name="rule">Rule: There will be a total of 3 matches. The one who wins the highest number of times will be the winner. If the winning number is the same for both parties, it will be considered a draw and you will get your coins back. If you leave the game without finishing after the start of the game, we will assume that you have lost. If you lose, you will not get the coin back.</string>
+
+    <string name="rule">Rule: There will be a total of 3 matches. The one who wins the highest number of times will be the winner.
+        If the winning number is the same for both parties, it will be considered a draw and you will get your coins back.
+        If you leave the game without finishing after the start of the game, we will assume that you have lost.
+        If you lose, you will not get the coin back.</string>
+
 </resources>

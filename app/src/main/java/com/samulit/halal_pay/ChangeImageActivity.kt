@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
-import com.theartofdev.edmodo.cropper.CropImage
+//import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_change_image.*
 
 class ChangeImageActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class ChangeImageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_change_image)
 
         ChangeImage.setOnClickListener {
-            Change_Profile_Image();
+            //Change_Profile_Image();
         }
     }
 
@@ -43,8 +43,7 @@ class ChangeImageActivity : AppCompatActivity() {
         startActivityForResult(intent, PICK_FROM_GALLERY)
     }
 
-
-    override  fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override  fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null) {
             contentURI = data.data
@@ -65,7 +64,7 @@ class ChangeImageActivity : AppCompatActivity() {
                 //val error = result.error
             }
         }
-    }
+    }*/
 
     private fun SaveImageOnFirebaseStorage() {
         if (resultUri != null) {

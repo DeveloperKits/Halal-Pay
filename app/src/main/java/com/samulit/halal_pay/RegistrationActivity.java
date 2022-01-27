@@ -52,7 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
-    private String user_id, name, email, number, password;
+    private String user_id, name, email, number, password, joiningCoin;
 
 
     @Override
@@ -298,6 +298,19 @@ public class RegistrationActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
         saveCurrentTime = currentTime.format(calFordDate.getTime());
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("Join");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                joiningCoin = String.valueOf(snapshot.child("coin").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         Map reg = new HashMap();
 
         reg.put("userName", displayName);
@@ -315,7 +328,7 @@ public class RegistrationActivity extends AppCompatActivity {
         reg.put("InterestMoney", " ");
         reg.put("usesCurrentBalance", "0");
         reg.put("HowManyTimeDeposit", "0");
-        reg.put("UserCoin", 6000);
+        reg.put("UserCoin", Integer.parseInt(joiningCoin));
         reg.put("userMembershipTime", saveCurrentTime);
         reg.put("userMembershipDate", saveCurrentDate);
 
@@ -335,7 +348,7 @@ public class RegistrationActivity extends AppCompatActivity {
     // Check Internet Connection
     private boolean isNetworkAvaliable(RegistrationActivity registrationActivity) {
         ConnectivityManager cm = (ConnectivityManager) registrationActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        @SuppressLint("MissingPermission") NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 

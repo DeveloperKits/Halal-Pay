@@ -7,6 +7,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -40,12 +44,13 @@ import java.util.Map;
 
 import static com.samulit.halal_pay.R.drawable.business_loan;
 import static com.samulit.halal_pay.R.drawable.donation;
+import static com.samulit.halal_pay.R.drawable.game_image;
 import static com.samulit.halal_pay.R.drawable.loading_gif__;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements LifecycleObserver {
     private MaterialCardView Donation, Business_Loan, Profile_card, Game;
-    private ImageView Profile_Image, Image_Donation, Image_Business;
+    private ImageView Profile_Image, Image_Donation, Image_Business, Image_game;
     private TextView UserName, UserBalance, UserPercentage, Percentage_Day, Invisible_Text;
     private RelativeLayout DonationImage, BusinessImage;
 
@@ -75,10 +80,13 @@ public class HomeFragment extends Fragment {
         Invisible_Text = view.findViewById(R.id.invisible);
         DonationImage = view.findViewById(R.id.donationImage);
         BusinessImage = view.findViewById(R.id.businessImage);
+        Image_game = view.findViewById(R.id.Image_Game);
         Image_Donation = view.findViewById(R.id.Image_Donation);
         Image_Business = view.findViewById(R.id.Image_Business);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
         Game.setOnClickListener(view1 -> {
             startActivity(new Intent(getContext(), GameHome.class));
@@ -101,6 +109,7 @@ public class HomeFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String donationImage = String.valueOf(snapshot.child("donationImage").getValue());
                     String businessImage = String.valueOf(snapshot.child("businessImage").getValue());
+                    String gameImage = String.valueOf(snapshot.child("gameImage").getValue());
 
                     if (!donationImage.equals(" ")){
                         Picasso.get().load(donationImage).fit().centerInside().placeholder(loading_gif__).into(Image_Donation);
@@ -112,6 +121,12 @@ public class HomeFragment extends Fragment {
                         Picasso.get().load(businessImage).fit().centerInside().into(Image_Business);
                     }else {
                         BusinessImage.setBackgroundResource(business_loan);
+                    }
+
+                    if (!gameImage.equals(" ")){
+                        Picasso.get().load(gameImage).fit().centerInside().into(Image_game);
+                    }else {
+                        Image_game.setBackgroundResource(game_image);
                     }
                 }
 
@@ -305,6 +320,11 @@ public class HomeFragment extends Fragment {
         });
 
         alert.show();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onMoveToBackground(){
+        FirebaseAuth.getInstance().signOut();
     }
 
 }

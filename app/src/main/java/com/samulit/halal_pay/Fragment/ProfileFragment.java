@@ -12,6 +12,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +48,7 @@ import com.samulit.halal_pay.R;
 import com.squareup.picasso.Picasso;
 
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements LifecycleObserver {
     private Button Edit, Change_Profile_Image;
     private ImageView Profile_Image;
     private TextView UserName, UserEmail, UserPassword, UserAge, UserPhone, Help_Number, Month, Year;
@@ -58,7 +62,7 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_FROM_GALLERY = 1;
     private String Transfer_Type, UserID, userName, userImage, email, password, age, imageUri, WeekMonthYear, userPhone;
-    private boolean isChecked = false;
+    private boolean isChecked = false, isClicked = false;
 
 
     public ProfileFragment() {
@@ -81,7 +85,6 @@ public class ProfileFragment extends Fragment {
         UserAge = view.findViewById(R.id.age);
 
         progressDialog = new ProgressDialog(getActivity());
-
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -152,7 +155,6 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
-
             Edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,10 +167,15 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //Change_Profile_Image();
+                    isClicked = true;
                     Intent intent = new Intent(getContext(), ChangeImageActivity.class);
                     startActivity(intent);
                 }
             });
+        }
+
+        if(!isClicked){
+            //ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         }
 
         return view;
@@ -405,6 +412,10 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onMoveToBackground(){
+        FirebaseAuth.getInstance().signOut();
+    }
 
 }
 

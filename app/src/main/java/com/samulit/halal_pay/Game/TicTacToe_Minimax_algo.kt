@@ -13,12 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.samulit.halal_pay.HomeActivity
 import com.samulit.halal_pay.Model.MediaSound
 import com.samulit.halal_pay.R
 import com.samulit.tictoctoewithai.Board
 import com.samulit.tictoctoewithai.Cell
 import kotlinx.android.synthetic.main.activity_tic_tac_toe_minimax_algo.*
 import pl.droidsonroids.gif.GifImageView
+import java.util.*
 
 class TicTacToe_Minimax_algo : AppCompatActivity() {
 
@@ -40,12 +42,20 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
     private var name: String? = null
     private var userCoin: Int? = 0
 
+    private var X: Int? = 0
+    private var O: Int? = 0
+    private var user: Int? = 0
+    private var computer: Int? = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tic_tac_toe_minimax_algo)
 
         //calling the function to load our tic tac toe board
         loadBoard()
+
+        X = R.drawable.fancing
+        O = R.drawable.yinyang
 
         // Game Field
         userID = FirebaseAuth.getInstance().uid
@@ -62,18 +72,34 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
 
                 opponent_name.text = name
 
-                if (count == 1) {
-                    f1.setImageResource(R.drawable.ic_baseline_favorite_24)
-                    f2.setImageResource(R.drawable.ic_baseline_favorite_24)
-                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
-                } else if (count == 2) {
-                    f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                    f2.setImageResource(R.drawable.ic_baseline_favorite_24)
-                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                if (imageHint == "X") {
+                    user = X
+                    computer = O
+                    your_cell.setImageResource(X!!)
+                    opponent_cell.setImageResource(O!!)
                 } else {
-                    f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                    f2.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                    f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    user = O
+                    computer = X
+                    your_cell.setImageResource(O!!)
+                    opponent_cell.setImageResource(X!!)
+                }
+
+                when (count) {
+                    1 -> {
+                        f1.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        f2.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    }
+                    2 -> {
+                        f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                        f2.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    }
+                    else -> {
+                        f1.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                        f2.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                        f3.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    }
                 }
             }
 
@@ -127,8 +153,8 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
                             boardCells[i][j]?.setImageResource(R.drawable.yinyang)
                             boardCells[i][j]?.setPadding(25, 25, 25, 25)
                             boardCells[i][j]?.isEnabled = false
-                            media.buttonSound(this)
-                        }, 700)
+                            //media.buttonSound(this)
+                        }, 0)
 
                     }
                     else -> {
@@ -195,8 +221,8 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
             when {
 
                 board.hasComputerWon() -> {
-                    Toast.makeText(this@TicTacToe_Minimax_algo, "Computer Won", Toast.LENGTH_SHORT).show()
-                    dialog("Computer Won")
+                    Toast.makeText(this@TicTacToe_Minimax_algo, "$name Won", Toast.LENGTH_SHORT).show()
+                    dialog("$name Won")
                 }
                 board.hasPlayerWon() -> {
                     Toast.makeText(this@TicTacToe_Minimax_algo, "You Won", Toast.LENGTH_SHORT).show()
@@ -223,7 +249,9 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         val cancel = dialog.findViewById(R.id.cancel) as Button
         val done = dialog.findViewById(R.id.button) as Button
         val textWin = dialog.findViewById(R.id.text_win) as TextView
+        val money2 = dialog.findViewById(R.id.text_win2) as TextView
         val youWin = dialog.findViewById(R.id.you_win) as ImageView
+        val winingImage2 = dialog.findViewById(R.id.you_win2) as ImageView
 
         textWin.text = titles
         if (count == 2){
@@ -232,63 +260,93 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
             done.text = "Back Home"
         }
 
+        val random = Random()
+
+        val piece = arrayOf("X", "0")
+
+        val x = random.nextInt(2)
+        val isHard: String
+
+        isHard = if (x == 0) {
+            "Yes"
+        } else {
+            "No"
+        }
+
         count = count?.plus(1)
         userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
         userRef!!.child("Count").setValue(count)
 
-        if (titles == "Computer Won"){
-            winning.visibility = View.INVISIBLE
-            winning2.visibility = View.INVISIBLE
-            youWin.setImageResource(R.drawable.you_lost)
+        when (titles) {
+            "Game Tied" -> {
+                youWin.setImageResource(R.drawable.tied)
+            }
+            "You Won" -> {
+                youWin.setImageResource(R.drawable.you_win)
+                yourwincount = yourwincount?.plus(1)
+                userRef!!.child("you win").setValue(yourwincount)
+            }
+            else -> {
+                youWin.setImageResource(R.drawable.you_lost)
+                computerwincount = computerwincount?.plus(1)
+                userRef!!.child("computer win").setValue(computerwincount)
+            }
+        }
 
-            computerwincount = computerwincount?.plus(1)
-            userRef!!.child("computer win").setValue(computerwincount)
-        }else if(titles == "You Won"){
-            winning.visibility = View.VISIBLE
-            winning2.visibility = View.VISIBLE
-            youWin.setImageResource(R.drawable.you_win)
+        if (count == 4) {
+            userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
+            userRef!!.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    computerwincount = snapshot.child("computer win").getValue(Int::class.java)
+                    yourwincount = snapshot.child("you win").getValue(Int::class.java)
+                    money2.visibility = View.VISIBLE
+                    winingImage2.visibility = View.VISIBLE
+                    if (yourwincount!! > computerwincount!!) {
+                        money2.text = "You have won the entire tournament!"
+                        winingImage2.setImageResource(R.drawable.you_win)
+                        winning.setVisibility(View.VISIBLE)
+                        winning2.setVisibility(View.VISIBLE)
+                    } else if (yourwincount!! < computerwincount!!) {
+                        money2.text = "You lost the tournament!"
+                        winingImage2.setImageResource(R.drawable.you_lost)
+                    } else {
+                        money2.text = "Draw!"
+                        winingImage2.setImageResource(R.drawable.tied)
+                    }
+                }
 
-            yourwincount = yourwincount?.plus(1)
-            userRef!!.child("you win").setValue(yourwincount)
-        }else{
-            winning.visibility = View.INVISIBLE
-            winning2.visibility = View.INVISIBLE
-            youWin.setImageResource(R.drawable.tied)
+                override fun onCancelled(error: DatabaseError) {}
+            })
         }
 
         cancel.setOnClickListener { dialog.dismiss() }
 
         done.setOnClickListener {
             if (count == 4){
-                userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
-                userRef!!.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        computerwincount = snapshot.child("computer win").getValue(Int::class.java)
-                        yourwincount = snapshot.child("you win").getValue(Int::class.java)
-
-                        if (yourwincount!! > computerwincount!!) {
-                            userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
-                            userRef!!.child("UserCoin").setValue(userCoin?.plus((entryFee?.times(1.5)!!)))
-                        } else if (yourwincount!! < computerwincount!!) {
-                            userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
-                            userRef!!.child("UserCoin").setValue(userCoin?.minus(entryFee!!))
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-                })
+                if (yourwincount!! > computerwincount!!) {
+                    userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+                    userRef!!.child("UserCoin").setValue(userCoin?.plus((entryFee?.times(1.5)!!)))
+                } else if (yourwincount!! < computerwincount!!) {
+                    userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID!!)
+                    userRef!!.child("UserCoin").setValue(userCoin?.minus(entryFee!!))
+                }
 
                 dialog.dismiss()
-                val intent = Intent(this, GameHome::class.java)
+                val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
 
             }else {
+                userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID!!)
+                userRef!!.child("isHard").setValue(isHard)
+                userRef!!.child("Piece Image").setValue(piece[x])
+
                 dialog.dismiss()
-                val intent = Intent(this, TicTacToe_Minimax_algo::class.java)
-                startActivity(intent)
+                if (isHard == "Yes") {
+                    startActivity(Intent(this, TicTacToe_Minimax_algo::class.java))
+                } else {
+                    startActivity(Intent(this, TicTocToe_Easy_Algo::class.java))
+                }
                 finish()
             }
         }

@@ -1,6 +1,9 @@
 package com.samulit.halal_pay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LifecycleObserver {
 
     private FirebaseUser user;
     private DatabaseReference userRef;
@@ -82,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
     }
+
 }

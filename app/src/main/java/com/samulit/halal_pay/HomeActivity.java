@@ -79,8 +79,6 @@ public class HomeActivity extends AppCompatActivity implements LifecycleObserver
         user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
 
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         databaseReference2 = FirebaseDatabase.getInstance().getReference("UserData");
@@ -203,7 +201,6 @@ public class HomeActivity extends AppCompatActivity implements LifecycleObserver
 
         android.app.AlertDialog alert11 = builder1.create();
         alert11.show();
-
     }
 
     @Override
@@ -219,16 +216,6 @@ public class HomeActivity extends AppCompatActivity implements LifecycleObserver
     @Override
     protected void onStop() {
         super.onStop();
-
-        /*new Handler().postDelayed(() -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        },2*90*1000);*/
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onMoveToBackground(){
-        FirebaseAuth.getInstance().signOut();
     }
 
 

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Game.TicTocToe_Easy_Algo"
+    tools:ignore="UnusedAttribute">
+
+    <Button
+        android:id="@+id/back"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        app:icon="@drawable/ic_baseline_arrow_back_24"
+        app:iconTint="@color/white"
+        app:rippleColor="@color/white" />
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="340dp"
+        android:layout_below="@id/back"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-170dp"
+        android:src="@drawable/logo_game_eagle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/aldrich"
+        android:text="Tik Toc Toe"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white_light"/>
+
+    <LinearLayout
+        android:id="@+id/favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:id="@+id/f1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_favorite_24" />
+
+        <ImageView
+            android:id="@+id/f2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_favorite_24" />
+
+        <ImageView
+            android:id="@+id/f3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_favorite_24" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_below="@id/favourite">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/deep_blue"
+                app:strokeColor="@color/white_light"
+                app:strokeWidth="1dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/YourName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="You"
+                        android:textStyle="normal"
+                        android:textColor="@color/white_light"/>
+
+                    <ImageView
+                        android:id="@+id/your_cell"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/yinyang"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/vs"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="20dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/deep_blue"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/opponent_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="Mr. Karim"
+                        android:textStyle="normal"
+                        android:textColor="@color/white_light"/>
+
+                    <ImageView
+                        android:id="@+id/opponent_cell"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/fancing"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/gridlayout"
+            android:useDefaultMargins="true"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/ll"
+            android:layout_marginTop="100dp"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3">
+
+            <ImageView
+                android:id="@+id/button00"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="1"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button01"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="2"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button02"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="3"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button10"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="4"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button11"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="5"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button12"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="6"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button20"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="7"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button21"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="8"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <ImageView
+                android:id="@+id/button22"
+                android:layout_width="0dp"
+                android:layout_height="75dp"
+                android:layout_columnWeight="1"
+                android:background="@color/red_light2"
+                android:tag="9"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"/>
+        </GridLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

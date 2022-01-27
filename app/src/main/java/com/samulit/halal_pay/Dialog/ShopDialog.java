@@ -133,6 +133,8 @@ public class ShopDialog {
                             .setMessage("Are you sure! Would you like to buy coins?")
                             .setPositiveButton("yes", (dialogInterface, i) -> {
                                 storeInFirebase(coin_text, amount_text);
+                                alertDialog.dismiss();
+                                Toast.makeText(context, "Congratulations! Your coin collection is complete", Toast.LENGTH_SHORT).show();
                             })
                             .setNegativeButton("no", null)
                             .create();
