@@ -165,6 +165,27 @@
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/gameImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:onClick="GameImage"
+                android:text="Game Image"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:onClick="Shop"
+                android:text="Shop"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </ScrollView>

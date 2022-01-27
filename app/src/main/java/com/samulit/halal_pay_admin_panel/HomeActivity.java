@@ -32,7 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
@@ -97,8 +96,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // Deposit .....................................................................................
     public void Deposit_List(View view) {
-        /*Intent intent = new Intent(HomeActivity.this, DepositTypeActivity.class);
-        startActivity(intent);*/
         Create_helper_dialog2();
     }
 
@@ -280,8 +277,7 @@ public class HomeActivity extends AppCompatActivity {
         final TextView enter3 = mView.findViewById(R.id.enter3);
         final LinearLayout ll1 = mView.findViewById(R.id.ll1);
         final LinearLayout ll2 = mView.findViewById(R.id.ll2);
-        final LinearLayout ll3 = mView.findViewById(R.id.lNum);
-        final LinearLayout ll4 = mView.findViewById(R.id.lID);
+        final LinearLayout ll3 = mView.findViewById(R.id.ll3);
         Button btn_okay = (Button)mView.findViewById(R.id.done);
         Button btn_cancel = (Button)mView.findViewById(R.id.cancel);
 
@@ -479,8 +475,10 @@ public class HomeActivity extends AppCompatActivity {
 
                     if (check == 1) {
                         databaseReference2.child("donationImage").setValue(imageUri);
-                    }else {
+                    }else if(check == 2){
                         databaseReference2.child("businessImage").setValue(imageUri);
+                    }else {
+                        databaseReference2.child("gameImage").setValue(imageUri);
                     }
 
                     Toast.makeText(getApplicationContext(), "Update Successfully!", Toast.LENGTH_SHORT).show();
@@ -495,6 +493,15 @@ public class HomeActivity extends AppCompatActivity {
         }else {
             Toast.makeText(getApplicationContext(), "Select An Image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void GameImage(View view) {
+        check = 3;
+        Change_Profile_Image();
+    }
+
+    public void Shop(View view) {
+        startActivity(new Intent(this, ShopHelp.class));
     }
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Model.OfflineFirebase"
@@ -15,6 +15,7 @@
         android:roundIcon="@drawable/halalpay_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
+        <activity android:name=".ShopHelp"></activity>
         <activity android:name=".HomeActivity" />
         <activity android:name=".DepositTypeActivity" />
         <activity android:name=".DetailsActivity" />
