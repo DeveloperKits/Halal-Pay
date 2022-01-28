@@ -30,7 +30,9 @@ public class ShopDialog {
     private CustomDialogShopBinding shopBinding;
     private DatabaseReference databaseReference;
 
-    private String coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6;
+    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6, count=0;
+    private String coins;
+    private String amount;
 
     public ShopDialog(Context context, View view, String currentBalance, long coin) {
         this.context = context;
@@ -55,26 +57,26 @@ public class ShopDialog {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                coin1 = String.valueOf(snapshot.child("1st").child("coin").getValue(Integer.class));
-                coin2 = String.valueOf(snapshot.child("2nd").child("coin").getValue(Integer.class));
-                coin3 = String.valueOf(snapshot.child("3rd").child("coin").getValue(Integer.class));
-                coin4 = String.valueOf(snapshot.child("4rd").child("coin").getValue(Integer.class));
-                coin5 = String.valueOf(snapshot.child("5th").child("coin").getValue(Integer.class));
-                coin6 = String.valueOf(snapshot.child("6th").child("coin").getValue(Integer.class));
+                coin1 = Long.parseLong(snapshot.child("1st").child("coin").getValue(String.class));
+                coin2 = Long.parseLong(snapshot.child("2nd").child("coin").getValue(String.class));
+                coin3 = Long.parseLong(snapshot.child("3rd").child("coin").getValue(String.class));
+                coin4 = Long.parseLong(snapshot.child("4rd").child("coin").getValue(String.class));
+                coin5 = Long.parseLong(snapshot.child("5th").child("coin").getValue(String.class));
+                coin6 = Long.parseLong(snapshot.child("6th").child("coin").getValue(String.class));
 
-                amount1 = String.valueOf(snapshot.child("1st").child("amount").getValue(Integer.class));
-                amount2 = String.valueOf(snapshot.child("2nd").child("amount").getValue(Integer.class));
-                amount3 = String.valueOf(snapshot.child("3rd").child("amount").getValue(Integer.class));
-                amount4 = String.valueOf(snapshot.child("4rd").child("amount").getValue(Integer.class));
-                amount5 = String.valueOf(snapshot.child("5th").child("amount").getValue(Integer.class));
-                amount6 = String.valueOf(snapshot.child("6th").child("amount").getValue(Integer.class));
+                amount1 = Long.parseLong(snapshot.child("1st").child("amount").getValue(String.class));
+                amount2 = Long.parseLong(snapshot.child("2nd").child("amount").getValue(String.class));
+                amount3 = Long.parseLong(snapshot.child("3rd").child("amount").getValue(String.class));
+                amount4 = Long.parseLong(snapshot.child("4rd").child("amount").getValue(String.class));
+                amount5 = Long.parseLong(snapshot.child("5th").child("amount").getValue(String.class));
+                amount6 = Long.parseLong(snapshot.child("6th").child("amount").getValue(String.class));
 
-                shopBinding.text1.setText(coin1);
-                shopBinding.text2.setText(coin2);
-                shopBinding.text3.setText(coin3);
-                shopBinding.text4.setText(coin4);
-                shopBinding.text5.setText(coin5);
-                shopBinding.text6.setText(coin6);
+                shopBinding.text1.setText(String.valueOf(coin1));
+                shopBinding.text2.setText(String.valueOf(coin2));
+                shopBinding.text3.setText(String.valueOf(coin3));
+                shopBinding.text4.setText(String.valueOf(coin4));
+                shopBinding.text5.setText(String.valueOf(coin5));
+                shopBinding.text6.setText(String.valueOf(coin6));
 
                 shopBinding.button1.setText("BDT " + amount1);
                 shopBinding.button2.setText("BDT " + amount2);
@@ -90,59 +92,55 @@ public class ShopDialog {
             }
         });
 
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onClick(View view) {
+        View.OnClickListener clickListener = view -> {
 
-                switch(view.getId()){
-                    case R.id.button1:
-                        coin_text = coin1;
-                        amount_text = amount1;
-                        break;
+            switch(view.getId()){
+                case R.id.button1:
+                    coin_text = coin1;
+                    amount_text = amount1;
+                    break;
 
-                    case R.id.button2:
-                        coin_text = coin2;
-                        amount_text = amount2;
-                        break;
+                case R.id.button2:
+                    coin_text = coin2;
+                    amount_text = amount2;
+                    break;
 
-                    case R.id.button3:
-                        coin_text = coin3;
-                        amount_text = amount3;
-                        break;
+                case R.id.button3:
+                    coin_text = coin3;
+                    amount_text = amount3;
+                    break;
 
-                    case R.id.button4:
-                        coin_text = coin4;
-                        amount_text = amount4;
-                        break;
+                case R.id.button4:
+                    coin_text = coin4;
+                    amount_text = amount4;
+                    break;
 
-                    case R.id.button5:
-                        coin_text = coin5;
-                        amount_text = amount5;
-                        break;
+                case R.id.button5:
+                    coin_text = coin5;
+                    amount_text = amount5;
+                    break;
 
-                    default:
-                        coin_text = coin6;
-                        amount_text = amount6;
-                        break;
-                }
+                default:
+                    coin_text = coin6;
+                    amount_text = amount6;
+                    break;
+            }
 
-                if (Double.parseDouble(amount_text) <= Double.parseDouble(currentBalance)) {
-                    alertDialog.dismiss();
-                    AlertDialog dialog = new AlertDialog.Builder(context)
-                            .setMessage("Are you sure! Would you like to buy coins?")
-                            .setPositiveButton("yes", (dialogInterface, i) -> {
-                                storeInFirebase(coin_text, amount_text);
-                                alertDialog.dismiss();
-                                Toast.makeText(context, "Congratulations! Your coin collection is complete", Toast.LENGTH_SHORT).show();
-                            })
-                            .setNegativeButton("no", null)
-                            .create();
-                    dialog.show();
-                }else {
-                    alertDialog.dismiss();
-                    Toast.makeText(context, "Sorry, you have selected more than the available balance.", Toast.LENGTH_SHORT).show();
-                }
+            if (amount_text <= (long) Math.round(Double.parseDouble(currentBalance))) {
+                alertDialog.dismiss();
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setMessage("Are you sure! Would you like to buy coins?")
+                        .setPositiveButton("yes", (dialogInterface, i) -> {
+                            storeInFirebase(coin_text, amount_text);
+                            alertDialog.dismiss();
+                            Toast.makeText(context, "Congratulations! Your coin collection is complete", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("no", null)
+                        .create();
+                dialog.show();
+            }else {
+                alertDialog.dismiss();
+                Toast.makeText(context, "Sorry, you have selected more than the available balance.", Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -158,9 +156,9 @@ public class ShopDialog {
         alertDialog.show();
     }
 
-    private void storeInFirebase(String coin_text, String amount_text){
+    private void storeInFirebase(long coin_text, long amount_text){
         databaseReference = FirebaseDatabase.getInstance().getReference("UserData").child(FirebaseAuth.getInstance().getUid());
-        databaseReference.child("usesCurrentBalance").setValue(String.valueOf(Double.parseDouble(currentBalance) - Double.parseDouble(amount_text)));
-        databaseReference.child("UserCoin").setValue((int) coin + Integer.parseInt(coin_text));
+        databaseReference.child("usesCurrentBalance").setValue(String.valueOf(Double.parseDouble(currentBalance) - (double) amount_text));
+        databaseReference.child("UserCoin").setValue(coin + coin_text);
     }
 }
