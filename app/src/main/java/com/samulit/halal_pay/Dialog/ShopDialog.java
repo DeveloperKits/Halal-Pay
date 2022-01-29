@@ -30,9 +30,7 @@ public class ShopDialog {
     private CustomDialogShopBinding shopBinding;
     private DatabaseReference databaseReference;
 
-    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6, count=0;
-    private String coins;
-    private String amount;
+    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6;
 
     public ShopDialog(Context context, View view, String currentBalance, long coin) {
         this.context = context;
