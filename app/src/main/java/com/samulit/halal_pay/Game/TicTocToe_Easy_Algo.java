@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,8 +49,9 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
     private int X, O, user, computer;
     private long entryFee, userCoin, count, computerWinCount, yourWinCount;
     private Random random;
-    private boolean have = false;
+    private boolean have = false, Final = false, check;
     private MediaSound media = new MediaSound();
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,21 +167,20 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         tag = view.getTag().toString();
         ImageView imageView = (ImageView)view;
+        Final = false;
 
         if (!list.contains(Integer.parseInt(tag)) && !gameIsOver(userTurnList)){
             imageView.setImageResource(user);
             list.add(Integer.parseInt(tag));
             userTurnList.add(Integer.parseInt(tag));
-            //media.buttonSound(this);
+            media.buttonSound(this);
 
             if (gameIsOver(userTurnList)){
                 Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
                 dialog("You Win!");
-            }else if (list.size() < 9 && !gameIsOver(userTurnList)){
+            }else if (list.size() < 9 && !gameIsOver(userTurnList) && !gameIsOver(computerTurnList)){
                 computer(userTurnList, computerTurnList);
-            }
-
-            if (list.size() == 9){
+            }else if (list.size() == 9){
                 if (!gameIsOver(userTurnList) && !gameIsOver(computerTurnList)){
                     dialog("Game Tied");
                     Toast.makeText(this, "Game Tied", Toast.LENGTH_SHORT).show();
@@ -187,6 +188,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                 }else if (gameIsOver(computerTurnList)){
                     dialog( computerName + " win!");
                     Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
+
                 }else {
                     dialog("You Win!");
                     Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
@@ -224,9 +226,12 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
     }
 
     private void computer(List<Integer> userList, List<Integer> computerList) {
-        int num1;
+        int num1, num2, num3;
         Collections.sort(computerList);
         Collections.sort(userList);
+
+        num2 = random.nextInt(2) + 2;
+        num3 = random.nextInt(2) + 3;
 
         if (!gameIsOver(computerList)) {
             if (computerList.isEmpty() && userList.isEmpty()) {
@@ -240,203 +245,357 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                     computerTurn(5);
                 }
 
-            }else if (userList.size() == 2){
-                /*if (computerList.get(0) == 5){
-                    if (userList.contains(4) && userList.contains(1) && !list.contains(7)){
-                        computerTurn(7);
-                    }else if (userList.contains(4) && userList.contains(7) && !list.contains(1)){
-                        computerTurn(1);
-                    }else if (userList.contains(6) && userList.contains(3) && !list.contains(3)){
-                        computerTurn(3);
-                    }else if (userList.contains(6) && userList.contains(9) && !list.contains(9)){
-                        computerTurn(9);
-                    }else {
-                        addListComputer();
-                    }
-                }else {
-                    addListComputer();
+            }else if (userList.size() == 2 || computerList.size() == 2 || computerList.size() == num2 || computerList.size() == num3){
+                check = IntelligentComputer(userList, true);
+                if (check){
+                    IntelligentComputer(computerList, false);
+                }
+
+            } else {
+                IntelligentComputer(computerList, false);
+                /*check = IntelligentComputer(userList, true);
+                if (check){
+                    IntelligentComputer(computerList, false);
                 }*/
-                addListComputer();
-
-            }else {
-
-                have = false;
-
-                // check for 1
-                if (computerList.contains(1) && computerList.contains(2) && !list.contains(3) && !have) {
-                    have = true;
-                    computerTurn(3);
-                } else if (computerList.contains(1) && computerList.contains(3) && !list.contains(2) && !have) {
-                    have = true;
-                    computerTurn(2);
-                } else if (computerList.contains(1) && computerList.contains(4) && !list.contains(7) && !have) {
-                    have = true;
-                    computerTurn(7);
-                } else if (computerList.contains(1) && computerList.contains(7) && !list.contains(4) && !have) {
-                    have = true;
-                    computerTurn(4);
-                } else if (computerList.contains(1) && computerList.contains(5) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                } else if (computerList.contains(1) && computerList.contains(9) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 2
-                if (computerList.contains(2) && computerList.contains(1) && !list.contains(3) && !have) {
-                    have = true;
-                    computerTurn(3);
-                } else if (computerList.contains(2) && computerList.contains(3) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(2) && computerList.contains(5) && !list.contains(2) && !have) {
-                    have = true;
-                    computerTurn(8);
-                } else if (computerList.contains(2) && computerList.contains(8) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 3
-                if (computerList.contains(3) && computerList.contains(2) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(3) && computerList.contains(1) && !list.contains(2) && !have) {
-                    have = true;
-                    computerTurn(2);
-                } else if (computerList.contains(3) && computerList.contains(6) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                } else if (computerList.contains(3) && computerList.contains(9) && !list.contains(6) && !have) {
-                    have = true;
-                    computerTurn(6);
-                } else if (computerList.contains(3) && computerList.contains(5) && !list.contains(7) && !have) {
-                    have = true;
-                    computerTurn(7);
-                } else if (computerList.contains(3) && computerList.contains(7) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 4
-                if (computerList.contains(4) && computerList.contains(1) && !list.contains(7) && !have) {
-                    have = true;
-                    computerTurn(7);
-                } else if (computerList.contains(4) && computerList.contains(7) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(4) && computerList.contains(5) && !list.contains(6) && !have) {
-                    have = true;
-                    computerTurn(6);
-                } else if (computerList.contains(4) && computerList.contains(6) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 5
-                if (computerList.contains(5) && computerList.contains(9) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(5) && computerList.contains(1) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                } else if (computerList.contains(5) && computerList.contains(6) && !list.contains(4) && !have) {
-                    have = true;
-                    computerTurn(4);
-                } else if (computerList.contains(5) && computerList.contains(4) && !list.contains(6) && !have) {
-                    have = true;
-                    computerTurn(6);
-                } else if (computerList.contains(5) && computerList.contains(2) && !list.contains(8) && !have) {
-                    have = true;
-                    computerTurn(8);
-                } else if (computerList.contains(5) && computerList.contains(8) && !list.contains(2) && !have) {
-                    have = true;
-                    computerTurn(2);
-                }
-
-                // check for 6
-                if (computerList.contains(6) && computerList.contains(3) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                } else if (computerList.contains(6) && computerList.contains(9) && !list.contains(3) && !have) {
-                    have = true;
-                    computerTurn(3);
-                } else if (computerList.contains(6) && computerList.contains(5) && !list.contains(4) && !have) {
-                    have = true;
-                    computerTurn(4);
-                } else if (computerList.contains(6) && computerList.contains(4) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 7
-                if (computerList.contains(7) && computerList.contains(4) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(7) && computerList.contains(1) && !list.contains(4) && !have) {
-                    have = true;
-                    computerTurn(4);
-                } else if (computerList.contains(7) && computerList.contains(5) && !list.contains(3) && !have) {
-                    have = true;
-                    computerTurn(3);
-                } else if (computerList.contains(7) && computerList.contains(3) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                } else if (computerList.contains(7) && computerList.contains(9) && !list.contains(8) && !have) {
-                    have = true;
-                    computerTurn(8);
-                } else if (computerList.contains(7) && computerList.contains(8) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                }
-
-                // check for 8
-                if (computerList.contains(8) && computerList.contains(7) && !list.contains(9) && !have) {
-                    have = true;
-                    computerTurn(9);
-                } else if (computerList.contains(8) && computerList.contains(9) && !list.contains(7) && !have) {
-                    have = true;
-                    computerTurn(7);
-                } else if (computerList.contains(8) && computerList.contains(5) && !list.contains(2) && !have) {
-                    have = true;
-                    computerTurn(2);
-                } else if (computerList.contains(8) && computerList.contains(2) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                }
-
-                // check for 9
-                if (computerList.contains(9) && computerList.contains(5) && !list.contains(1) && !have) {
-                    have = true;
-                    computerTurn(1);
-                } else if (computerList.contains(9) && computerList.contains(1) && !list.contains(5) && !have) {
-                    have = true;
-                    computerTurn(5);
-                } else if (computerList.contains(9) && computerList.contains(7) && !list.contains(8) && !have) {
-                    have = true;
-                    computerTurn(8);
-                } else if (computerList.contains(9) && computerList.contains(8) && !list.contains(7) && !have) {
-                    have = true;
-                    computerTurn(7);
-                } else if (computerList.contains(9) && computerList.contains(6) && !list.contains(3) && !have) {
-                    have = true;
-                    computerTurn(3);
-                } else if (computerList.contains(9) && computerList.contains(3) && !list.contains(6) && !have) {
-                    have = true;
-                    computerTurn(6);
-                }
-
-                if (!have) {
-                    addListComputer();
-                }
-
             }
 
         }else {
             Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
             dialog(computerName + " win!");
         }
+    }
+
+    public void computerTurn(int num1){
+        if (list.size() < 9 && !Final) {
+            if (num1 == 1) {
+                binding.button00.setImageResource(computer);
+            } else if (num1 == 2) {
+                binding.button01.setImageResource(computer);
+            } else if (num1 == 3) {
+                binding.button02.setImageResource(computer);
+            } else if (num1 == 4) {
+                binding.button10.setImageResource(computer);
+            } else if (num1 == 5) {
+                binding.button11.setImageResource(computer);
+            } else if (num1 == 6) {
+                binding.button12.setImageResource(computer);
+            } else if (num1 == 7) {
+                binding.button20.setImageResource(computer);
+            } else if (num1 == 8) {
+                binding.button21.setImageResource(computer);
+            } else {
+                binding.button22.setImageResource(computer);
+            }
+            list.add(num1);
+            computerTurnList.add(num1);
+            have = false;
+            Final = true;
+
+            if (gameIsOver(computerTurnList)) {
+                Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
+                dialog(computerName + " win!");
+            }
+        }
+    }
+
+    private void dialog(String string){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.in_game_dalog,null);
+        final TextView money = mView.findViewById(R.id.text_win);
+        final TextView money2 = mView.findViewById(R.id.text_win2);
+        final ImageView winingImage = mView.findViewById(R.id.you_win);
+        final ImageView winingImage2 = mView.findViewById(R.id.you_win2);
+        final Button button = mView.findViewById(R.id.button);
+        final Button cancel = mView.findViewById(R.id.cancel);
+        final GifImageView imageView = mView.findViewById(R.id.winning);
+        final GifImageView imageView1 = mView.findViewById(R.id.winning2);
+
+        alert.setView(mView);
+        alertDialog = alert.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        money.setText(string);
+
+        if (count == 2){
+            button.setText("3rd Time");
+        }else if (count >= 3){
+            button.setText("Back Home");
+        }
+
+        Random random = new Random();
+
+        String[] piece = {"X", "0"};
+
+        int x = random.nextInt(2);
+
+        if (x == 0){
+            isHard = "Yes";
+        }else {
+            isHard = "No";
+        }
+
+        count++;
+
+        userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
+        userRef.child("Count").setValue(count);
+
+        if (string.equals("Game Tied")) {
+            winingImage.setImageResource(R.drawable.tied);
+        }else if (string.equals("You Win!")) {
+            winingImage.setImageResource(R.drawable.you_win);
+            yourWinCount++;
+            userRef.child("you win").setValue(yourWinCount);
+        }else {
+            winingImage.setImageResource(R.drawable.you_lost);
+            computerWinCount++;
+            userRef.child("computer win").setValue(computerWinCount);
+        }
+
+        if (count >= 4){
+            userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    computerWinCount = (long) snapshot.child("computer win").getValue();
+                    yourWinCount = (long) snapshot.child("you win").getValue();
+
+                    money2.setVisibility(View.VISIBLE);
+                    winingImage2.setVisibility(View.VISIBLE);
+                    if (yourWinCount > computerWinCount) {
+                        money2.setText("You have won the entire tournament!");
+                        winingImage2.setImageResource(R.drawable.you_win);
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView1.setVisibility(View.VISIBLE);
+                    }else if(yourWinCount < computerWinCount){
+                        money2.setText("You lost the tournament!");
+                        winingImage2.setImageResource(R.drawable.you_lost);
+                    }else {
+                        money2.setText("Draw!");
+                        winingImage2.setImageResource(R.drawable.tied);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+        //cancel.setOnClickListener(view -> alertDialog.dismiss());
+        button.setOnClickListener(view -> {
+            if (count >= 4){
+
+                userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID);
+                long tempValue;
+                if (yourWinCount > computerWinCount) {
+                    tempValue = (long) (userCoin + (entryFee*1.5));
+                    userRef.child("UserCoin").setValue(tempValue);
+                }else if(yourWinCount < computerWinCount){
+                    tempValue = userCoin - entryFee;
+                    userRef.child("UserCoin").setValue(tempValue);
+                }
+
+                alertDialog.dismiss();
+                startActivity(new Intent(this, HomeActivity.class));
+
+            }else {
+                Map add = new HashMap();
+
+                add.put("isHard", isHard);
+                add.put("Piece Image", piece[x]);
+
+                userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
+                userRef.updateChildren(add);
+
+                if (isHard.equals("Yes")) {
+                    startActivity(new Intent(this, TicTacToe_Minimax_algo.class));
+                }else {
+                    startActivity(new Intent(this, TicTocToe_Easy_Algo.class));
+                }
+                alertDialog.dismiss();
+            }
+            finish();
+        });
+
+        alertDialog.show();
+    }
+
+    private boolean IntelligentComputer(List<Integer> computerList, boolean b){
+        have = false;
+
+        // check for 1
+        if (computerList.contains(1) && computerList.contains(2) && !list.contains(3) && !have) {
+            have = true;
+            computerTurn(3);
+        } else if (computerList.contains(1) && computerList.contains(3) && !list.contains(2) && !have) {
+            have = true;
+            computerTurn(2);
+        } else if (computerList.contains(1) && computerList.contains(4) && !list.contains(7) && !have) {
+            have = true;
+            computerTurn(7);
+        } else if (computerList.contains(1) && computerList.contains(7) && !list.contains(4) && !have) {
+            have = true;
+            computerTurn(4);
+        } else if (computerList.contains(1) && computerList.contains(5) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        } else if (computerList.contains(1) && computerList.contains(9) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 2
+        if (computerList.contains(2) && computerList.contains(1) && !list.contains(3) && !have) {
+            have = true;
+            computerTurn(3);
+        } else if (computerList.contains(2) && computerList.contains(3) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(2) && computerList.contains(5) && !list.contains(2) && !have) {
+            have = true;
+            computerTurn(8);
+        } else if (computerList.contains(2) && computerList.contains(8) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 3
+        if (computerList.contains(3) && computerList.contains(2) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(3) && computerList.contains(1) && !list.contains(2) && !have) {
+            have = true;
+            computerTurn(2);
+        } else if (computerList.contains(3) && computerList.contains(6) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        } else if (computerList.contains(3) && computerList.contains(9) && !list.contains(6) && !have) {
+            have = true;
+            computerTurn(6);
+        } else if (computerList.contains(3) && computerList.contains(5) && !list.contains(7) && !have) {
+            have = true;
+            computerTurn(7);
+        } else if (computerList.contains(3) && computerList.contains(7) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 4
+        if (computerList.contains(4) && computerList.contains(1) && !list.contains(7) && !have) {
+            have = true;
+            computerTurn(7);
+        } else if (computerList.contains(4) && computerList.contains(7) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(4) && computerList.contains(5) && !list.contains(6) && !have) {
+            have = true;
+            computerTurn(6);
+        } else if (computerList.contains(4) && computerList.contains(6) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 5
+        if (computerList.contains(5) && computerList.contains(9) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(5) && computerList.contains(1) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        } else if (computerList.contains(5) && computerList.contains(6) && !list.contains(4) && !have) {
+            have = true;
+            computerTurn(4);
+        } else if (computerList.contains(5) && computerList.contains(4) && !list.contains(6) && !have) {
+            have = true;
+            computerTurn(6);
+        } else if (computerList.contains(5) && computerList.contains(2) && !list.contains(8) && !have) {
+            have = true;
+            computerTurn(8);
+        } else if (computerList.contains(5) && computerList.contains(8) && !list.contains(2) && !have) {
+            have = true;
+            computerTurn(2);
+        }
+
+        // check for 6
+        if (computerList.contains(6) && computerList.contains(3) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        } else if (computerList.contains(6) && computerList.contains(9) && !list.contains(3) && !have) {
+            have = true;
+            computerTurn(3);
+        } else if (computerList.contains(6) && computerList.contains(5) && !list.contains(4) && !have) {
+            have = true;
+            computerTurn(4);
+        } else if (computerList.contains(6) && computerList.contains(4) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 7
+        if (computerList.contains(7) && computerList.contains(4) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(7) && computerList.contains(1) && !list.contains(4) && !have) {
+            have = true;
+            computerTurn(4);
+        } else if (computerList.contains(7) && computerList.contains(5) && !list.contains(3) && !have) {
+            have = true;
+            computerTurn(3);
+        } else if (computerList.contains(7) && computerList.contains(3) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        } else if (computerList.contains(7) && computerList.contains(9) && !list.contains(8) && !have) {
+            have = true;
+            computerTurn(8);
+        } else if (computerList.contains(7) && computerList.contains(8) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        }
+
+        // check for 8
+        if (computerList.contains(8) && computerList.contains(7) && !list.contains(9) && !have) {
+            have = true;
+            computerTurn(9);
+        } else if (computerList.contains(8) && computerList.contains(9) && !list.contains(7) && !have) {
+            have = true;
+            computerTurn(7);
+        } else if (computerList.contains(8) && computerList.contains(5) && !list.contains(2) && !have) {
+            have = true;
+            computerTurn(2);
+        } else if (computerList.contains(8) && computerList.contains(2) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        }
+
+        // check for 9
+        if (computerList.contains(9) && computerList.contains(5) && !list.contains(1) && !have) {
+            have = true;
+            computerTurn(1);
+        } else if (computerList.contains(9) && computerList.contains(1) && !list.contains(5) && !have) {
+            have = true;
+            computerTurn(5);
+        } else if (computerList.contains(9) && computerList.contains(7) && !list.contains(8) && !have) {
+            have = true;
+            computerTurn(8);
+        } else if (computerList.contains(9) && computerList.contains(8) && !list.contains(7) && !have) {
+            have = true;
+            computerTurn(7);
+        } else if (computerList.contains(9) && computerList.contains(6) && !list.contains(3) && !have) {
+            have = true;
+            computerTurn(3);
+        } else if (computerList.contains(9) && computerList.contains(3) && !list.contains(6) && !have) {
+            have = true;
+            computerTurn(6);
+        }
+
+        if (!have && b) {
+            b = true;
+        }else if (!have && !b){
+            addListComputer();
+            b = false;
+        }
+        return b;
     }
 
     private boolean gameIsOver(List<Integer> listView){
@@ -497,159 +656,17 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         return returnValue;
     }
 
-    public void computerTurn(int num1){
-        if (num1 == 1){
-            binding.button00.setImageResource(computer);
-        }else if (num1 == 2){
-            binding.button01.setImageResource(computer);
-        }else if (num1 == 3){
-            binding.button02.setImageResource(computer);
-        }else if (num1 == 4){
-            binding.button10.setImageResource(computer);
-        }else if (num1 == 5){
-            binding.button11.setImageResource(computer);
-        }else if (num1 == 6){
-            binding.button12.setImageResource(computer);
-        }else if (num1 == 7){
-            binding.button20.setImageResource(computer);
-        }else if (num1 == 8){
-            binding.button21.setImageResource(computer);
-        }else {
-            binding.button22.setImageResource(computer);
-        }
-        list.add(num1);
-        computerTurnList.add(num1);
-        have = false;
-
-        if (gameIsOver(computerTurnList)){
-            Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
-            dialog(computerName + " win!");
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        alertDialog.dismiss();
     }
 
-    private void dialog(String string){
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.in_game_dalog,null);
-        final TextView money = mView.findViewById(R.id.text_win);
-        final TextView money2 = mView.findViewById(R.id.text_win2);
-        final ImageView winingImage = mView.findViewById(R.id.you_win);
-        final ImageView winingImage2 = mView.findViewById(R.id.you_win2);
-        final Button button = mView.findViewById(R.id.button);
-        final Button cancel = mView.findViewById(R.id.cancel);
-        final GifImageView imageView = mView.findViewById(R.id.winning);
-        final GifImageView imageView1 = mView.findViewById(R.id.winning2);
-
-        alert.setView(mView);
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-
-        money.setText(string);
-
-        if (count == 2){
-            button.setText("3rd Time");
-        }else if (count >= 3){
-            button.setText("Back Home");
-        }
-
-        Random random = new Random();
-
-        String[] piece = {"X", "0"};
-
-        int x = random.nextInt(2);
-
-        if (x == 0){
-            isHard = "Yes";
-        }else {
-            isHard = "No";
-        }
-
-        count++;
-        userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
-        userRef.child("Count").setValue(count);
-
-        if (string.equals("Game Tied")) {
-            winingImage.setImageResource(R.drawable.tied);
-        }else if (string.equals("You Win!")) {
-            winingImage.setImageResource(R.drawable.you_win);
-            yourWinCount++;
-            userRef.child("you win").setValue(yourWinCount);
-        }else {
-            winingImage.setImageResource(R.drawable.you_lost);
-            computerWinCount++;
-            userRef.child("computer win").setValue(computerWinCount);
-        }
-
-        if (count >= 4){
-            userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
-            userRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    computerWinCount = (long) snapshot.child("computer win").getValue();
-                    yourWinCount = (long) snapshot.child("you win").getValue();
-
-                    money2.setVisibility(View.VISIBLE);
-                    winingImage2.setVisibility(View.VISIBLE);
-                    if (yourWinCount > computerWinCount) {
-                        money2.setText("You have won the entire tournament!");
-                        winingImage2.setImageResource(R.drawable.you_win);
-                        imageView.setVisibility(View.VISIBLE);
-                        imageView1.setVisibility(View.VISIBLE);
-                    }else if(yourWinCount < computerWinCount){
-                        money2.setText("You lost the tournament!");
-                        winingImage2.setImageResource(R.drawable.you_lost);
-                    }else {
-                        money2.setText("Draw!");
-                        winingImage2.setImageResource(R.drawable.tied);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-
-        //cancel.setOnClickListener(view -> alertDialog.dismiss());
-
-        button.setOnClickListener(view -> {
-            if (count >= 4){
-
-                userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID);
-                long tempValue;
-                if (yourWinCount > computerWinCount) {
-                    tempValue = (long) (userCoin + (entryFee*1.5));
-                    userRef.child("UserCoin").setValue(tempValue);
-                }else if(yourWinCount < computerWinCount){
-                    tempValue = userCoin - entryFee;
-                    userRef.child("UserCoin").setValue(tempValue);
-                }
-
-                alertDialog.dismiss();
-                startActivity(new Intent(this, HomeActivity.class));
-
-            }else {
-                Map add = new HashMap();
-
-                add.put("isHard", isHard);
-                add.put("Piece Image", piece[x]);
-
-                userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
-                userRef.updateChildren(add);
-                alertDialog.dismiss();
-
-                if (isHard.equals("Yes")) {
-                    startActivity(new Intent(this, TicTacToe_Minimax_algo.class));
-                }else {
-                    startActivity(new Intent(this, TicTocToe_Easy_Algo.class));
-                }
-            }
-            finish();
-        });
-
-        alertDialog.show();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        alertDialog.dismiss();
     }
-
 }
 
 
