@@ -21,6 +21,7 @@ import com.samulit.halal_pay_admin_panel.Model.SubCategory;
 import com.samulit.halal_pay_admin_panel.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> {
@@ -51,10 +52,10 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String name = snapshot.child("userName").getValue().toString();
-                    String status = snapshot.child("status").getValue().toString();
-                    String date = snapshot.child("Date").getValue().toString();
-                    String time = snapshot.child("Time").getValue().toString();
+                    String name = Objects.requireNonNull(snapshot.child("userName").getValue()).toString();
+                    String status = Objects.requireNonNull(snapshot.child("status").getValue()).toString();
+                    String date = Objects.requireNonNull(snapshot.child("Date").getValue()).toString();
+                    String time = Objects.requireNonNull(snapshot.child("Time").getValue()).toString();
 
                     if (name.length() > 30) {
                         holder.name.setText(name.substring(1, 27) + "...");
