@@ -15,7 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samulit.halal_pay.HomeActivity;
 import com.samulit.halal_pay.R;
 import com.samulit.halal_pay.databinding.CustomDialogShopBinding;
 
@@ -26,17 +25,19 @@ public class ShopDialog {
     private final View view;
     private final String currentBalance;
     private final long coin;
+    private final View views;
 
     private CustomDialogShopBinding shopBinding;
     private DatabaseReference databaseReference;
 
-    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6;
+    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6, sellCoinCost;
 
-    public ShopDialog(Context context, View view, String currentBalance, long coin) {
+    public ShopDialog(Context context, View view, String currentBalance, long coin, View views) {
         this.context = context;
         this.view = view;
         this.currentBalance = currentBalance;
         this.coin = coin;
+        this.views = views;
     }
 
     @SuppressLint("SetTextI18n")
@@ -82,6 +83,8 @@ public class ShopDialog {
                 shopBinding.button4.setText("BDT " + amount4);
                 shopBinding.button5.setText("BDT " + amount5);
                 shopBinding.button6.setText("BDT " + amount6);
+
+                sellCoinCost = Long.parseLong(snapshot.child("sellCoinCost").getValue(String.class));
             }
 
             @Override
@@ -150,6 +153,12 @@ public class ShopDialog {
         shopBinding.button6.setOnClickListener(clickListener);
 
         shopBinding.cancel.setOnClickListener(view1 -> alertDialog.dismiss());
+
+        shopBinding.sellCoin.setOnClickListener(view1 -> {
+            alertDialog.dismiss();
+            EnterGameDialog gameDialog = new EnterGameDialog(context, views, coin, sellCoinCost, "Yes", currentBalance);
+            gameDialog.createDialog();
+        });
 
         alertDialog.show();
     }

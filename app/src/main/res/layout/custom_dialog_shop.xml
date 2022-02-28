@@ -75,6 +75,7 @@
     </RelativeLayout>
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -392,5 +393,17 @@
 
     </androidx.gridlayout.widget.GridLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sellCoin"
+        android:layout_width="230dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/gridlayout"
+        android:layout_centerHorizontal="true"
+        android:text="Sell Coin"
+        app:backgroundTint="@color/deep_blue"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:cornerRadius="20dp"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

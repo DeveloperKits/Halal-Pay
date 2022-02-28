@@ -57,7 +57,7 @@ public class GameHome extends AppCompatActivity {
 
         gameHomeBinding.ticTocToe.setOnClickListener(view1 -> {
             @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_enter_game,null);
-            EnterGameDialog gameDialog = new EnterGameDialog(this, mView, UserCoin);
+            EnterGameDialog gameDialog = new EnterGameDialog(this, mView, UserCoin, 2, " ", " ");
             gameDialog.createDialog();
         });
 
@@ -65,7 +65,8 @@ public class GameHome extends AppCompatActivity {
 
         gameHomeBinding.addCoin.setOnClickListener(view1 -> {
             @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_shop,null);
-            ShopDialog shopDialog = new ShopDialog(this, mView, usersCurrentBalance, UserCoin);
+            @SuppressLint("InflateParams") View views = getLayoutInflater().inflate(R.layout.custom_dialog_enter_game,null);
+            ShopDialog shopDialog = new ShopDialog(this, mView, usersCurrentBalance, UserCoin, views);
             shopDialog.createDialog();
         });
     }

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,7 +37,7 @@ import java.util.Random;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnClickListener{
+public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityTicTocToeEasyAlgoBinding binding;
     private DatabaseReference userRef;
@@ -61,11 +60,11 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         View view = binding.getRoot();
         setContentView(view);
 
-        random =  new Random();
+        random = new Random();
         X = R.drawable.fancing;
         O = R.drawable.yinyang;
-        list =  new ArrayList<>();
-        tempIntList =  new ArrayList<>();
+        list = new ArrayList<>();
+        tempIntList = new ArrayList<>();
         userTurnList = new ArrayList<>();
         computerTurnList = new ArrayList<>();
 
@@ -84,7 +83,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
                 binding.opponentName.setText(computerName);
 
-                if (imageHint.equals("X")){
+                if (imageHint.equals("X")) {
                     user = X;
                     computer = O;
                     binding.yourCell.setImageResource(X);
@@ -147,7 +146,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                     .show();
         });
 
-        if (!gameIsOver(userTurnList)){
+        if (!gameIsOver(userTurnList)) {
             binding.button00.setOnClickListener(this);
             binding.button01.setOnClickListener(this);
             binding.button02.setOnClickListener(this);
@@ -157,7 +156,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
             binding.button20.setOnClickListener(this);
             binding.button21.setOnClickListener(this);
             binding.button22.setOnClickListener(this);
-        }else {
+        } else {
             Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
             dialog("You Win!");
         }
@@ -166,45 +165,45 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         tag = view.getTag().toString();
-        ImageView imageView = (ImageView)view;
+        ImageView imageView = (ImageView) view;
         Final = false;
 
-        if (!list.contains(Integer.parseInt(tag)) && !gameIsOver(userTurnList)){
+        if (!list.contains(Integer.parseInt(tag)) && !gameIsOver(userTurnList)) {
             imageView.setImageResource(user);
             list.add(Integer.parseInt(tag));
             userTurnList.add(Integer.parseInt(tag));
             media.buttonSound(this);
 
-            if (gameIsOver(userTurnList)){
+            if (gameIsOver(userTurnList)) {
                 Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
                 dialog("You Win!");
-            }else if (list.size() < 9 && !gameIsOver(userTurnList) && !gameIsOver(computerTurnList)){
+            } else if (list.size() < 9 && !gameIsOver(userTurnList) && !gameIsOver(computerTurnList)) {
                 computer(userTurnList, computerTurnList);
-            }else if (list.size() == 9){
-                if (!gameIsOver(userTurnList) && !gameIsOver(computerTurnList)){
+            } else if (list.size() == 9) {
+                if (!gameIsOver(userTurnList) && !gameIsOver(computerTurnList)) {
                     dialog("Game Tied");
                     Toast.makeText(this, "Game Tied", Toast.LENGTH_SHORT).show();
 
-                }else if (gameIsOver(computerTurnList)){
-                    dialog( computerName + " win!");
+                } else if (gameIsOver(computerTurnList)) {
+                    dialog(computerName + " win!");
                     Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
 
-                }else {
+                } else {
                     dialog("You Win!");
                     Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
                 }
             }
 
-        }else if (gameIsOver(userTurnList)){
+        } else if (gameIsOver(userTurnList)) {
             Toast.makeText(this, "You Win!", Toast.LENGTH_SHORT).show();
             dialog("You Win!");
         }
     }
 
     private boolean objectToIntegerList(Object o) {
-        String n = o.toString().replaceAll("[\\[\\]]"," ");
+        String n = o.toString().replaceAll("[\\[\\]]", " ");
         n = n.replaceAll("\\s", "");
-        String [] out = n.split(",");
+        String[] out = n.split(",");
 
         tempIntList.clear();
         tempIntList.add(Integer.valueOf(out[0]));
@@ -214,7 +213,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         return check(tempIntList);
     }
 
-    private void addListComputer(){
+    private void addListComputer() {
         int num1;
         num1 = random.nextInt(9) + 1;
 
@@ -238,16 +237,16 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                 num1 = random.nextInt(9) + 1;
                 computerTurn(num1);
 
-            }else if (!userList.isEmpty() && computerList.isEmpty()) {
+            } else if (!userList.isEmpty() && computerList.isEmpty()) {
                 if (userList.get(0) == 5) {
                     addListComputer();
                 } else {
                     computerTurn(5);
                 }
 
-            }else if (userList.size() == 2 || computerList.size() == 2 || computerList.size() == num2 || computerList.size() == num3){
+            } else if (userList.size() == 2 || computerList.size() == 2 || computerList.size() == num2 || computerList.size() == num3) {
                 check = IntelligentComputer(userList, true);
-                if (check){
+                if (check) {
                     IntelligentComputer(computerList, false);
                 }
 
@@ -259,32 +258,42 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                 }*/
             }
 
-        }else {
+        } else {
             Toast.makeText(this, computerName + " win!", Toast.LENGTH_SHORT).show();
             dialog(computerName + " win!");
         }
     }
 
-    public void computerTurn(int num1){
+    public void computerTurn(int num1) {
         if (list.size() < 9 && !Final) {
-            if (num1 == 1) {
-                binding.button00.setImageResource(computer);
-            } else if (num1 == 2) {
-                binding.button01.setImageResource(computer);
-            } else if (num1 == 3) {
-                binding.button02.setImageResource(computer);
-            } else if (num1 == 4) {
-                binding.button10.setImageResource(computer);
-            } else if (num1 == 5) {
-                binding.button11.setImageResource(computer);
-            } else if (num1 == 6) {
-                binding.button12.setImageResource(computer);
-            } else if (num1 == 7) {
-                binding.button20.setImageResource(computer);
-            } else if (num1 == 8) {
-                binding.button21.setImageResource(computer);
-            } else {
-                binding.button22.setImageResource(computer);
+            switch (num1) {
+                case 1:
+                    binding.button00.setImageResource(computer);
+                    break;
+                case 2:
+                    binding.button01.setImageResource(computer);
+                    break;
+                case 3:
+                    binding.button02.setImageResource(computer);
+                    break;
+                case 4:
+                    binding.button10.setImageResource(computer);
+                    break;
+                case 5:
+                    binding.button11.setImageResource(computer);
+                    break;
+                case 6:
+                    binding.button12.setImageResource(computer);
+                    break;
+                case 7:
+                    binding.button20.setImageResource(computer);
+                    break;
+                case 8:
+                    binding.button21.setImageResource(computer);
+                    break;
+                default:
+                    binding.button22.setImageResource(computer);
+                    break;
             }
             list.add(num1);
             computerTurnList.add(num1);
@@ -298,9 +307,9 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void dialog(String string){
+    private void dialog(String string) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.in_game_dalog,null);
+        View mView = getLayoutInflater().inflate(R.layout.in_game_dalog, null);
         final TextView money = mView.findViewById(R.id.text_win);
         final TextView money2 = mView.findViewById(R.id.text_win2);
         final ImageView winingImage = mView.findViewById(R.id.you_win);
@@ -316,9 +325,9 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
         money.setText(string);
 
-        if (count == 2){
+        if (count == 2) {
             button.setText("3rd Time");
-        }else if (count >= 3){
+        } else if (count >= 3) {
             button.setText("Back Home");
         }
 
@@ -328,9 +337,9 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
         int x = random.nextInt(2);
 
-        if (x == 0){
+        if (x == 0) {
             isHard = "Yes";
-        }else {
+        } else {
             isHard = "No";
         }
 
@@ -341,17 +350,17 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
         if (string.equals("Game Tied")) {
             winingImage.setImageResource(R.drawable.tied);
-        }else if (string.equals("You Win!")) {
+        } else if (string.equals("You Win!")) {
             winingImage.setImageResource(R.drawable.you_win);
             yourWinCount++;
             userRef.child("you win").setValue(yourWinCount);
-        }else {
+        } else {
             winingImage.setImageResource(R.drawable.you_lost);
             computerWinCount++;
             userRef.child("computer win").setValue(computerWinCount);
         }
 
-        if (count >= 4){
+        if (count >= 4) {
             userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -366,10 +375,10 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                         winingImage2.setImageResource(R.drawable.you_win);
                         imageView.setVisibility(View.VISIBLE);
                         imageView1.setVisibility(View.VISIBLE);
-                    }else if(yourWinCount < computerWinCount){
+                    } else if (yourWinCount < computerWinCount) {
                         money2.setText("You lost the tournament!");
                         winingImage2.setImageResource(R.drawable.you_lost);
-                    }else {
+                    } else {
                         money2.setText("Draw!");
                         winingImage2.setImageResource(R.drawable.tied);
                     }
@@ -384,14 +393,14 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
         //cancel.setOnClickListener(view -> alertDialog.dismiss());
         button.setOnClickListener(view -> {
-            if (count >= 4){
+            if (count >= 4) {
 
                 userRef = FirebaseDatabase.getInstance().getReference("UserData").child(userID);
                 long tempValue;
                 if (yourWinCount > computerWinCount) {
-                    tempValue = (long) (userCoin + (entryFee*1.5));
+                    tempValue = (long) (userCoin + (entryFee * 1.5));
                     userRef.child("UserCoin").setValue(tempValue);
-                }else if(yourWinCount < computerWinCount){
+                } else if (yourWinCount < computerWinCount) {
                     tempValue = userCoin - entryFee;
                     userRef.child("UserCoin").setValue(tempValue);
                 }
@@ -399,7 +408,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
                 alertDialog.dismiss();
                 startActivity(new Intent(this, HomeActivity.class));
 
-            }else {
+            } else {
                 Map add = new HashMap();
 
                 add.put("isHard", isHard);
@@ -410,7 +419,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
                 if (isHard.equals("Yes")) {
                     startActivity(new Intent(this, TicTacToe_Minimax_algo.class));
-                }else {
+                } else {
                     startActivity(new Intent(this, TicTocToe_Easy_Algo.class));
                 }
                 alertDialog.dismiss();
@@ -421,7 +430,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         alertDialog.show();
     }
 
-    private boolean IntelligentComputer(List<Integer> computerList, boolean b){
+    private boolean IntelligentComputer(List<Integer> computerList, boolean b) {
         have = false;
 
         // check for 1
@@ -591,34 +600,34 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
         if (!have && b) {
             b = true;
-        }else if (!have && !b){
+        } else if (!have && !b) {
             addListComputer();
             b = false;
         }
         return b;
     }
 
-    private boolean gameIsOver(List<Integer> listView){
+    private boolean gameIsOver(List<Integer> listView) {
         boolean returnValue = false;
         Collections.sort(listView);
-        tempList =  new ArrayList<>();
+        tempList = new ArrayList<>();
         tempList.clear();
 
-        if(listView.size() == 3){
+        if (listView.size() == 3) {
             returnValue = check(listView);
 
-        }else if(listView.size() > 3){
+        } else if (listView.size() > 3) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 tempList = Arrays.asList(Generator.combination(listView).simple(3).stream().toArray());
 
-                for (int i=0; i<tempList.size(); i++){
+                for (int i = 0; i < tempList.size(); i++) {
                     returnValue = objectToIntegerList(tempList.get(i));
-                    if (returnValue){
+                    if (returnValue) {
                         break;
                     }
                 }
             }
-        }else {
+        } else {
             returnValue = false;
         }
 
@@ -631,23 +640,23 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         Collections.sort(listView);
 
         if ((listView.get(0) == 1 || listView.get(0) == 4 || listView.get(0) == 7) &&
-                (listView.get(0)+1 == listView.get(1) && listView.get(1)+1 == listView.get(2))){
+                (listView.get(0) + 1 == listView.get(1) && listView.get(1) + 1 == listView.get(2))) {
 
             returnValue = true;
 
-        }else if (listView.get(0) == 1){
-            if ((listView.get(0)+3 == listView.get(1) && listView.get(1)+3 == listView.get(2)) ||
-                    (listView.get(0)+4 == listView.get(1) && listView.get(1)+4 == listView.get(2))){
+        } else if (listView.get(0) == 1) {
+            if ((listView.get(0) + 3 == listView.get(1) && listView.get(1) + 3 == listView.get(2)) ||
+                    (listView.get(0) + 4 == listView.get(1) && listView.get(1) + 4 == listView.get(2))) {
 
                 returnValue = true;
             }
 
-        }else if (listView.get(0) == 2 && (listView.get(0)+3 == listView.get(1) && listView.get(1)+3 == listView.get(2))){
+        } else if (listView.get(0) == 2 && (listView.get(0) + 3 == listView.get(1) && listView.get(1) + 3 == listView.get(2))) {
             returnValue = true;
 
-        }else if (listView.get(0) == 3){
-            if ((listView.get(0)+3 == listView.get(1) && listView.get(1)+3 == listView.get(2)) ||
-                    (listView.get(0)+2 == listView.get(1) && listView.get(1)+2 == listView.get(2))){
+        } else if (listView.get(0) == 3) {
+            if ((listView.get(0) + 3 == listView.get(1) && listView.get(1) + 3 == listView.get(2)) ||
+                    (listView.get(0) + 2 == listView.get(1) && listView.get(1) + 2 == listView.get(2))) {
 
                 returnValue = true;
             }
