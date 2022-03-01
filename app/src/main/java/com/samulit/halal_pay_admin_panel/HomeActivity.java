@@ -503,6 +503,34 @@ public class HomeActivity extends AppCompatActivity {
     public void Shop(View view) {
         startActivity(new Intent(this, ShopHelp.class));
     }
+
+    public void coinCost(View view) {
+        final EditText input = new EditText(this);
+        input.setHint("Enter Mobile Number...");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Coin");
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Set Sell Coin Cost");
+        alert.setView(input);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("Done", (dialogInterface, i) -> {
+            String number = input.getText().toString();
+
+            databaseReference.child("sellCoinCost").setValue(number);
+
+            Toast.makeText(this, "Successfully done!", Toast.LENGTH_LONG).show();
+
+        });
+
+        alert.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            // Nothing
+        });
+
+        alert.show();
+    }
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 }
