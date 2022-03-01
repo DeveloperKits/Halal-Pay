@@ -57,7 +57,7 @@ public class GameHome extends AppCompatActivity {
 
         gameHomeBinding.ticTocToe.setOnClickListener(view1 -> {
             @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.custom_dialog_enter_game,null);
-            EnterGameDialog gameDialog = new EnterGameDialog(this, mView, UserCoin, 2, " ", " ");
+            EnterGameDialog gameDialog = new EnterGameDialog(this, mView, UserCoin, 1, " ", " ");
             gameDialog.createDialog();
         });
 

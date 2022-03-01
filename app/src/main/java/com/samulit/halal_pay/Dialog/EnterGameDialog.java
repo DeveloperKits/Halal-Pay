@@ -36,7 +36,7 @@ public class EnterGameDialog {
 
     private String user;
     private DatabaseReference userRef, sellRef;
-    private int result;
+    private long result;
 
     private int entry_fee = 2000, Entry_fee2 = 1000;
 
@@ -68,10 +68,10 @@ public class EnterGameDialog {
             gameBinding.prizeMoney.setText("Add Money: " + sellCost);
 
             gameBinding.play.setVisibility(View.GONE);
-            gameBinding.rule.setVisibility(View.GONE);
+            gameBinding.rule.setText("1000 coin = "+sellCost);
             gameBinding.tvEntryFee.setText("Select Sell Coin:");
 
-            result = (int) sellCost;
+            result = sellCost;
         }
 
         gameBinding.plusFee.setOnClickListener(view1 -> {
@@ -87,7 +87,7 @@ public class EnterGameDialog {
 
                 gameBinding.entryFee.setText("" + Entry_fee2);
                 gameBinding.prizeMoney.setText("Add Money: " + ((Entry_fee2 * sellCost)/1000));
-                result = (int) ((Entry_fee2 * sellCost)/1000);
+                result = ((Entry_fee2 * sellCost)/1000);
             }
         });
 
@@ -100,11 +100,13 @@ public class EnterGameDialog {
                     gameBinding.prizeMoney.setText("Prize Money: " + entry_fee * 1.5);
                 }
             }else {
-                Entry_fee2 -= 1000;
+                if (Entry_fee2 >= 2000) {
+                    Entry_fee2 -= 1000;
 
-                gameBinding.entryFee.setText("" + Entry_fee2);
-                gameBinding.prizeMoney.setText("Add Money: " + ((Entry_fee2 * sellCost)/1000));
-                result = (int) ((Entry_fee2 * sellCost)/1000);
+                    gameBinding.entryFee.setText("" + Entry_fee2);
+                    gameBinding.prizeMoney.setText("Add Money: " + ((Entry_fee2 * sellCost) / 1000));
+                    result = ((Entry_fee2 * sellCost) / 1000);
+                }
             }
         });
 
@@ -171,6 +173,9 @@ public class EnterGameDialog {
                     sellRef.push().updateChildren(add);
 
                     alertDialog.dismiss();
+                }else {
+                    alertDialog.dismiss();
+                    Toast.makeText(context, "Sorry, you have selected more than the available balance.", Toast.LENGTH_SHORT).show();
                 }
             }
 
