@@ -29,207 +29,221 @@
         android:textColor="@color/text_color_back"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/lNum"
-        android:layout_marginTop="35dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Email:"
-            android:textSize="14sp" />
-
-        <EditText
-            android:textSize="14sp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/email" />
+            android:orientation="vertical" >
 
-    </LinearLayout>
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/lNum"
+                android:layout_marginTop="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:visibility="visible"
-        android:id="@+id/lID"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <TextView
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Name:"
-            android:textSize="14sp" />
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Email:"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:textSize="14sp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/name" />
+                <EditText
+                    android:textSize="14sp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/email" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:visibility="visible"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
+                android:id="@+id/lID"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Age:"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Name:"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="25dp"
-            android:inputType="number"
-            android:textSize="14sp" />
+                <EditText
+                    android:textSize="14sp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name" />
 
-    </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Age:"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="25dp"
+                    android:inputType="number"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:visibility="visible"
-        android:id="@+id/lnumber"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:visibility="visible"
+                android:id="@+id/lnumber"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Number:"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Number:"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="25dp"
-            android:inputType="number"
-            android:textSize="14sp" />
+                <EditText
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="25dp"
+                    android:inputType="number"
+                    android:textSize="14sp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/checkbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="You want to change your password?"
-        android:textColor="@color/Red"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You want to change your password?"
+                android:textColor="@color/Red"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
 
-    <LinearLayout
-        android:id="@+id/password_linearLayout"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        android:layout_marginTop="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/password_linearLayout"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:layout_marginTop="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Old Password:"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Old Password:"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:textSize="14sp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/password" />
+                <EditText
+                    android:textSize="14sp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/password" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/new_password_linearLayout"
-        android:layout_marginBottom="0dp"
-        android:visibility="gone"
-        android:layout_marginTop="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/new_password_linearLayout"
+                android:layout_marginBottom="0dp"
+                android:visibility="gone"
+                android:layout_marginTop="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter New Password:"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter New Password:"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:textSize="14sp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="14dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/new_password" />
+                <EditText
+                    android:textSize="14sp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/new_password" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/hint"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="Password must be above 6"
-        android:textSize="10sp"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/hint"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Password must be above 6"
+                android:textSize="10sp"
+                android:visibility="gone"/>
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Done"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="15dp"
-        android:layout_gravity="center"
-        android:id="@+id/done"/>
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:text="Done"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center"
+                android:id="@+id/done"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
 </LinearLayout>
