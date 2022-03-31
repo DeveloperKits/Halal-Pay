@@ -512,7 +512,7 @@ public class WalletFragment extends Fragment {
 
             if (!Transfer_Type.equals("Wallet Balance")) {
                 if (storePaymentID.equals(" ") || storePaymentID.equals("")) {
-                    paymentID.setError("Enter Yor Transfer ID");
+                    paymentID.setError("Enter Yur Transfer ID");
                     paymentID.requestFocus();
                 } else if (StoreNumber.length() != 11) {
                     number.setError("Check your number");

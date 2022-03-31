@@ -30,17 +30,18 @@ public class EnterGameDialog {
 
     private final Context context;
     private final View view;
-    private final long fee, sellCost;
+    private final long fee;
+    private final double sellCost;
     private final String check, currentBalance;
     private CustomDialogEnterGameBinding gameBinding;
 
     private String user;
     private DatabaseReference userRef, sellRef;
-    private long result;
+    private double result;
 
     private int entry_fee = 2000, Entry_fee2 = 1000;
 
-    public EnterGameDialog(Context context, View view, long fee, long sellCost, String check, String currentBalance) {
+    public EnterGameDialog(Context context, View view, long fee, double sellCost, String check, String currentBalance) {
         this.context = context;
         this.view = view;
         this.fee = fee;

@@ -30,7 +30,8 @@ public class ShopDialog {
     private CustomDialogShopBinding shopBinding;
     private DatabaseReference databaseReference;
 
-    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6, sellCoinCost;
+    private long coin_text, amount_text, coin1, amount1, coin2, amount2, coin3, amount3, coin4, amount4, coin5, amount5, coin6, amount6;
+    private double sellCoinCost;
 
     public ShopDialog(Context context, View view, String currentBalance, long coin, View views) {
         this.context = context;
@@ -84,7 +85,7 @@ public class ShopDialog {
                 shopBinding.button5.setText("BDT " + amount5);
                 shopBinding.button6.setText("BDT " + amount6);
 
-                sellCoinCost = Long.parseLong(snapshot.child("sellCoinCost").getValue(String.class));
+                sellCoinCost = Double.parseDouble(snapshot.child("sellCoinCost").getValue(String.class));
             }
 
             @Override
