@@ -506,8 +506,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void coinCost(View view) {
         final EditText input = new EditText(this);
-        input.setHint("Enter Mobile Number...");
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setHint("Enter 1000 coin  Number...");
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Coin");
 
