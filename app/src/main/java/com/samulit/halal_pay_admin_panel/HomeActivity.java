@@ -531,6 +531,33 @@ public class HomeActivity extends AppCompatActivity {
 
         alert.show();
     }
+
+    public void gameType(View view) {
+        final EditText input = new EditText(this);
+        input.setHint("Enter 0 for easy or 1 for hard...");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("GameType");
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Set game type");
+        alert.setView(input);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("Done", (dialogInterface, i) -> {
+            String number = input.getText().toString();
+
+            databaseReference.child("type").setValue(number);
+
+            Toast.makeText(this, "Successfully done!", Toast.LENGTH_LONG).show();
+        });
+
+        alert.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            // Nothing
+        });
+
+        alert.show();
+    }
     // End Change Image """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 }

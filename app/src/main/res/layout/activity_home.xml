@@ -198,6 +198,17 @@
                 android:textSize="16sp"
                 android:layout_marginBottom="10dp"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:onClick="gameType"
+                android:text="Set game type"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp"/>
+
         </LinearLayout>
 
     </ScrollView>
