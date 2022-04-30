@@ -41,7 +41,7 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
 
     private ActivityTicTocToeEasyAlgoBinding binding;
     private DatabaseReference userRef;
-    private String userID, tag, isHard, imageHint, computerName;
+    private String userID, tag, isHard, imageHint, computerName, gameType;
 
     private List<Integer> list, userTurnList, computerTurnList, tempIntList;
     private List<Object> tempList;
@@ -60,6 +60,8 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         View view = binding.getRoot();
         setContentView(view);
 
+        //Toast.makeText(this, "Easy", Toast.LENGTH_SHORT).show();
+
         random = new Random();
         X = R.drawable.fancing;
         O = R.drawable.yinyang;
@@ -67,6 +69,19 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         tempIntList = new ArrayList<>();
         userTurnList = new ArrayList<>();
         computerTurnList = new ArrayList<>();
+
+        DatabaseReference gameTypeRef = FirebaseDatabase.getInstance().getReference("GameType");
+        gameTypeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                gameType = String.valueOf(snapshot.child("type").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         userID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
@@ -334,13 +349,14 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
         Random random = new Random();
 
         String[] piece = {"X", "0"};
+        String isHards;
 
         int x = random.nextInt(2);
 
-        if (x == 0) {
-            isHard = "Yes";
+        if (gameType.equals("1")) {
+            isHards = "Yes";
         } else {
-            isHard = "No";
+            isHards = "No";
         }
 
         count++;
@@ -411,13 +427,13 @@ public class TicTocToe_Easy_Algo extends AppCompatActivity implements View.OnCli
             } else {
                 Map add = new HashMap();
 
-                add.put("isHard", isHard);
+                add.put("isHard", isHards);
                 add.put("Piece Image", piece[x]);
 
                 userRef = FirebaseDatabase.getInstance().getReference("Game").child(userID);
                 userRef.updateChildren(add);
 
-                if (isHard.equals("Yes")) {
+                if (isHards.equals("Yes")) {
                     startActivity(new Intent(this, TicTacToe_Minimax_algo.class));
                 } else {
                     startActivity(new Intent(this, TicTocToe_Easy_Algo.class));

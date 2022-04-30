@@ -12,8 +12,8 @@ android {
         applicationId "com.samulit.halal_pay"
         minSdkVersion 18
         targetSdkVersion 30
-        versionCode 12
-        versionName "2.3.2"
+        versionCode 15
+        versionName "2.3.5"
 
         multiDexEnabled true
 

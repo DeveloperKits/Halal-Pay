@@ -36,10 +36,12 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
     private var computerwincount: Int? = 0
     private var yourwincount: Int? = 0
     private var userRef: DatabaseReference? = null
+    private var gameTypeRef: DatabaseReference? = null
     private var userID: String? = null
     private var imageHint: String? = null
     private var ishard: String? = null
     private var name: String? = null
+    private var gameType: String? = null
     private var userCoin: Int? = 0
 
     private var X: Int? = 0
@@ -53,9 +55,19 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
 
         //calling the function to load our tic tac toe board
         loadBoard()
+        //Toast.makeText(this, "Hard", Toast.LENGTH_SHORT).show()
 
         X = R.drawable.fancing
         O = R.drawable.yinyang
+
+        gameTypeRef = FirebaseDatabase.getInstance().getReference("GameType")
+        gameTypeRef!!.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                gameType = snapshot.child("type").getValue(String::class.java)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
 
         // Game Field
         userID = FirebaseAuth.getInstance().uid
@@ -265,9 +277,8 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
         val piece = arrayOf("X", "0")
 
         val x = random.nextInt(2)
-        val isHard: String
 
-        isHard = if (x == 0) {
+        val isHard: String = if (gameType == "1") {
             "Yes"
         } else {
             "No"
@@ -342,7 +353,7 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
                 userRef!!.child("Piece Image").setValue(piece[x])
 
                 dialog.dismiss()
-                if (isHard == "Yes") {
+                if (gameType == "1") {
                     startActivity(Intent(this, TicTacToe_Minimax_algo::class.java))
                 } else {
                     startActivity(Intent(this, TicTocToe_Easy_Algo::class.java))

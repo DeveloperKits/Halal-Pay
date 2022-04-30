@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment implements LifecycleObserver {
 
         Game.setOnClickListener(view1 -> {
             startActivity(new Intent(getContext(), GameHome.class));
+            //Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
         });
 
         if (firebaseUser != null){

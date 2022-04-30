@@ -10,10 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.samulit.halal_pay.Game.GameHome;
 import com.samulit.halal_pay.Game.TicTacToe_Minimax_algo;
 import com.samulit.halal_pay.Game.TicTocToe_Easy_Algo;
@@ -35,8 +40,8 @@ public class EnterGameDialog {
     private final String check, currentBalance;
     private CustomDialogEnterGameBinding gameBinding;
 
-    private String user;
-    private DatabaseReference userRef, sellRef;
+    private String user, gameType;
+    private DatabaseReference userRef, sellRef, gameTypeRef;
     private double result;
 
     private int entry_fee = 2000, Entry_fee2 = 1000;
@@ -58,6 +63,19 @@ public class EnterGameDialog {
         alert.setView(gameBinding.getRoot());
         final AlertDialog alertDialog = alert.create();
         alertDialog.setCancelable(false);
+
+        gameTypeRef = FirebaseDatabase.getInstance().getReference("GameType");
+        gameTypeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                gameType = String.valueOf(snapshot.child("type").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         gameBinding.cancel.setOnClickListener(view1 -> alertDialog.dismiss());
 
@@ -124,9 +142,9 @@ public class EnterGameDialog {
                             "Astro Boy", "Roomba", "Cindi", "Rosie", "Terminator", "Sojourner", "Rodriguez", "Wall-E"};
 
                     int x = random.nextInt(2), y = random.nextInt(16);
-                    String isHard;
+                    final String isHard;
 
-                    if (x == 0) {
+                    if (gameType.equals("1")) {
                         isHard = "Yes";
                     } else {
                         isHard = "No";
@@ -145,7 +163,7 @@ public class EnterGameDialog {
                     userRef.child(user).updateChildren(add);
                     Intent intent;
 
-                    if (x == 0) {
+                    if (isHard.equals("Yes")) {
                         intent = new Intent(context, TicTacToe_Minimax_algo.class);
                     } else {
                         intent = new Intent(context, TicTocToe_Easy_Algo.class);
