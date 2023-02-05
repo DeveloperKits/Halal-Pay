@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.samulit.halal_pay.Fragment.HomeFragment">
+    tools:context="com.recogniseerror.CashNet.Fragment.HomeFragment">
 
 
     <ScrollView

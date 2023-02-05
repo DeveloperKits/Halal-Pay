@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.samulit.halal_pay"
+    package="com.recogniseerror.CashNet"
     tools:ignore="ExtraText">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Model.OfflineFirebase"
+        android:name="com.recogniseerror.CashNet.Model.OfflineFirebase"
         android:allowBackup="true"
         android:icon="@drawable/halalpay_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/halalpay_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EPay">
-        <activity android:name=".Game.TicTocToe_Easy_Algo" />
-        <activity android:name=".Game.TicTacToe_Minimax_algo" />
-        <activity android:name=".Game.Corona_Runner" />
-        <activity android:name=".Game.GameHome" />
-        <activity android:name=".Withdraw_History_Activity" />
-        <activity android:name=".DepositHistoryActivity" />
-        <activity android:name=".ChangeImageActivity" />
-        <activity android:name=".AboutUsActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.recogniseerror.CashNet.Game.TicTocToe_Easy_Algo" />
+        <activity android:name="com.recogniseerror.CashNet.Game.TicTacToe_Minimax_algo" />
+        <activity android:name="com.recogniseerror.CashNet.Game.Corona_Runner" />
+        <activity android:name="com.recogniseerror.CashNet.Game.GameHome" />
+        <activity android:name="com.recogniseerror.CashNet.Withdraw_History_Activity" />
+        <activity android:name="com.recogniseerror.CashNet.DepositHistoryActivity" />
+        <activity android:name="com.recogniseerror.CashNet.ChangeImageActivity" />
+        <activity android:name="com.recogniseerror.CashNet.AboutUsActivity" />
+        <activity android:name="com.recogniseerror.CashNet.LoginActivity" />
+        <activity android:name="com.recogniseerror.CashNet.RegistrationActivity" />
+        <activity android:name="com.recogniseerror.CashNet.HomeActivity" />
+        <activity android:name="com.recogniseerror.CashNet.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

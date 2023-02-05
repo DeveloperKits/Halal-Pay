@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:id="@+id/for_snackBar"
-    tools:context="com.samulit.halal_pay.Fragment.WalletFragment">
+    tools:context="com.recogniseerror.CashNet.Fragment.WalletFragment">
 
 
     <com.google.android.material.card.MaterialCardView
