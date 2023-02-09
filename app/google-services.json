@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "17875612148-m303a27t2r1sunmu7dk6qmov3qumnv9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.developerkits.admin_panel_cashnet",
+            "certificate_hash": "5229bf767c0305ae2a8390dbb3d847526a8a8413"
+          }
+        },
+        {
           "client_id": "17875612148-6ptscmfjhu5rphbiurifrqi6eu7sc629.apps.googleusercontent.com",
           "client_type": 3
         }
