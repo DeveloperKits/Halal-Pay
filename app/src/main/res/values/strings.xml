@@ -13,5 +13,6 @@
         If the winning number is the same for both parties, it will be considered a draw and you will get your coins back.
         If you leave the game without finishing after the start of the game, we will assume that you have lost.
         If you lose, you will not get the coin back.</string>
+    <string name="powered_by_recognise_error">Powered by Recognise Error</string>
 
 </resources>

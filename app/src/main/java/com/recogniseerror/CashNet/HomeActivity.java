@@ -328,7 +328,7 @@ public class HomeActivity extends AppCompatActivity implements LifecycleObserver
     }
 
 
-    // After puja
+
     private void AddedUserInterest(String key, String Amount, String Type) {
         if (!key.isEmpty() && !Amount.isEmpty()) {
             if(justOneTime == 0) {
