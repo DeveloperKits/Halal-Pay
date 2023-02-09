@@ -59,9 +59,6 @@ dependencies {
 
     // For Show Image
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // For Crop Image
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

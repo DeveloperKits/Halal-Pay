@@ -32,7 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -434,26 +433,14 @@ public class HomeActivity extends AppCompatActivity {
 
             contentURI = data.getData();
 
-            CropImage.activity(contentURI).start(this);
+            SaveImageOnFirebaseStorage();
 
-        }
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                resultUri = result.getUri();
-
-                SaveImageOnFirebaseStorage();
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
         }
     }
 
     private void SaveImageOnFirebaseStorage() {
 
-        if (resultUri!= null) {
+        if (contentURI!= null) {
             progressDialog.setMessage("Updating Profile Picture");
             progressDialog.show();
             progressDialog.setCanceledOnTouchOutside(false);
@@ -465,7 +452,7 @@ public class HomeActivity extends AppCompatActivity {
                 fileReference = storageReference.child("businessImage");
             }
 
-            storageTask = fileReference.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageTask = fileReference.putFile(contentURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();

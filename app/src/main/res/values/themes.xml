@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.EPay" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colour_bottom_bar</item>
+        <item name="colorPrimary">@color/balance_color</item>
         <item name="colorPrimaryVariant">@color/statusBar</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
