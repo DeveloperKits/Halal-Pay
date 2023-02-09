@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.samulit.halal_pay_admin_panel",
+  "applicationId": "com.developerkits.admin_panel_cashnet",
   "variantName": "processReleaseResources",
   "elements": [
     {

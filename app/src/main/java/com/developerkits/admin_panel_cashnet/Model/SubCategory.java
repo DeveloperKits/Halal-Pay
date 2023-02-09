@@ -1,4 +1,4 @@
-package com.samulit.halal_pay_admin_panel.Model;
+package com.developerkits.admin_panel_cashnet.Model;
 
 public class SubCategory {
     String UID;

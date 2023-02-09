@@ -1,4 +1,4 @@
-package com.samulit.halal_pay_admin_panel;
+package com.developerkits.admin_panel_cashnet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,35 +12,37 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samulit.halal_pay_admin_panel.Adapter.SubCategoryAdapter;
-import com.samulit.halal_pay_admin_panel.Model.SubCategory;
+import com.developerkits.admin_panel_cashnet.Adapter.SubCategoryAdapter;
+import com.developerkits.admin_panel_cashnet.Model.SubCategory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class DonationList extends AppCompatActivity {
+public class WithdrawList extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
     private SubCategoryAdapter subCategoryAdapter;
 
     private ArrayList<SubCategory> arrayList;
+    private String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donation_list);
+        setContentView(R.layout.activity_withdraw_list);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        string = getIntent().getStringExtra("string");
         arrayList = new ArrayList<>();
-        subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "DonationRequest");
+        subCategoryAdapter = new SubCategoryAdapter(this, arrayList, "WithdrawRequest");
         recyclerView.setAdapter(subCategoryAdapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("DonationRequest");
+        databaseReference = FirebaseDatabase.getInstance().getReference("WithdrawRequest");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -50,8 +52,12 @@ public class DonationList extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        SubCategory category = new SubCategory(ds.getKey());
-                        arrayList.add(category);
+                        String status = ds.child("status").getValue().toString();
+
+                        if (string.equals(status)) {
+                            SubCategory category = new SubCategory(ds.getKey());
+                            arrayList.add(category);
+                        }
                     }
 
                 }

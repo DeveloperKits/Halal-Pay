@@ -1,4 +1,4 @@
-package com.samulit.halal_pay_admin_panel;
+package com.developerkits.admin_panel_cashnet;
 
 import org.junit.Test;
 

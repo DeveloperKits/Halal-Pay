@@ -1,4 +1,4 @@
-package com.samulit.halal_pay_admin_panel.Adapter;
+package com.developerkits.admin_panel_cashnet.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,9 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.samulit.halal_pay_admin_panel.DetailsActivity;
-import com.samulit.halal_pay_admin_panel.Model.SubCategory;
-import com.samulit.halal_pay_admin_panel.R;
+import com.developerkits.admin_panel_cashnet.DetailsActivity;
+import com.developerkits.admin_panel_cashnet.Model.SubCategory;
+import com.developerkits.admin_panel_cashnet.R;
 
 import java.util.ArrayList;
 import java.util.Objects;
