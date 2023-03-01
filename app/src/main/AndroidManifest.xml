@@ -23,7 +23,8 @@
         <activity android:name="com.developerkits.admin_panel_cashnet.DonationList" />
         <activity android:name="com.developerkits.admin_panel_cashnet.WithdrawList" />
         <activity android:name="com.developerkits.admin_panel_cashnet.DepositList" />
-        <activity android:name="com.developerkits.admin_panel_cashnet.PasswordActivity">
+        <activity android:name="com.developerkits.admin_panel_cashnet.PasswordActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
