@@ -28,7 +28,8 @@
         android:text="Corona Runner"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/white_light"/>
+        android:textColor="@color/white_light"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:layout_width="350dp"

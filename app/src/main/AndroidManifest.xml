@@ -27,7 +27,8 @@
         <activity android:name="com.recogniseerror.CashNet.LoginActivity" />
         <activity android:name="com.recogniseerror.CashNet.RegistrationActivity" />
         <activity android:name="com.recogniseerror.CashNet.HomeActivity" />
-        <activity android:name="com.recogniseerror.CashNet.MainActivity">
+        <activity android:name="com.recogniseerror.CashNet.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

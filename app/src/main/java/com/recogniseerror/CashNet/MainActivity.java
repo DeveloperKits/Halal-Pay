@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleObserver
 
 
 
-    // where need to change edit there and change
+    /*// where need to change edit there and change
     private void updateUser() {
 
         userRef = FirebaseDatabase.getInstance().getReference("UserData");
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleObserver
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-    }
+    }*/
 
     @Override
     protected void onStart() {
