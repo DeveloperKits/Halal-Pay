@@ -186,7 +186,7 @@ class TicTacToe_Minimax_algo : AppCompatActivity() {
                 boardCells[i][j]?.layoutParams = GridLayout.LayoutParams().apply {
                     rowSpec = GridLayout.spec(i)
                     columnSpec = GridLayout.spec(j)
-                    width = 250
+                    width = 230
                     height = 230
                     bottomMargin = 10
                     topMargin = 10
