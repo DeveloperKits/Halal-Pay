@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment implements LifecycleObserver {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             UserID = firebaseUser.getUid();
-            storageReference = FirebaseStorage.getInstance().getReference().child("UserImage").child(UserID);;
+            storageReference = FirebaseStorage.getInstance().getReference().child("UserImage").child(UserID);
             databaseReference = FirebaseDatabase.getInstance().getReference("UserData").child(UserID);
 
             databaseReference.addValueEventListener(new ValueEventListener() {
